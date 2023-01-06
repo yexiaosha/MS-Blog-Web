@@ -5,13 +5,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 友情链接接口
+ * 日志接口
  * @author wyh
- * @date 2023/01/05 18:10
+ * @date 2023/01/06 13:55
  */
 @RestController
-@Api(tags = "友情链接接口")
-@RequestMapping("/msblog/links")
-public class LinksController {
+@Api(tags = "日志接口")
+@RequestMapping("/msblog/log")
+public class LogController {
 
 }
