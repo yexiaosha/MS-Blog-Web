@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author wyh
  * @date 2023/01/06 14:27
  */
+@Deprecated
 @RestController
 @Api(tags = "定时任务")
 @RequestMapping("/msblog/job")

@@ -3,10 +3,7 @@ package com.ms.blog.entity.param;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * 文章检索字段类
@@ -15,9 +12,6 @@ import lombok.NoArgsConstructor;
  */
 
 @Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @ApiModel("文章检索字段")
 public class ArticleConditionParam {
 

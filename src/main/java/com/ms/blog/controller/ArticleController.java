@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +37,7 @@ public class ArticleController {
     }
 
     @GetMapping("/content/{id}")
-    @ApiOperation("获取文章内容")
+    @ApiOperation("获取文章详情")
     public Result getArticleContent(@PathVariable("id") @NotBlank Integer id){
         return null;
     }
@@ -61,7 +62,7 @@ public class ArticleController {
 
     @DeleteMapping("/deleteList")
     @ApiOperation("批量删除文章")
-    public Result deleteArticleList(@RequestBody List<Integer> articleList){
+    public Result deleteArticleList(@RequestBody @NotEmpty List<Integer> articleList){
         return null;
     }
 

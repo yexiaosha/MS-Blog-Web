@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author wyh
  * @date 2023/01/06 14:01
  */
+@Deprecated
 @RestController
 @Api(tags = "字典接口")
 @RequestMapping("/msblog/dict")
