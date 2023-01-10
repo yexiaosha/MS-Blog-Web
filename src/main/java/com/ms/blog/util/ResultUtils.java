@@ -7,7 +7,7 @@ import com.ms.blog.common.Result;
  * @author wyh
  * @date 2023/01/06 16:35
  */
-public class ResultUtil {
+public class ResultUtils {
     public static <T> Result<T> success(T data) {
         return new Result<>(1, "00000", "success", data);
     }
