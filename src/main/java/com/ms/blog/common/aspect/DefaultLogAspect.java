@@ -10,12 +10,11 @@ import com.ms.blog.service.LogService;
 import com.ms.blog.util.HttpContextUtils;
 import com.ms.blog.util.IpUtils;
 import com.ms.blog.util.JwtUtils;
-import eu.bitwalker.useragentutils.UserAgent;
+import com.ms.blog.util.SystemUtil;
 import java.util.Date;
 import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -69,7 +68,6 @@ public class DefaultLogAspect {
     public void doBefore(JoinPoint joinPoint) {
         HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
         String token = request.getHeader("Authorization");
-        String agent = request.getHeader("user-agent");
         String method = request.getMethod();
         String ip = IpUtils.getIpAddress(request);
         String username = getUsername(token);
@@ -92,15 +90,14 @@ public class DefaultLogAspect {
             logger.info("请求用户：" + username);
             logger.info("请求ip：" + ip);
 
-            UserAgent userAgent = UserAgent.parseUserAgentString(agent);
             userLog.setAddress(IpUtils.getIpLocation());
-            userLog.setBrowser(userAgent.getBrowser().getName());
-            userLog.setAccessOs(userAgent.getOperatingSystem().getName());
+            userLog.setBrowser(SystemUtil.getBrowser(request));
+            userLog.setAccessOs(SystemUtil.getOs(request));
             userLog.setUsername(username);
             userLog.setIp(ip);
             userLog.setModel(model);
             userLog.setType(method);
-            userLog.setClientType(userAgent.getOperatingSystem().getDeviceType().getName());
+            userLog.setClientType(SystemUtil.getClientType(request));
             userLog.setCreateTime(new Date());
 
         } catch (Exception e) {
@@ -132,8 +129,7 @@ public class DefaultLogAspect {
     public void daAfterThrowing(JoinPoint joinPoint, Throwable e) {
         HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
         String token = request.getHeader("Authorization");
-        HttpSession session = request.getSession();
-        Integer name = (Integer) session.getAttribute("userId");
+        String name = getUsername(token);
         ServiceLog serviceLog = ((MethodSignature) (joinPoint.getSignature())).getMethod()
                 .getAnnotation(ServiceLog.class);
         String ip = IpUtils.getIpAddress(request);
@@ -146,6 +142,10 @@ public class DefaultLogAspect {
             for (int i = 0; i < joinPoint.getArgs().length; i++) {
                 params.append(JSON.toJSONString(joinPoint.getArgs()[i])).append(";");
             }
+        }
+
+        if (name == null){
+            name = "游客";
         }
 
         try {
@@ -167,7 +167,7 @@ public class DefaultLogAspect {
             exceptionLog.setCreateTime(new Date());
             logService.insertExceptionLog(exceptionLog);
         } catch (Exception ex) {
-            logger.error("=====异常通知异常=====");
+            logger.error("=====异常通知代码异常=====");
             logger.error("异常信息:{}", ex.getMessage());
         }
     }

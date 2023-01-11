@@ -1,4 +1,4 @@
-package com.ms.blog.entity;
+package com.ms.blog.entity.dto;
 
 import java.util.Date;
 import lombok.AllArgsConstructor;
@@ -7,15 +7,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 用户类
+ * 用户数据传输类
  * @author wyh
- * @date 2023/01/09 18:28
+ * @date 2023/01/11 17:49
  */
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class User {
+public class UserDto {
 
     /**
      * 主键id
@@ -55,7 +55,7 @@ public class User {
     /**
      *  用户详情id
      */
-    private Integer userAuthId;
+    private Long userAuthId;
 
     /**
      * 角色id

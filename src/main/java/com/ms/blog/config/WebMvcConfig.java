@@ -33,8 +33,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
         InterceptorRegistration registration = registry.addInterceptor(getUserLoginInterceptor());
         registration.addPathPatterns("/**");
         registration.excludePathPatterns(
-                "/login",
-                "/register",
+                "/msblog/user/login",
+                "/msblog/user/register",
+                "/msblog/captcha/**",
                 "/swagger**/**",
                 "/webjars/**",
                 "/v3/**",

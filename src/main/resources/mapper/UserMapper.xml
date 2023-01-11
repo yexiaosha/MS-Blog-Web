@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ms.blog.dao.UserMapper">
+    <insert id="insertUserAuth"></insert>
+    <insert id="insertUserInfo"></insert>
+    <update id="updateLastLoginTime">
+        UPDATE last_login_time from b_user where
+    </update>
+
+    <select id="userLoginByUsername" resultType="com.ms.blog.entity.User">
+        SELECT * FROM b_user WHERE username = #{username} and password = #{password}
+    </select>
+    <select id="userLoginByEmail" resultType="com.ms.blog.entity.User">
+        SELECT  * FROM b_user WHERE email = #{email} and password = #{password}
+    </select>
+    <select id="findUserByUsername" resultType="com.ms.blog.entity.User"></select>
+    <select id="findUserByEmail" resultType="com.ms.blog.entity.User"></select>
+</mapper>

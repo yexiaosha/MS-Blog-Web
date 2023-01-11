@@ -24,7 +24,8 @@ public enum ErrorCode {
     ACCOUNT_HAS_EXIST("A0111", "用户账户已经存在"),
     ACCOUNT_PWD_ERROR("A0210", "账户账号或密码错误"),
     ACCOUNT_NOT_AUTHORIZATION("A0301", "用户未授权"),
-    CAPTCHA_ERROR("A0130", "验证码发生错误，请重试");
+    CAPTCHA_ERROR("A0130", "验证码发生错误，请重试"),
+    ACCOUNT_HAS_DISABLED("A0322", "该用户已被冻结");
 
     /**
      * 反序列化

@@ -1,7 +1,10 @@
 package com.ms.blog.service;
 
 import com.ms.blog.common.Result;
+import com.ms.blog.entity.dto.UserDto;
 import com.ms.blog.entity.param.LoginParam;
+import com.ms.blog.entity.param.RegisterParam;
+import com.ms.blog.entity.vo.LoginVo;
 
 /**
  * 用户业务接口
@@ -15,7 +18,14 @@ public interface UserService {
      * @param loginParam 登录参数
      * @return 通用结果
      */
-    Result userLogin(LoginParam loginParam);
+    Result<LoginVo> userLogin(LoginParam loginParam);
+
+    /**
+     * 游客注册
+     * @param registerParam 注册参数
+     * @return 通用结果
+     */
+    Result<Integer> userRegister(RegisterParam registerParam, UserDto userDto);
 
     /**
      * token检查

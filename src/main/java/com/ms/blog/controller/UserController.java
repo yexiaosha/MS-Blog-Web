@@ -2,11 +2,18 @@ package com.ms.blog.controller;
 
 import com.ms.blog.common.Result;
 import com.ms.blog.common.aspect.annotation.ControllerLog;
+import com.ms.blog.entity.dto.UserDto;
 import com.ms.blog.entity.param.LoginParam;
+import com.ms.blog.entity.param.RegisterParam;
+import com.ms.blog.entity.vo.LoginVo;
 import com.ms.blog.service.UserService;
+import com.ms.blog.util.IpUtils;
+import com.ms.blog.util.SystemUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Api(tags = "用户接口")
 @RequestMapping("/msblog/user")
+@Slf4j
 public class UserController {
 
     @Resource
@@ -30,9 +38,8 @@ public class UserController {
     @PostMapping("/login")
     @ApiOperation("用户登录")
     @ControllerLog("用户登录")
-    public Result userLogin(@RequestBody LoginParam loginParam){
-        userService.userLogin(loginParam);
-        return null;
+    public Result<LoginVo> userLogin(@RequestBody LoginParam loginParam){
+        return userService.userLogin(loginParam);
     }
 
     @GetMapping("/info")
@@ -55,8 +62,13 @@ public class UserController {
 
     @PostMapping("/register")
     @ApiOperation("游客注册")
-    public Result registerUser(){
-        return null;
+    public Result registerUser(@RequestBody RegisterParam registerParam, HttpServletRequest request){
+        UserDto userDto = new UserDto();
+        userDto.setIpAddress(IpUtils.getIpAddress(request));
+        userDto.setIpSource(IpUtils.getIpLocation());
+        userDto.setOs(SystemUtil.getOs(request));
+        userDto.setBrowser(SystemUtil.getBrowser(request));
+        return userService.userRegister(registerParam, userDto);
     }
 
     @PostMapping("/reset")

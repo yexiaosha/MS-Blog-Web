@@ -36,17 +36,18 @@ public class CaptchaController {
     @Resource
     private RedisTemplate<String, String> redisTemplate;
 
+    private static final String CAPTCHA_ = "CAPTCHA_";
+
     @GetMapping("/default")
     @ApiOperation("获取默认类型验证码")
     @ControllerLog("默认验证码获取")
     public void getDefaultCaptcha(HttpServletResponse response, HttpServletRequest request){
         response.setHeader("Cache-Control", "no-store, no-cache");
         response.setContentType("image/jpeg");
-
         String text = producer.createText();
-        BufferedImage image = producer.createImage(text);
         String uuid = UUIDUtils.getUUID();
-        redisTemplate.opsForValue().set(uuid, text, 90 , TimeUnit.SECONDS);
+        BufferedImage image = producer.createImage(text);
+        redisTemplate.opsForValue().set(CAPTCHA_ + text, uuid, 90 , TimeUnit.SECONDS);
         request.getSession().setAttribute(Constants.KAPTCHA_SESSION_KEY, text);
 
         ServletOutputStream out = null;
