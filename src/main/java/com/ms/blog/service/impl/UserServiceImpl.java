@@ -16,14 +16,15 @@ import com.ms.blog.service.UserService;
 import com.ms.blog.util.JwtUtils;
 import com.ms.blog.util.Md5Util;
 import com.ms.blog.util.ResultUtils;
-import java.util.Date;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import javax.annotation.Resource;
+import java.util.Date;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 用户业务
@@ -85,10 +86,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @ServiceLog("用户注册")
     public Result<Integer> userRegister(RegisterParam registerParam, UserDto userDto) {
         if (redisTemplate.opsForValue().get(CAPTCHA_ + registerParam.getCaptcha()) == null){
             return ResultUtils.fail(ErrorCode.CAPTCHA_ERROR.getCode(), ErrorCode.CAPTCHA_ERROR.getMsg());
         }
+
+        redisTemplate.delete(CAPTCHA_ + registerParam.getCaptcha());
 
         if (userMapper.findUserByUsername(registerParam.getUsername()) == null
                 || userMapper.findUserByEmail(registerParam.getEmail()) == null){
@@ -122,6 +126,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @ServiceLog("token检查")
     public Result<String> checkToken(String token) {
 
         Map<String, Object> map = JwtUtils.verifyToken(token);
