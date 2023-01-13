@@ -22,6 +22,17 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+  mail:
+    default-encoding: UTF-8
+    host: smtp.qq.com
+    username: wangyuhang980@qq.com
+    password:
+    properties:
+      smtp:
+        auth: true
+        starttls:
+          enable: true
+          required: true
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

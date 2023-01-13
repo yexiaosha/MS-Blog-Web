@@ -1,9 +1,12 @@
 package com.ms.blog.service.impl;
 
-import com.google.code.kaptcha.Producer;
+import com.ms.blog.common.ErrorCode;
 import com.ms.blog.common.Result;
+import com.ms.blog.common.aspect.annotation.ServiceLog;
 import com.ms.blog.service.CaptchaService;
+import com.ms.blog.util.ResultUtils;
 import javax.annotation.Resource;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,11 +17,21 @@ import org.springframework.stereotype.Service;
 @Service
 public class CaptchaServiceImpl implements CaptchaService {
 
+
     @Resource
-    Producer producer;
+    private RedisTemplate<String, String> redisTemplate;
+
+    private static final String CAPTCHA_ = "CAPTCHA_";
 
     @Override
-    public Result createDefaultCaptcha(String captcha) {
-        return null;
+    @ServiceLog("验证码验证")
+    public Result<Integer> verifyCaptcha(String captcha) {
+        if (redisTemplate.opsForValue().get(CAPTCHA_ + captcha) == null){
+            return ResultUtils.fail(ErrorCode.CAPTCHA_ERROR.getCode(), ErrorCode.CAPTCHA_ERROR.getMsg());
+        }
+
+        redisTemplate.delete(CAPTCHA_ + captcha);
+
+        return ResultUtils.success("验证成功");
     }
 }

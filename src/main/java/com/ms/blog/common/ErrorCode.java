@@ -25,7 +25,9 @@ public enum ErrorCode {
     ACCOUNT_PWD_ERROR("A0210", "账户账号或密码错误"),
     ACCOUNT_NOT_AUTHORIZATION("A0301", "用户未授权"),
     CAPTCHA_ERROR("A0130", "验证码发生错误，请重试"),
-    ACCOUNT_HAS_DISABLED("A0322", "该用户已被冻结");
+    ACCOUNT_HAS_DISABLED("A0322", "该用户已被冻结"),
+    EMAIL_SEND_ERROR("A0135","邮件发送错误"),
+    EMAIL_VERIFY_FAIL("A0132", "邮箱校验错误");
 
     /**
      * 反序列化

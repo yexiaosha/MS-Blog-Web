@@ -1,30 +1,42 @@
 package com.ms.blog.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ms.blog.common.ErrorCode;
+import com.ms.blog.common.PageData;
 import com.ms.blog.common.Result;
 import com.ms.blog.common.aspect.annotation.ServiceLog;
 import com.ms.blog.dao.UserMapper;
+import com.ms.blog.entity.Cancellation;
 import com.ms.blog.entity.User;
 import com.ms.blog.entity.UserAuth;
 import com.ms.blog.entity.dto.UserDto;
+import com.ms.blog.entity.param.CancellationParam;
 import com.ms.blog.entity.param.LoginParam;
 import com.ms.blog.entity.param.RegisterParam;
+import com.ms.blog.entity.param.ResetPasswordParam;
+import com.ms.blog.entity.param.UserParam;
 import com.ms.blog.entity.vo.LoginVo;
+import com.ms.blog.entity.vo.UserAuthVo;
+import com.ms.blog.entity.vo.UserVo;
+import com.ms.blog.service.CaptchaService;
+import com.ms.blog.service.MailService;
 import com.ms.blog.service.RoleService;
 import com.ms.blog.service.UserService;
 import com.ms.blog.util.JwtUtils;
 import com.ms.blog.util.Md5Util;
 import com.ms.blog.util.ResultUtils;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-
-import javax.annotation.Resource;
-import java.util.Date;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 用户业务
@@ -44,28 +56,27 @@ public class UserServiceImpl implements UserService {
     @Resource
     private RoleService roleService;
 
-    public static final String CAPTCHA_ = "CAPTCHA_";
+    @Resource
+    private CaptchaService captchaService;
+
+    @Resource
+    private MailService mailService;
 
     public static final String TOKEN_ = "TOKEN_";
 
     @Override
-    @ServiceLog("登录业务")
+    @ServiceLog("用户登录")
     public Result<LoginVo> userLogin(LoginParam loginParam) {
         loginParam.setPassword(Md5Util.encodePassword(loginParam.getPassword()));
-        String captchaKey = redisTemplate.opsForValue().get(CAPTCHA_ + loginParam.getCaptcha());
+        captchaService.verifyCaptcha(loginParam.getCaptcha());
         User user = new User();
-        if (captchaKey == null){
-            return ResultUtils.fail(ErrorCode.CAPTCHA_ERROR.getCode(), ErrorCode.CAPTCHA_ERROR.getMsg());
-        }
 
         if(loginParam.getType() == 0){
             user = userMapper.userLoginByUsername(loginParam.getParams(), loginParam.getPassword());
-            redisTemplate.delete(captchaKey);
         }
 
         if (loginParam.getType() == 1){
             user = userMapper.userLoginByEmail(loginParam.getParams(), loginParam.getPassword());
-            redisTemplate.delete(captchaKey);
         }
 
         if (user == null){
@@ -88,11 +99,15 @@ public class UserServiceImpl implements UserService {
     @Override
     @ServiceLog("用户注册")
     public Result<Integer> userRegister(RegisterParam registerParam, UserDto userDto) {
-        if (redisTemplate.opsForValue().get(CAPTCHA_ + registerParam.getCaptcha()) == null){
-            return ResultUtils.fail(ErrorCode.CAPTCHA_ERROR.getCode(), ErrorCode.CAPTCHA_ERROR.getMsg());
+        Result<Integer> result = mailService.verifyMailCode(registerParam.getMailCode());
+        if (result.getStatus() == 0){
+            return result;
         }
+        result = captchaService.verifyCaptcha(registerParam.getCaptcha());
 
-        redisTemplate.delete(CAPTCHA_ + registerParam.getCaptcha());
+        if (result.getStatus() == 0){
+            return result;
+        }
 
         if (userMapper.findUserByUsername(registerParam.getUsername()) == null
                 || userMapper.findUserByEmail(registerParam.getEmail()) == null){
@@ -109,7 +124,7 @@ public class UserServiceImpl implements UserService {
                 .loginType(0)
                 .roleId(0)
                 .status(0)
-                .password(registerParam.getPassword())
+                .password(Md5Util.encodePassword(registerParam.getPassword()))
                 .username(registerParam.getUsername())
                 .updateTime(new Date())
                 .build();
@@ -117,12 +132,106 @@ public class UserServiceImpl implements UserService {
                 .email(registerParam.getEmail())
                 .isDisabled(0)
                 .nikeName(registerParam.getNikeName())
+                .intro("这个用户很神秘，不愿意自我介绍")
                 .build();
 
         Integer authId = userMapper.insertUserAuth(userAuth);
         user.setUserAuthId(authId);
 
         return ResultUtils.success(userMapper.insertUserInfo(user));
+    }
+
+    @Override
+    @ServiceLog("用户登出")
+    public Result<Boolean> logoutUser(String token) {
+        redisTemplate.delete(TOKEN_ + token);
+        return ResultUtils.success("登出成功");
+    }
+
+    @Override
+    @ServiceLog("获取用户基本信息")
+    public Result<UserVo> getUserInfo(String username) {
+        User user = userMapper.getUserInfo(username);
+        return ResultUtils.success(copy(user));
+    }
+
+    @Override
+    @ServiceLog("获取用户详细信息")
+    public Result<UserAuthVo> getUserInfoDetails(String username) {
+        UserAuth userAuth = userMapper.getUserInfoDetails(username);
+        return ResultUtils.success(copy(userAuth));
+    }
+
+    @Override
+    @ServiceLog("获取所有用户列表")
+    public Result<PageData<UserVo>> getUserList(UserParam userParam) {
+        Page<User> page = new Page<>(userParam.getPageParam().getCurrentPage(), userParam.getPageParam().getPageSize());
+
+        @SuppressWarnings("AlibabaLowerCamelCaseVariableNaming")
+        IPage<User> userIPage = userMapper.getUserList(userParam, page);
+
+        List<UserVo> userVoList = new ArrayList<>();
+        for (User user:userIPage.getRecords()) {
+            userVoList.add(copy(user));
+        }
+        PageData<UserVo> userVoPageData = new PageData<>(userVoList, userIPage.getTotal(),userIPage.getPages(),userIPage.getCurrent());
+        return ResultUtils.success(userVoPageData);
+    }
+
+    @Override
+    @ServiceLog("重置密码")
+    public Result<Integer> resetPassword(ResetPasswordParam resetPasswordParam, String token) {
+        resetPasswordParam.setPassword(Md5Util.encodePassword(resetPasswordParam.getPassword()));
+        Result<Integer> result = captchaService.verifyCaptcha(resetPasswordParam.getCaptcha());
+
+        if (result.getStatus() == 1){
+            return result;
+        }
+
+        if (userMapper.findUserByEmail(resetPasswordParam.getEmail()) == null
+                || userMapper.findUserByUsername(resetPasswordParam.getUsername()) == null){
+            return ResultUtils.fail(ErrorCode.ACCOUNT_PWD_NOT_EXIST.getCode(), ErrorCode.ACCOUNT_PWD_NOT_EXIST.getMsg());
+        }
+
+        result = mailService.verifyMailCode(resetPasswordParam.getEmailVerifyCode());
+
+        if (result.getStatus() == 1){
+            return result;
+        }
+        User user = User.builder()
+                .password(resetPasswordParam.getPassword())
+                .updateTime(new Date())
+                .build();
+
+        if (redisTemplate.opsForValue().get(TOKEN_ + token) == null){
+            return ResultUtils.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMsg());
+        }
+
+        redisTemplate.delete(TOKEN_ + token);
+        return ResultUtils.success(userMapper.insertUserInfo(user));
+    }
+
+    @Override
+    @ServiceLog("提交注销表单")
+    public Result<Integer> cancelUserAccount(CancellationParam cancellationParam, String token) {
+        User user = userMapper.findUserByUsername(cancellationParam.getUsername());
+        if (user == null){
+            return ResultUtils.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMsg());
+        }
+
+        Cancellation cancellation = Cancellation.builder()
+                .reasonText(cancellationParam.getReasonText())
+                .userId(user.getId())
+                .username(cancellationParam.getUsername())
+                .email(cancellationParam.getEmail())
+                .createTime(new Date())
+                .build();
+
+        userMapper.insertUserCancellation(cancellation);
+        user.setStatus(0);
+        userMapper.updateUserInfo(user);
+        redisTemplate.delete(TOKEN_ + token);
+        return ResultUtils.success("提交成功");
     }
 
     @Override
@@ -141,4 +250,36 @@ public class UserServiceImpl implements UserService {
         return ResultUtils.success(JSON.parseObject(userJson, LoginParam.class).getParams());
     }
 
+    public UserVo copy(User user){
+        return UserVo.builder()
+                .id(user.getId())
+                .browser(user.getBrowser())
+                .userAuthId(user.getUserAuthId())
+                .createTime(user.getCreateTime())
+                .ipAddress(user.getIpAddress())
+                .ipSource(user.getIpSource())
+                .os(user.getOs())
+                .lastLoginTime(user.getLastLoginTime())
+                .password(user.getPassword())
+                .loginType(user.getLoginType())
+                .roleId(user.getRoleId())
+                .status(user.getStatus())
+                .username(user.getUsername())
+                .updateTime(user.getUpdateTime())
+                .build();
+    }
+
+    public UserAuthVo copy(UserAuth userAuth){
+        return UserAuthVo.builder()
+                .avatar(userAuth.getAvatar())
+                .intro(userAuth.getIntro())
+                .id(userAuth.getId())
+                .createTime(userAuth.getCreateTime())
+                .email(userAuth.getEmail())
+                .isDisabled(userAuth.getIsDisabled())
+                .nikeName(userAuth.getNikeName())
+                .website(userAuth.getWebsite())
+                .updateTime(userAuth.getUpdateTime())
+                .build();
+    }
 }

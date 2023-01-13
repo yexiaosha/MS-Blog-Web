@@ -2,7 +2,9 @@ package com.ms.blog.controller;
 
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
+import com.ms.blog.common.Result;
 import com.ms.blog.common.aspect.annotation.ControllerLog;
+import com.ms.blog.service.CaptchaService;
 import com.ms.blog.util.UUIDUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -14,10 +16,13 @@ import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.NotNull;
 import org.apache.poi.util.IOUtils;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -35,6 +40,9 @@ public class CaptchaController {
 
     @Resource
     private RedisTemplate<String, String> redisTemplate;
+
+    @Resource
+    private CaptchaService captchaService;
 
     private static final String CAPTCHA_ = "CAPTCHA_";
 
@@ -58,5 +66,12 @@ public class CaptchaController {
             e.printStackTrace();
         }
         IOUtils.closeQuietly(out);
+    }
+
+    @GetMapping("/verify")
+    @ApiOperation("验证码验证")
+    @ControllerLog("验证验证码")
+    public Result verifyCaptcha(@RequestParam @Validated @NotNull String captcha){
+        return captchaService.verifyCaptcha(captcha);
     }
 }

@@ -62,4 +62,9 @@ public class ModPack {
      * 相关链接
      */
     private Integer relatedLinks;
+
+    /**
+     * 版本号
+     */
+    private String version;
 }

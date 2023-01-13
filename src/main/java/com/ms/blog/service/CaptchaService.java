@@ -10,9 +10,9 @@ import com.ms.blog.common.Result;
 public interface CaptchaService {
 
     /**
-     * 生成默认验证码
-     * @param captcha   验证码
-     * @return  是否正确
+     * 验证验证码
+     * @param captcha 验证码
+     * @return  结果
      */
-    Result createDefaultCaptcha(String captcha);
+    Result<Integer> verifyCaptcha(String captcha);
 }

@@ -5,9 +5,12 @@
 <mapper namespace="com.ms.blog.dao.UserMapper">
     <insert id="insertUserAuth"></insert>
     <insert id="insertUserInfo"></insert>
+    <insert id="insertUserCancellation"></insert>
     <update id="updateLastLoginTime">
         UPDATE last_login_time from b_user where
     </update>
+    <update id="updateUserInfo"></update>
+    <update id="updateUserInfoDetails"></update>
 
     <select id="userLoginByUsername" resultType="com.ms.blog.entity.User">
         SELECT * FROM b_user WHERE username = #{username} and password = #{password}
@@ -17,4 +20,7 @@
     </select>
     <select id="findUserByUsername" resultType="com.ms.blog.entity.User"></select>
     <select id="findUserByEmail" resultType="com.ms.blog.entity.User"></select>
+    <select id="getUserInfo" resultType="com.ms.blog.entity.User"></select>
+    <select id="getUserInfoDetails" resultType="com.ms.blog.entity.UserAuth"></select>
+    <select id="getUserList" resultType="com.ms.blog.entity.User"></select>
 </mapper>

@@ -4,17 +4,16 @@ import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 /**
- * 游客注册表单参数
+ * 更改密码/找回密码表单
  * @author wyh
- * @date 2023/01/11 16:29
+ * @date 2023/01/13 11:02
  */
 @Data
-@ApiModel("游客注册表单参数")
-public class RegisterParam {
+@ApiModel("更改密码/找回密码表单")
+public class ResetPasswordParam {
     private String username;
     private String password;
     private String email;
+    private String emailVerifyCode;
     private String captcha;
-    private String nikeName;
-    private String mailCode;
 }

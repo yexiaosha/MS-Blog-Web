@@ -1,7 +1,11 @@
 package com.ms.blog.dao;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ms.blog.entity.Cancellation;
 import com.ms.blog.entity.User;
 import com.ms.blog.entity.UserAuth;
+import com.ms.blog.entity.param.UserParam;
 import java.util.Date;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -13,10 +17,18 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface UserMapper {
 
-
+    /**
+     * 通过用户名查找用户
+     * @param username 用户名
+     * @return 用户
+     */
    User findUserByUsername(String username);
 
-
+    /**
+     * 通过邮箱查找用户
+     * @param email 邮箱
+     * @return  用户
+     */
    User findUserByEmail(String email);
 
     /**
@@ -56,4 +68,31 @@ public interface UserMapper {
      * @return 是否成功
      */
    int updateLastLoginTime(Date date, String username);
+
+    /**
+     * 获取用户基本信息
+     * @param username 用户名
+     * @return 用户基本信息
+     */
+   User getUserInfo(String username);
+
+    /**
+     * 获取用户信息详情
+     * @param username 用户名
+     * @return 用户详情信息
+     */
+   UserAuth getUserInfoDetails(String username);
+
+    /**
+     * 获取用户列表
+     * @param userParam 用户字段
+     * @param userPage  用户类分页
+     * @return  当前页用户分类
+     */
+   IPage<User> getUserList(UserParam userParam, Page<User> userPage);
+
+   int insertUserCancellation(Cancellation cancellation);
+
+   int updateUserInfo(User user);
+   int updateUserInfoDetails(User user);
 }
