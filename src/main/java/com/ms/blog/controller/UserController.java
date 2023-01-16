@@ -8,6 +8,7 @@ import com.ms.blog.entity.param.CancellationParam;
 import com.ms.blog.entity.param.LoginParam;
 import com.ms.blog.entity.param.RegisterParam;
 import com.ms.blog.entity.param.ResetPasswordParam;
+import com.ms.blog.entity.param.UserInfoParam;
 import com.ms.blog.entity.param.UserParam;
 import com.ms.blog.entity.vo.LoginVo;
 import com.ms.blog.entity.vo.UserAuthVo;
@@ -62,6 +63,14 @@ public class UserController {
     @ControllerLog("获取用户详情")
     public Result<UserAuthVo> getUserInfoDetails(@PathVariable("username") String username){
         return userService.getUserInfoDetails(username);
+    }
+
+    @PostMapping("/info/detail/update")
+    @ApiOperation("更改用户信息")
+    @ControllerLog("更改用户信息")
+    public Result updateUserDetailInfo(@RequestBody UserInfoParam userInfoParam){
+        return userService.updateUserDetailInfo(userInfoParam);
+
     }
 
     @PostMapping("/list")

@@ -11,6 +11,6 @@ import lombok.Data;
  */
 @Data
 @ApiModel("查找用户表单")
-public class UserParam {
-    private PageParam pageParam;
+public class UserParam extends PageParam {
+
 }

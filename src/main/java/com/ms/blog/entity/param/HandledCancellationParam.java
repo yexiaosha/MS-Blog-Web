@@ -12,7 +12,7 @@ import lombok.Data;
  */
 @Data
 @ApiModel("已处理注销请求表单")
-public class HandledCancellationParam {
+public class HandledCancellationParam extends PageParam {
     private Integer id;
     private Integer cancellationId;
     private Integer userId;
@@ -22,5 +22,4 @@ public class HandledCancellationParam {
     private Integer result;
     private String resultSuggest;
     private Integer handlerId;
-    private PageParam pageParam;
 }

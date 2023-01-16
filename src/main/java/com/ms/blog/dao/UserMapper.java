@@ -94,5 +94,5 @@ public interface UserMapper {
    int insertUserCancellation(Cancellation cancellation);
 
    int updateUserInfo(User user);
-   int updateUserInfoDetails(User user);
+   int updateUserInfoDetails(UserAuth userAuth);
 }

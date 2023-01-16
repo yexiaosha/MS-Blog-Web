@@ -1,12 +1,18 @@
 package com.ms.blog.controller;
 
+import com.ms.blog.common.PageData;
+import com.ms.blog.common.PageParam;
 import com.ms.blog.common.Result;
+import com.ms.blog.common.aspect.annotation.ControllerLog;
 import com.ms.blog.entity.param.ArticleConditionParam;
 import com.ms.blog.entity.param.ArticleParam;
+import com.ms.blog.entity.vo.ArticleVo;
+import com.ms.blog.service.ArticleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
+import javax.annotation.Resource;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import org.springframework.validation.annotation.Validated;
@@ -30,57 +36,67 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 public class ArticleController {
 
-    @GetMapping("/List")
+    @Resource
+    private ArticleService articleService;
+
+    @PostMapping("/list")
+    @ControllerLog("获取所有文章列表")
     @ApiOperation("获取所有文章列表")
-    public Result getAllArticleList(){
-        return null;
+    public Result<PageData<ArticleVo>> getAllArticleList(@RequestBody PageParam pageParam){
+        return articleService.getArticleList(pageParam);
+    }
+
+    @PostMapping("/list/hot")
+    @ApiOperation("获取热门文章")
+    @ControllerLog("获取热门文章")
+    public Result<PageData<ArticleVo>> getPopularArticleList(@RequestBody PageParam pageParam){
+        return articleService.getPopularArticleList(pageParam);
     }
 
     @GetMapping("/content/{id}")
     @ApiOperation("获取文章详情")
-    public Result getArticleContent(@PathVariable("id") @NotBlank Integer id){
-        return null;
+    @ControllerLog("获取文章详情")
+    public Result<ArticleVo> getArticleContent(@PathVariable("id") @NotBlank Integer id){
+        return articleService.getArticleContent(id);
     }
 
     @PostMapping("/List/conditions")
     @ApiOperation("根据某一条件获取相应文章")
-    public Result getArticleListByType(@RequestBody ArticleConditionParam articleConditionParam){
+    @ControllerLog("根据某一条件获取相应文章")
+    public Result<PageData<ArticleVo>> getArticleListByType(@RequestBody ArticleConditionParam articleConditionParam){
         return null;
     }
 
-    @PostMapping("/search")
-    @ApiOperation("关键字搜索查找文章")
-    public Result searchArticle(){
-        return null;
-    }
-
-    @DeleteMapping ("/delete/{id}")
-    @ApiOperation("删除文章")
-    public Result deleteArticle(@PathVariable("id") @NotBlank Integer id){
-        return null;
-    }
-
-    @DeleteMapping("/deleteList")
+    @DeleteMapping("/delete")
     @ApiOperation("批量删除文章")
-    public Result deleteArticleList(@RequestBody @NotEmpty List<Integer> articleList){
+    @ControllerLog("批量删除文章")
+    public Result<Integer> deleteArticles(@RequestBody @NotEmpty List<Integer> articleList){
         return null;
     }
 
     @PostMapping("/insert")
     @ApiOperation("新增文章")
+    @ControllerLog("新增文章")
     public Result insertArticle(@RequestBody ArticleParam articleParam){
         return null;
     }
 
     @PostMapping("/temporary")
     @ApiModelProperty("暂存文章")
+    @ControllerLog("暂存文章")
     public Result temporaryArticle(@RequestBody ArticleParam articleParam){
         return null;
     }
 
     @PostMapping("/update")
     @ApiModelProperty("更改文章")
+    @ControllerLog("更改文章")
     public Result updateArticle(){
         return null;
     }
+
+    @PostMapping("/tags")
+    @ApiOperation("获取文章所有的标签")
+    @ControllerLog("获取文章所有的标签")
+    public Result getArticleTags(){return null;}
 }

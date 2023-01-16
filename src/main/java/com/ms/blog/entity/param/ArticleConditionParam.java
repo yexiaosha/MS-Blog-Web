@@ -15,11 +15,11 @@ import lombok.Data;
 @ApiModel("文章检索字段")
 public class ArticleConditionParam {
 
-    @NotBlank
-    @ApiModelProperty("查找条件")
-    private String Condition;
+    private String tag;
+    private String category;
+    private String articleWriter;
 
     @NotBlank
-    @ApiModelProperty("条件类型 0标签 1分类 2用户名")
-    private Integer type;
+    @ApiModelProperty("查找关键字")
+    private String condition;
 }

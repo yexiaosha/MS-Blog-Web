@@ -16,6 +16,7 @@ import com.ms.blog.entity.param.CancellationParam;
 import com.ms.blog.entity.param.LoginParam;
 import com.ms.blog.entity.param.RegisterParam;
 import com.ms.blog.entity.param.ResetPasswordParam;
+import com.ms.blog.entity.param.UserInfoParam;
 import com.ms.blog.entity.param.UserParam;
 import com.ms.blog.entity.vo.LoginVo;
 import com.ms.blog.entity.vo.UserAuthVo;
@@ -163,9 +164,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @ServiceLog("更改用户详细信息")
+    public Result<Integer> updateUserDetailInfo(UserInfoParam userInfoParam) {
+        UserAuth userAuth = UserAuth.builder()
+                .intro(userInfoParam.getIntro())
+                .updateTime(new Date())
+                .nikeName(userInfoParam.getNickname())
+                .avatar(userInfoParam.getAvatar())
+                .website(userInfoParam.getWebsite())
+                .build();
+        return ResultUtils.success(userMapper.updateUserInfoDetails(userAuth));
+    }
+
+    @Override
     @ServiceLog("获取所有用户列表")
     public Result<PageData<UserVo>> getUserList(UserParam userParam) {
-        Page<User> page = new Page<>(userParam.getPageParam().getCurrentPage(), userParam.getPageParam().getPageSize());
+        Page<User> page = new Page<>(userParam.getCurrentPage(), userParam.getPageSize());
 
         @SuppressWarnings("AlibabaLowerCamelCaseVariableNaming")
         IPage<User> userIPage = userMapper.getUserList(userParam, page);

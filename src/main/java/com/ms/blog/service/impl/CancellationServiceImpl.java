@@ -77,7 +77,7 @@ public class CancellationServiceImpl implements CancellationService {
     @ServiceLog("获取已处理列表")
     public Result<PageData<HandledCancellationVo>> getHandledCancellationList(
             HandledCancellationParam handledCancellationParam) {
-        Page<HandledCancellation> page = new Page<>(handledCancellationParam.getPageParam().getCurrentPage(), handledCancellationParam.getPageParam().getPageSize());
+        Page<HandledCancellation> page = new Page<>(handledCancellationParam.getCurrentPage(), handledCancellationParam.getPageSize());
         IPage<HandledCancellation> iPage = cancellationMapper.getHandledCancellationList(handledCancellationParam, page);
         List<HandledCancellationVo> handledCancellationVoList = new ArrayList<>();
         for (HandledCancellation h : iPage.getRecords()) {

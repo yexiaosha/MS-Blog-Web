@@ -7,6 +7,7 @@ import com.ms.blog.entity.param.CancellationParam;
 import com.ms.blog.entity.param.LoginParam;
 import com.ms.blog.entity.param.RegisterParam;
 import com.ms.blog.entity.param.ResetPasswordParam;
+import com.ms.blog.entity.param.UserInfoParam;
 import com.ms.blog.entity.param.UserParam;
 import com.ms.blog.entity.vo.LoginVo;
 import com.ms.blog.entity.vo.UserAuthVo;
@@ -54,6 +55,13 @@ public interface UserService {
      * @return 用户详细信息视图类
      */
     Result<UserAuthVo> getUserInfoDetails(String username);
+
+    /**
+     * 更改用户详细信息
+     * @param userInfoParam 用户详细信息参数
+     * @return 是否更改
+     */
+    Result<Integer> updateUserDetailInfo(UserInfoParam userInfoParam);
 
     /**
      * 获取所有用户列表
