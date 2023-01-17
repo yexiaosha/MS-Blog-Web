@@ -15,4 +15,6 @@ public interface ArticleMapper {
     IPage<ArticleVo> getArticleList(Page<ArticleVo> page);
 
     IPage<ArticleVo> getPopularArticleList(Page<ArticleVo> page);
+
+    ArticleVo getArticleContent(Integer id);
 }

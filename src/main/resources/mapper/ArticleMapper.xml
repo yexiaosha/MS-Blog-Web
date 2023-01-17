@@ -6,4 +6,5 @@
 
     <select id="getArticleList" resultType="com.ms.blog.entity.vo.ArticleVo"></select>
     <select id="getPopularArticleList" resultType="com.ms.blog.entity.vo.ArticleVo"></select>
+    <select id="getArticleContent" resultType="com.ms.blog.entity.vo.ArticleVo"></select>
 </mapper>

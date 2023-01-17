@@ -88,7 +88,7 @@ public class Article {
     /**
      * 文章阅读量
      */
-    private String quantity;
+    private Integer quantity;
 
     /**
      * 说明
