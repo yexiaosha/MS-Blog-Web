@@ -2,6 +2,7 @@ package com.ms.blog.service.impl;
 
 import com.ms.blog.common.ErrorCode;
 import com.ms.blog.common.Result;
+import com.ms.blog.common.aspect.annotation.ServiceLog;
 import com.ms.blog.service.MailService;
 import com.ms.blog.util.ResultUtils;
 import com.ms.blog.util.UUIDUtils;
@@ -35,10 +36,11 @@ public class MailServiceImpl implements MailService {
     private static final String MAIL_ = "MAIL_";
 
     @Override
+    @ServiceLog("邮件发送")
     public Result<Integer> sentMailVerifyCode(String email) {
         String checkCode = String.valueOf(new Random().nextInt(899999) + 100000);
         redisTemplate.opsForValue().set(MAIL_ + checkCode, UUIDUtils.getUUID(), 30, TimeUnit.MINUTES);
-        String message = "您在MineSpaceBlog收发的邮箱验证码为：" + checkCode + "%d" + "请您在30分钟内使用此验证码";
+        String message = "您在MineSpaceBlog收发的邮箱验证码为：" + checkCode + "\n" + "请您在30分钟内使用此验证码";
         try {
             sendSimpleMail(email,"MineSpace验证服务",message);
         }catch (Exception e){
@@ -48,6 +50,7 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
+    @ServiceLog("邮件验证码验证")
     public Result<Integer> verifyMailCode(String code) {
         if (redisTemplate.opsForValue().get(MAIL_ + code) == null){
             return ResultUtils.fail(ErrorCode.EMAIL_VERIFY_FAIL.getCode(), ErrorCode.EMAIL_VERIFY_FAIL.getMsg());

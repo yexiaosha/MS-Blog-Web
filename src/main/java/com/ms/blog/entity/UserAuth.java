@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 public class UserAuth {
 
     /**
-     * 用户id
+     * 用户详情id
      */
     private Integer id;
 

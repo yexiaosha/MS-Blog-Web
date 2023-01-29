@@ -1,6 +1,7 @@
 package com.ms.blog.controller;
 
 import com.ms.blog.common.Result;
+import com.ms.blog.common.aspect.annotation.ControllerLog;
 import com.ms.blog.service.MailService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("msblog/mail")
-@Api("邮件收发接口")
+@Api(tags = "邮件收发接口")
 public class MailController {
 
     @Resource
@@ -25,6 +26,7 @@ public class MailController {
 
     @GetMapping("/send")
     @ApiOperation("发送邮箱验证码")
+    @ControllerLog("发送邮箱验证码")
     public Result<Integer> sentMailVerifyCode(@RequestParam String email){
         return mailService.sentMailVerifyCode(email);
     }

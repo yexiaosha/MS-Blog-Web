@@ -52,7 +52,7 @@ public interface UserMapper {
      * @param userAuth 用户详情信息类
      * @return 用户详情信息主键id
      */
-   Integer insertUserAuth(UserAuth userAuth);
+   int insertUserAuth(UserAuth userAuth);
 
     /**
      * 插入用户基本信息
@@ -91,8 +91,25 @@ public interface UserMapper {
      */
    IPage<User> getUserList(UserParam userParam, Page<User> userPage);
 
+    /**
+     * 插入注销申请
+     * @param cancellation 注销申请表类
+     * @return 是否成功
+     */
    int insertUserCancellation(Cancellation cancellation);
 
-   int updateUserInfo(User user);
+    /**
+     * 更改用户账号状态
+     * @param id 用户id
+     * @param status 用户状态值
+     * @return 是否成功
+     */
+   int updateUserStatus(Integer id, Integer status);
+
+    /**
+     * 更改用户详细信息
+     * @param userAuth 用户详细信息类
+     * @return 是否成功
+     */
    int updateUserInfoDetails(UserAuth userAuth);
 }

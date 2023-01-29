@@ -36,6 +36,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 "/msblog/user/login",
                 "/msblog/user/register",
                 "/msblog/captcha/**",
+                "/msblog/mail/**",
                 "/swagger**/**",
                 "/webjars/**",
                 "/v3/**",

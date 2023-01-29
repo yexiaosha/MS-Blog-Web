@@ -242,8 +242,7 @@ public class UserServiceImpl implements UserService {
                 .build();
 
         userMapper.insertUserCancellation(cancellation);
-        user.setStatus(0);
-        userMapper.updateUserInfo(user);
+        userMapper.updateUserStatus(user.getId(), 0);
         redisTemplate.delete(TOKEN_ + token);
         return ResultUtils.success("提交成功");
     }

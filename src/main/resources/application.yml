@@ -24,9 +24,9 @@ spring:
       matching-strategy: ant_path_matcher
   mail:
     default-encoding: UTF-8
-    host: smtp.qq.com
-    username: wangyuhang980@qq.com
-    password:
+    host: smtp.163.com
+    username: qch223606@163.com
+    password: LRYNAFBMZEUQZIRR
     properties:
       smtp:
         auth: true

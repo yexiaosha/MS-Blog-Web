@@ -15,6 +15,13 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface CancellationMapper {
+
+    /**
+     * 获取注销请求
+     * @param cancellationParam 注销表单参数
+     * @param page  分页对象
+     * @return
+     */
     IPage<Cancellation> getCancellationList(CancellationParam cancellationParam, Page<Cancellation> page);
     Cancellation getCancellationById(Integer id);
     int insertHandledCancellation(HandledCancellation handledCancellation);

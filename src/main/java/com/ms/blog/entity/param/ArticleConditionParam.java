@@ -1,8 +1,7 @@
 package com.ms.blog.entity.param;
 
+import com.ms.blog.common.PageParam;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import javax.validation.constraints.NotBlank;
 import lombok.Data;
 
 /**
@@ -13,13 +12,10 @@ import lombok.Data;
 
 @Data
 @ApiModel("文章检索字段")
-public class ArticleConditionParam {
-
-    private String tag;
-    private String category;
+public class ArticleConditionParam extends PageParam {
+    private Integer isSecret;
+    private Integer isStick;
     private String articleWriter;
-
-    @NotBlank
-    @ApiModelProperty("查找关键字")
-    private String condition;
+    private Integer isPublish;
+    private Integer isOriginal;
 }

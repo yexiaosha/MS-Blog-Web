@@ -1,6 +1,7 @@
 package com.ms.blog.entity.param;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -11,6 +12,8 @@ import lombok.Data;
 @Data
 @ApiModel("用户信息参数")
 public class UserInfoParam {
+    @ApiModelProperty("用户id")
+    private Integer id;
     private String nickname;
     private String avatar;
     private String intro;

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/msblog/modpack")
-@Api("整合包接口")
+@Api(tags = "整合包接口")
 public class ModPackController {
 
     @PostMapping("/insert")

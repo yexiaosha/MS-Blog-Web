@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("msblog/cancel")
-@Api("注销接口")
+@Api(tags = "注销接口")
 public class CancellationController {
 
     @Resource

@@ -33,7 +33,9 @@ public class ArticleServiceImpl implements ArticleService {
     private ArticleMapper articleMapper;
 
     @Resource
-    private RedisTemplate<Integer, ArticleVo> redisTemplate;
+    private RedisTemplate<String, ArticleVo> redisTemplate;
+
+    public static final String ARTICLE_ID_ = "ARTICLE_ID_";
 
     @Override
     @ServiceLog("获取所有文章")
@@ -56,27 +58,30 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     @ServiceLog("获取文章内容")
     public Result<ArticleVo> getArticleContent(Integer id) {
-        if (redisTemplate.opsForValue().get(id) != null){
-           ArticleVo articleVo = redisTemplate.opsForValue().get(id);
+        ArticleVo articleVo = redisTemplate.opsForValue().get(id);
+        if (articleVo != null){
            articleVo.setQuantity(articleVo.getQuantity() + 1);
-           redisTemplate.opsForValue().set(id, articleVo);
+           redisTemplate.opsForValue().set(ARTICLE_ID_ + id, articleVo);
            return ResultUtils.success(articleVo);
         }
 
-        ArticleVo articleVo = articleMapper.getArticleContent(id);
+        articleVo = articleMapper.getArticleContent(id);
 
         if (articleVo == null){
             return ResultUtils.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMsg());
         }
         articleVo.setQuantity(articleVo.getQuantity() + 1);
-        redisTemplate.opsForValue().set(articleVo.getId(), articleVo);
+        redisTemplate.opsForValue().set(ARTICLE_ID_ + articleVo.getId(), articleVo);
         return ResultUtils.success(articleVo);
     }
 
     @Override
     @ServiceLog("通过条件获取文章列表")
     public Result<PageData<ArticleVo>> getArticleListByType(ArticleConditionParam articleConditionParam) {
-        return null;
+        Page<ArticleVo> articleVoPage = new Page<>(articleConditionParam.getCurrentPage(), articleConditionParam.getPageSize());
+        IPage<ArticleVo> articleVoIPage = articleMapper.getArticleList(articleVoPage);
+        PageData<ArticleVo> articleVoPageData = new PageData<>(articleVoIPage, articleConditionParam.getCurrentPage().longValue());
+        return ResultUtils.success(articleVoPageData);
     }
 
     @Override

@@ -3,24 +3,201 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ms.blog.dao.UserMapper">
-    <insert id="insertUserAuth"></insert>
-    <insert id="insertUserInfo"></insert>
-    <insert id="insertUserCancellation"></insert>
+    <insert id="insertUserAuth">
+        INSERT INTO b_user_auth(email, nickname, avatar, intro, website, is_disable, create_time, update_time) VALUES (
+                                        #{userAuth.email},
+                                        #{userAuth.nikeName},
+                                        #{userAuth.avatar},
+                                        #{userAuth.intro},
+                                        #{userAuth.website},
+                                        #{userAuth.isDisabled},
+                                        #{userAuth.createTime},
+                                        #{userAuth.updateTime}
+        )
+    </insert>
+    <insert id="insertUserInfo">
+        INSERT INTO b_user(
+                           username,
+                           password,
+                           create_time,
+                           update_time,
+                           status,
+                           login_type,
+                           user_auth_id,
+                           role_id,
+                           ip_address,
+                           ip_source,
+                           os,
+                           last_login_time,
+                           browser
+                           ) VALUES (
+                                        #{user.username},
+                                        #{user.password},
+                                        #{user.create_time},
+                                        #{user.update_time},
+                                        #{user.status},
+                                        #{user.login_type},
+                                        #{user.user_auth_id},
+                                        #{user.role_id},
+                                        #{user.ip_address},
+                                        #{user.ip_source},
+                                        #{user.os},
+                                        #{user.last_login_time},
+                                        #{user.browser}
+                                        )
+    </insert>
+    <insert id="insertUserCancellation">
+        INSERT INTO b_cancellation_request(user_id, username, email, create_time, reason_text) VALUES (
+            #{cancellation.userId},
+            #{cancellation.username},
+            #{cancellation.email},
+            #{cancellation.createTime},
+            #{cancellation.reasonText})
+    </insert>
     <update id="updateLastLoginTime">
-        UPDATE last_login_time from b_user where
+       UPDATE b_user SET update_time = #{date} WHERE id = #{id}
     </update>
-    <update id="updateUserInfoDetails"></update>
-    <update id="updateUserInfo"></update>
+    <update id="updateUserInfoDetails">
+        UPDATE b_user_auth
+        <set>
+            <if test="userAuth.nickname != null">
+                nickname = #{userAuth.nikeName}
+            </if>
+            <if test="userAuth.avatar != null">
+                avatar = #{userAuth.avatar}
+            </if>
+            <if test="userAuth.intro != null">
+                intro = #{userAuth.intro}
+            </if>
+            <if test="userAuth.website">
+                website = #{userAuth.website}
+            </if>
+        </set>
+        WHERE (SELECT user_auth_id FROM b_user WHERE b_user.id = #{userAuth.id}) = b_user_auth.id
+    </update>
+    <update id="updateUserStatus">
+        UPDATE b_user SET status = #{status} WHERE id = #{id}
+    </update>
 
     <select id="userLoginByUsername" resultType="com.ms.blog.entity.User">
-        SELECT * FROM b_user WHERE username = #{username} and password = #{password}
+        SELECT id,
+               username,
+               password,
+               create_time,
+               update_time,
+               status,
+               login_type,
+               user_auth_id,
+               role_id,
+               ip_address,
+               ip_source,
+               os,
+               last_login_time,
+               browser
+        FROM b_user WHERE username = #{username} and password = #{password}
     </select>
     <select id="userLoginByEmail" resultType="com.ms.blog.entity.User">
-        SELECT  * FROM b_user WHERE email = #{email} and password = #{password}
+        SELECT id,
+               username,
+               password,
+               create_time,
+               update_time,
+               status,
+               login_type,
+               user_auth_id,
+               role_id,
+               ip_address,
+               ip_source,
+               os,
+               last_login_time,
+               browser
+        FROM  b_user WHERE (SELECT id FROM b_user_auth WHERE email = #{email}) = user_auth_id and password = #{password}
     </select>
-    <select id="findUserByUsername" resultType="com.ms.blog.entity.User"></select>
-    <select id="findUserByEmail" resultType="com.ms.blog.entity.User"></select>
-    <select id="getUserInfo" resultType="com.ms.blog.entity.User"></select>
-    <select id="getUserInfoDetails" resultType="com.ms.blog.entity.UserAuth"></select>
-    <select id="getUserList" resultType="com.ms.blog.entity.User"></select>
+    <select id="findUserByUsername" resultType="com.ms.blog.entity.User">
+        SELECT id,
+               username,
+               password,
+               create_time,
+               update_time,
+               status,
+               login_type,
+               user_auth_id,
+               role_id,
+               ip_address,
+               ip_source,
+               os,
+               last_login_time,
+               browser
+        FROM b_user WHERE username = #{username}
+    </select>
+    <select id="findUserByEmail" resultType="com.ms.blog.entity.User">
+        SELECT id,
+               username,
+               password,
+               create_time,
+               update_time,
+               status,
+               login_type,
+               user_auth_id,
+               role_id,
+               ip_address,
+               ip_source,
+               os,
+               last_login_time,
+               browser
+        FROM b_user WHERE (SELECT id FROM b_user_auth WHERE email = #{email}) = user_auth_id
+    </select>
+    <select id="getUserInfo" resultType="com.ms.blog.entity.User">
+        SELECT id,
+               username,
+               password,
+               create_time,
+               update_time,
+               status,
+               login_type,
+               user_auth_id,
+               role_id,
+               ip_address,
+               ip_source,
+               os,
+               last_login_time,
+               browser
+        FROM b_user WHERE username = #{username}
+    </select>
+    <select id="getUserInfoDetails" resultType="com.ms.blog.entity.UserAuth">
+        SELECT id, email, nickname, avatar, intro, website, is_disable, create_time, update_time
+        FROM b_user_auth WHERE (SELECT user_auth_id FROM b_user WHERE  username = #{username}) = id
+    </select>
+    <select id="getUserList" resultType="com.ms.blog.entity.User">
+        SELECT id,
+               username,
+               password,
+               create_time,
+               update_time,
+               status,
+               login_type,
+               user_auth_id,
+               role_id,
+               ip_address,
+               ip_source,
+               os,
+               last_login_time,
+               browser
+        FROM b_user WHERE 1=1
+        <if test="userParam.username != null">
+            AND username = #{userParam.username}
+        </if>
+        <if test="userParam.ipSourse != null">
+            AND ip_source = #{userParam.ipSource}
+        </if>
+        <if test="userParam.roleId != null">
+            AND role_id = #{userParam.roleId}
+        </if>
+        <if test="userParam.os !=null">
+            AND os = #{userParam.os}
+        </if>
+        <if test="userParam.browser != null">
+            AND browser = #{userParam.browser}
+        </if>
+    </select>
 </mapper>
