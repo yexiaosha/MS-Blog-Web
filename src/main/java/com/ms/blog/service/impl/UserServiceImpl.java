@@ -69,31 +69,39 @@ public class UserServiceImpl implements UserService {
     @ServiceLog("用户登录")
     public Result<LoginVo> userLogin(LoginParam loginParam) {
         loginParam.setPassword(Md5Util.encodePassword(loginParam.getPassword()));
-        captchaService.verifyCaptcha(loginParam.getCaptcha());
+        /*Result result = captchaService.verifyCaptcha(loginParam.getCaptcha());
+        if (result.getCode() == ErrorCode.CAPTCHA_ERROR.getCode()){
+            return ResultUtils.fail(result.getCode(), result.getMessage());
+        }
+        System.out.println(loginParam);*/
         User user = new User();
 
         if(loginParam.getType() == 0){
+            log.info("用户名登录");
             user = userMapper.userLoginByUsername(loginParam.getParams(), loginParam.getPassword());
         }
 
         if (loginParam.getType() == 1){
+            log.info("邮箱登录");
             user = userMapper.userLoginByEmail(loginParam.getParams(), loginParam.getPassword());
         }
 
         if (user == null){
+            log.info("账号或密码错误");
             return ResultUtils.fail(ErrorCode.ACCOUNT_PWD_NOT_EXIST.getCode(), ErrorCode.ACCOUNT_PWD_NOT_EXIST.getMsg());
         }
 
-        if (user.getStatus() == 1){
+        if (user.getStatus() == 0){
+            log.info("用户不存在");
             return ResultUtils.fail(ErrorCode.ACCOUNT_HAS_DISABLED.getCode(), ErrorCode.ACCOUNT_HAS_DISABLED.getMsg());
         }
         userMapper.updateLastLoginTime(new Date(), user.getUsername());
         String token = JwtUtils.createToken(user.getUsername());
-        redisTemplate.opsForValue().set(TOKEN_+token, JSON.toJSONString(user),1, TimeUnit.DAYS);
+        redisTemplate.opsForValue().set(TOKEN_+token, JSON.toJSONString(user),15, TimeUnit.DAYS);
 
         LoginVo loginVo = new LoginVo();
         loginVo.setToken(token);
-        loginVo.setRole(roleService.getRoleNameByRoleId(user.getRoleId()));
+        //loginVo.setRole(roleService.getRoleNameByRoleId(user.getRoleId()));
         return ResultUtils.success(loginVo);
     }
 
@@ -260,7 +268,7 @@ public class UserServiceImpl implements UserService {
             return ResultUtils.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMsg());
         }
 
-        return ResultUtils.success(JSON.parseObject(userJson, LoginParam.class).getParams());
+        return ResultUtils.success("检查通过", JSON.parseObject(userJson,User.class).getUsername());
     }
 
     public UserVo copy(User user){

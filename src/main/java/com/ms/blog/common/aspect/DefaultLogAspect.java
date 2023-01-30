@@ -4,8 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.ms.blog.common.aspect.annotation.ControllerLog;
 import com.ms.blog.common.aspect.annotation.ServiceLog;
 import com.ms.blog.entity.ExceptionLog;
+import com.ms.blog.entity.User;
 import com.ms.blog.entity.UserLog;
-import com.ms.blog.entity.param.LoginParam;
 import com.ms.blog.service.LogService;
 import com.ms.blog.util.HttpContextUtils;
 import com.ms.blog.util.IpUtils;
@@ -179,12 +179,10 @@ public class DefaultLogAspect {
         }
 
         String userJson = (String) redisTemplate.opsForValue().get("TOKEN_" + token);
-        log.info(userJson);
         if (!(StringUtils.hasText(userJson))){
             return null;
         }
-        LoginParam loginParam = JSON.parseObject(userJson, LoginParam.class);
-        log.info(String.valueOf(loginParam));
-        return loginParam.getParams();
+        User user = JSON.parseObject(userJson, User.class);
+        return user.getUsername();
     }
 }

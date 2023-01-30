@@ -18,7 +18,8 @@ public interface ArticleService {
 
     /**
      * 获取所有文章列表
-     * @return 分页结果
+     * @param pageParam 分页参数
+     * @return 当前页文章列表
      */
     Result<PageData<ArticleVo>> getArticleList(PageParam pageParam);
 
@@ -26,7 +27,7 @@ public interface ArticleService {
      * 获取热门文章
      * @return 分页结果
      */
-    Result<PageData<ArticleVo>> getPopularArticleList(PageParam pageParam);
+    Result<List<ArticleVo>> getPopularArticleList();
 
     /**
      * 查看文章详情
@@ -43,18 +44,12 @@ public interface ArticleService {
     Result<PageData<ArticleVo>> getArticleListByType(ArticleConditionParam articleConditionParam);
 
     /**
-     * 删除文章
-     * @param articleIdList 文章列表
-     * @return  删除结果
-     */
-    Result<Integer> deleteArticles(List<Integer> articleIdList);
-
-    /**
      * 自增文章
      * @param articleParam 文章参数
+     * @param userId 用户id
      * @return  结果
      */
-    Result<Integer> insertArticle(ArticleParam articleParam);
+    Result<Integer> insertArticle(ArticleParam articleParam, Integer userId);
 
     /**
      * 暂存文章

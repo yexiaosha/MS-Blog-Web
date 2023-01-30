@@ -11,4 +11,9 @@ public interface CronJobService {
      * 实时更新阅读量
      */
     void updateArticleQuantity();
+
+    /**
+     * 定时更新热门文章
+     */
+    void updatePopularArticle();
 }

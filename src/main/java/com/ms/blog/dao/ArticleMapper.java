@@ -2,7 +2,9 @@ package com.ms.blog.dao;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ms.blog.entity.Article;
 import com.ms.blog.entity.vo.ArticleVo;
+import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -20,9 +22,16 @@ public interface ArticleMapper {
      */
     IPage<ArticleVo> getArticleList(Page<ArticleVo> page);
 
-    IPage<ArticleVo> getPopularArticleList(Page<ArticleVo> page);
+    /**
+     * 获取热门文章
+     * @return 文章列表
+     */
+    List<ArticleVo> getPopularArticleList();
 
     ArticleVo getArticleContent(Integer id);
 
     int updateArticleQuantity(Integer id, Integer quantity);
+
+    int insertArticle(Article article);
+
 }

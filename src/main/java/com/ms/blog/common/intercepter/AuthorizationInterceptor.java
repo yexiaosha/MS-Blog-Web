@@ -36,6 +36,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
             throws Exception {
 
         String token = request.getHeader("Authorization");
+        System.out.println(token);
         if (token == null) {
             Result<Boolean> result = ResultUtils.fail(ErrorCode.ACCOUNT_NOT_AUTHORIZATION.getCode(),
                     ErrorCode.ACCOUNT_NOT_AUTHORIZATION.getMsg());

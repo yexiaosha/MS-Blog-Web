@@ -83,7 +83,7 @@ public class UserController {
     @DeleteMapping("/cancellation")
     @ApiOperation("用户注销")
     @ControllerLog("用户注销")
-    public Result cancellationUser(@RequestBody CancellationParam cancellationParam, @RequestHeader String token){
+    public Result cancellationUser(@RequestBody CancellationParam cancellationParam, @RequestHeader("Authorization") String token){
         return userService.cancelUserAccount(cancellationParam, token);
     }
 

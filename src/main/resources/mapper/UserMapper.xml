@@ -55,7 +55,7 @@
             #{cancellation.reasonText})
     </insert>
     <update id="updateLastLoginTime">
-       UPDATE b_user SET update_time = #{date} WHERE id = #{id}
+       UPDATE b_user SET last_login_time = #{date} WHERE username = #{username}
     </update>
     <update id="updateUserInfoDetails">
         UPDATE b_user_auth

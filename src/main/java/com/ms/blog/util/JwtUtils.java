@@ -26,7 +26,7 @@ public class JwtUtils {
                 .signWith(SignatureAlgorithm.HS256, KEY)
                 .setClaims(claims)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 24L * 60 * 60 * 1000));
+                .setExpiration(new Date(System.currentTimeMillis() + 24L * 60 * 60 * 15 * 1000));
         return jwtBuilder.compact();
     }
 
@@ -46,7 +46,6 @@ public class JwtUtils {
         }catch (Exception e){
             e.printStackTrace();
         }
-
         return null;
     }
 }

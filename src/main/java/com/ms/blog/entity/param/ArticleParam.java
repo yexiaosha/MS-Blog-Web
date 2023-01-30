@@ -1,6 +1,5 @@
 package com.ms.blog.entity.param;
 
-import com.ms.blog.common.PageParam;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
@@ -11,9 +10,10 @@ import lombok.Data;
  * @author wyh
  * @date 2023/01/06 16:26
  */
+
 @Data
 @ApiModel("文章参数类")
-public class ArticleParam extends PageParam{
+public class ArticleParam{
 
     /**
      * 用户id
@@ -61,25 +61,19 @@ public class ArticleParam extends PageParam{
      * 是否私密
      */
     @ApiModelProperty("是否私密")
-    private Boolean isSecret;
+    private Integer isSecret;
 
     /**
      * 是否顶置
      */
     @ApiModelProperty("是否顶置")
-    private Boolean isStick;
-
-    /**
-     * 是否发布
-     */
-    @ApiModelProperty("是否发布")
-    private Boolean isPublish;
+    private Integer isStick;
 
     /**
      * 是否原创
      */
     @ApiModelProperty("是否原创")
-    private Boolean isOriginal;
+    private Integer isOriginal;
 
     /**
      * 转载地址
@@ -88,17 +82,10 @@ public class ArticleParam extends PageParam{
     private String originalUrl;
 
     /**
-     * 文章阅读量
-     */
-    @ApiModelProperty("文章阅读量")
-    private String quantity;
-
-    /**
      * 说明
      */
     @ApiModelProperty("说明")
     private String remark;
-
 
     /**
      * 关键词

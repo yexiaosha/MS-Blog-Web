@@ -63,22 +63,22 @@ public class Article {
     /**
      * 是否私密
      */
-    private Boolean isSecret;
+    private Integer isSecret;
 
     /**
      * 是否顶置
      */
-    private Boolean isStick;
+    private Integer isStick;
 
     /**
      * 是否发布
      */
-    private Boolean isPublish;
+    private Integer isPublish;
 
     /**
      * 是否原创
      */
-    private Boolean isOriginal;
+    private Integer isOriginal;
 
     /**
      * 转载地址
@@ -98,7 +98,7 @@ public class Article {
     /**
      * 创建时间
      */
-    private String createTime;
+    private Date createTime;
 
     /**
      * 关键词
