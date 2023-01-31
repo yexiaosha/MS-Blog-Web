@@ -68,7 +68,7 @@ public class UserController {
     @PostMapping("/info/detail/update")
     @ApiOperation("更改用户信息")
     @ControllerLog("更改用户信息")
-    public Result updateUserDetailInfo(@RequestBody UserInfoParam userInfoParam){
+    public Result<Integer> updateUserDetailInfo(@RequestBody UserInfoParam userInfoParam){
         return userService.updateUserDetailInfo(userInfoParam);
 
     }
@@ -83,7 +83,7 @@ public class UserController {
     @DeleteMapping("/cancellation")
     @ApiOperation("用户注销")
     @ControllerLog("用户注销")
-    public Result cancellationUser(@RequestBody CancellationParam cancellationParam, @RequestHeader("Authorization") String token){
+    public Result<Integer> cancellationUser(@RequestBody CancellationParam cancellationParam, @RequestHeader("Authorization") String token){
         return userService.cancelUserAccount(cancellationParam, token);
     }
 
@@ -109,7 +109,7 @@ public class UserController {
     @PostMapping("/reset")
     @ApiOperation("忘记密码/重置密码")
     @ControllerLog("忘记密码/重置密码")
-    private Result resetPassword(@RequestBody ResetPasswordParam resetPasswordParam, @RequestHeader("Authorization") String token){
+    private Result<Integer> resetPassword(@RequestBody ResetPasswordParam resetPasswordParam, @RequestHeader("Authorization") String token){
         return userService.resetPassword(resetPasswordParam, token);
     }
 

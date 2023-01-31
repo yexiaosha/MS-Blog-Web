@@ -14,8 +14,16 @@ import lombok.Data;
 public class UserInfoParam {
     @ApiModelProperty("用户id")
     private Integer id;
+
+    @ApiModelProperty("用户昵称")
     private String nickname;
+
+    @ApiModelProperty("头像链接")
     private String avatar;
+
+    @ApiModelProperty("介绍")
     private String intro;
+
+    @ApiModelProperty("网站")
     private String website;
 }

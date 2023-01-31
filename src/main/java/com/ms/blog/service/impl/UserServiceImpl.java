@@ -174,14 +174,15 @@ public class UserServiceImpl implements UserService {
     @Override
     @ServiceLog("更改用户详细信息")
     public Result<Integer> updateUserDetailInfo(UserInfoParam userInfoParam) {
-        UserAuth userAuth = UserAuth.builder()
+       /* UserAuth userAuth = UserAuth.builder()
                 .intro(userInfoParam.getIntro())
                 .updateTime(new Date())
                 .nikeName(userInfoParam.getNickname())
                 .avatar(userInfoParam.getAvatar())
                 .website(userInfoParam.getWebsite())
                 .build();
-        return ResultUtils.success(userMapper.updateUserInfoDetails(userAuth));
+        return ResultUtils.success(userMapper.updateUserInfoDetails(userAuth));*/
+        return null;
     }
 
     @Override

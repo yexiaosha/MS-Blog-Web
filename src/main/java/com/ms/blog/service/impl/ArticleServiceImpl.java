@@ -16,6 +16,7 @@ import com.ms.blog.entity.param.ArticleParam;
 import com.ms.blog.entity.vo.ArticleVo;
 import com.ms.blog.service.ArticleService;
 import com.ms.blog.service.CategoryService;
+import com.ms.blog.service.TagService;
 import com.ms.blog.util.ResultUtils;
 import java.util.Date;
 import java.util.List;
@@ -41,6 +42,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Resource
     private CategoryService categoryService;
+
+    @Resource
+    private TagService tagService;
 
     private static final String ARTICLE_ID_ = "ARTICLE_ID_";
 
