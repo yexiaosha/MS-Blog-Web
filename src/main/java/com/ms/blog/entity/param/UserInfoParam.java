@@ -2,6 +2,7 @@ package com.ms.blog.entity.param;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import javax.validation.constraints.NotBlank;
 import lombok.Data;
 
 /**
@@ -13,6 +14,7 @@ import lombok.Data;
 @ApiModel("用户信息参数")
 public class UserInfoParam {
     @ApiModelProperty("用户id")
+    @NotBlank
     private Integer id;
 
     @ApiModelProperty("用户昵称")
