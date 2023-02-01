@@ -2,7 +2,6 @@ package com.ms.blog.service;
 
 import com.ms.blog.common.Result;
 import com.ms.blog.entity.vo.TagVo;
-import java.util.List;
 
 /**
  * 标签业务接口
@@ -16,5 +15,6 @@ public interface TagService {
      * @param tagName 标签名
      * @return 通用结果
      */
-    Result<List<TagVo>> getTagIdByName(String tagName);
+    Result<TagVo> getTagIdByName(String tagName);
+
 }

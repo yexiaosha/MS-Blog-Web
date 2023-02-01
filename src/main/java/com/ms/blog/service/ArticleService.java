@@ -44,7 +44,7 @@ public interface ArticleService {
     Result<PageData<ArticleVo>> getArticleListByType(ArticleConditionParam articleConditionParam);
 
     /**
-     * 自增文章
+     * 增加文章
      * @param articleParam 文章参数
      * @param userId 用户id
      * @return  结果
@@ -54,16 +54,24 @@ public interface ArticleService {
     /**
      * 暂存文章
      * @param articleParam 文章参数
+     * @param userId 用户id
      * @return  文章现状
      */
-    Result<ArticleVo> temporaryArticle(ArticleParam articleParam);
+    Result<Integer> temporaryArticle(ArticleParam articleParam, Integer userId);
 
     /**
      * 更新文章
-     * @param id 文章id
+     * @param articleParam 文章参数
      * @return  文章修改后结果
      */
-    Result<ArticleVo> updateArticle(Integer id);
+    Result<Integer> updateArticle(ArticleParam articleParam);
+
+    /**
+     * 删除文章
+     * @param id 文章id
+     * @return 通用结果
+     */
+    Result<Integer> deleteArticle(Integer id);
 
     /**
      * 获取文章tag

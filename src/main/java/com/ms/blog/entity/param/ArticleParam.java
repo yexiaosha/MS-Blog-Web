@@ -2,8 +2,8 @@ package com.ms.blog.entity.param;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.List;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotBlank.List;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -20,6 +20,11 @@ import org.hibernate.validator.constraints.Length;
 @ApiModel("文章参数类")
 public class ArticleParam{
 
+    /**
+     * 文章id
+     */
+    @ApiModelProperty("文章id")
+    private Integer id;
     /**
      * 用户id
      */
@@ -111,5 +116,5 @@ public class ArticleParam{
     @ApiModelProperty("标签列表")
     @NotEmpty
     @Size(min = 1, max = 4, message = "文章标签必须在1个以上4个及4个以内")
-    private List tagList;
+    private List<String> tagList;
 }

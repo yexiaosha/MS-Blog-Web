@@ -34,6 +34,9 @@ public interface ArticleMapper {
 
     int insertArticle(Article article);
 
+    int insertArticleTagRelate(Integer articleId, Integer tagId);
 
+    List<Article> getArticleByUserId(Integer userId);
 
+    int updateArticleInfo(Article article);
 }
