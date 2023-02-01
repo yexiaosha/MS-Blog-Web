@@ -1,7 +1,6 @@
 package com.ms.blog.service;
 
 import com.ms.blog.common.PageData;
-import com.ms.blog.common.PageParam;
 import com.ms.blog.common.Result;
 import com.ms.blog.entity.Tag;
 import com.ms.blog.entity.param.ArticleConditionParam;
@@ -15,13 +14,6 @@ import java.util.List;
  * @date 2023/01/16 11:03
  */
 public interface ArticleService {
-
-    /**
-     * 获取所有文章列表
-     * @param pageParam 分页参数
-     * @return 当前页文章列表
-     */
-    Result<PageData<ArticleVo>> getArticleList(PageParam pageParam);
 
     /**
      * 获取热门文章

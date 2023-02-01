@@ -3,6 +3,7 @@ package com.ms.blog.service.impl;
 import com.ms.blog.common.Result;
 import com.ms.blog.entity.vo.TagVo;
 import com.ms.blog.service.TagService;
+import java.util.List;
 import org.springframework.stereotype.Service;
 
 /**
@@ -11,10 +12,17 @@ import org.springframework.stereotype.Service;
  * @date 2023/01/31 17:08
  */
 @Service
-public class TagServiceImpl implements TagService {
+ public class TagServiceImpl implements TagService {
 
     @Override
     public Result<TagVo> getTagIdByName(String tagName) {
         return null;
     }
+
+    @Override
+    public Result<List<TagVo>> getTagListByArticleId(Integer articleId) {
+        return null;
+    }
+
+
 }

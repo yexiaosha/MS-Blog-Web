@@ -1,7 +1,7 @@
 package com.ms.blog.entity.vo;
 
 import io.swagger.annotations.ApiModel;
-import java.util.Date;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,9 +29,9 @@ public class ArticleVo {
     private Integer userId;
 
     /**
-     * 分类id
+     * 分类
      */
-    private Integer categoryId;
+    private CategoryVo categoryVo;
 
     /**
      *  文章标题
@@ -61,22 +61,22 @@ public class ArticleVo {
     /**
      * 是否私密
      */
-    private Boolean isSecret;
+    private Integer isSecret;
 
     /**
      * 是否顶置
      */
-    private Boolean isStick;
+    private Integer isStick;
 
     /**
      * 是否发布
      */
-    private Boolean isPublish;
+    private Integer isPublish;
 
     /**
      * 是否原创
      */
-    private Boolean isOriginal;
+    private Integer isOriginal;
 
     /**
      * 转载地址
@@ -106,5 +106,10 @@ public class ArticleVo {
     /**
      * 修改时间
      */
-    private Date updateDate;
+    private String updateDate;
+
+    /**
+     * 文章标签
+     */
+    private List<TagVo> tagsVo;
 }

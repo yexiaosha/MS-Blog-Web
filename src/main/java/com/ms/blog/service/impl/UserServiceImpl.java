@@ -258,7 +258,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @ServiceLog("token检查")
-    public Result<String> checkToken(String token) {
+    public Result<User> checkToken(String token) {
 
         Map<String, Object> map = JwtUtils.verifyToken(token);
         if (map == null) {
@@ -269,7 +269,7 @@ public class UserServiceImpl implements UserService {
             return ResultUtils.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMsg());
         }
 
-        return ResultUtils.success("检查通过", JSON.parseObject(userJson,User.class).getUsername());
+        return ResultUtils.success("检查通过", JSON.parseObject(userJson,User.class));
     }
 
     public UserVo copy(User user){

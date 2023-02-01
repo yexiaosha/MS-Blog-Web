@@ -17,4 +17,6 @@ public interface CategoryService {
      * @return 通用返回
      */
     Result<CategoryVo> getCategoryByName(String categoryName);
+
+    Result<CategoryVo> getCategoryById(Integer id);
 }

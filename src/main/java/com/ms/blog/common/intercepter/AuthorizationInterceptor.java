@@ -3,6 +3,8 @@ package com.ms.blog.common.intercepter;
 import com.alibaba.fastjson.JSON;
 import com.ms.blog.common.ErrorCode;
 import com.ms.blog.common.Result;
+import com.ms.blog.common.UserThreadLocal;
+import com.ms.blog.entity.User;
 import com.ms.blog.service.UserService;
 import com.ms.blog.util.ResultUtils;
 import javax.annotation.Resource;
@@ -44,8 +46,8 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
             response.getWriter().print(JSON.toJSONString(result));
             return false;
         }
-        String username = userService.checkToken(token).getData();
-        if (username == null) {
+        User user = userService.checkToken(token).getData();
+        if (user == null) {
             Result<Boolean> result = ResultUtils.fail(ErrorCode.ACCOUNT_NOT_AUTHORIZATION.getCode(),
                     ErrorCode.ACCOUNT_NOT_AUTHORIZATION.getMsg());
             response.setContentType("application/json;charset=utf-8");
@@ -53,6 +55,13 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
             return false;
         }
 
+        UserThreadLocal.put(user);
         return true;
+    }
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
+            throws Exception {
+        UserThreadLocal.remove();
     }
 }

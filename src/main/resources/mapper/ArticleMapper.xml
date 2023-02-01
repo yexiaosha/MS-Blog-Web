@@ -8,14 +8,8 @@
     <update id="updateArticleQuantity"></update>
     <update id="updateArticleInfo"></update>
 
-    <select id="getArticleList" resultType="com.ms.blog.entity.vo.ArticleVo">
-        SELECT id, user_id, category_id, title, avatar, summary, content, content_md, is_secret, is_stick, is_publish, is_original, original_url, quantity, remark, create_time, keywords, update_time
-        FROM b_article
-    </select>
-    <select id="getPopularArticleList" resultType="com.ms.blog.entity.vo.ArticleVo">
-        SELECT id, user_id, category_id, title, avatar, summary, content, content_md, is_secret, is_stick, is_publish, is_original, original_url, quantity, remark, create_time, keywords, update_time
-        FROM b_article
-    </select>
-    <select id="getArticleContent" resultType="com.ms.blog.entity.vo.ArticleVo"></select>
+    <select id="getArticleList" resultType="com.ms.blog.entity.Article"></select>
+    <select id="getPopularArticleList" resultType="com.ms.blog.entity.Article"></select>
+    <select id="getArticleContent" resultType="com.ms.blog.entity.Article"></select>
     <select id="getArticleByUserId" resultType="com.ms.blog.entity.Article"></select>
 </mapper>

@@ -2,6 +2,7 @@ package com.ms.blog.service;
 
 import com.ms.blog.common.PageData;
 import com.ms.blog.common.Result;
+import com.ms.blog.entity.User;
 import com.ms.blog.entity.dto.UserDto;
 import com.ms.blog.entity.param.CancellationParam;
 import com.ms.blog.entity.param.LoginParam;
@@ -91,5 +92,5 @@ public interface UserService {
      * @param token jwttoken
      * @return 通用结果
      */
-    Result<String> checkToken(String token);
+    Result<User> checkToken(String token);
 }

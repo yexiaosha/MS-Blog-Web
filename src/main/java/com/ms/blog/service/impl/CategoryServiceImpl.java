@@ -21,4 +21,9 @@ public class CategoryServiceImpl implements CategoryService {
     public Result<CategoryVo> getCategoryByName(String categoryName) {
         return null;
     }
+
+    @Override
+    public Result<CategoryVo> getCategoryById(Integer id) {
+        return null;
+    }
 }

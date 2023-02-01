@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ms.blog.common.ErrorCode;
 import com.ms.blog.common.PageData;
-import com.ms.blog.common.PageParam;
 import com.ms.blog.common.Result;
 import com.ms.blog.common.aspect.annotation.ServiceLog;
 import com.ms.blog.dao.ArticleMapper;
@@ -18,13 +17,16 @@ import com.ms.blog.service.ArticleService;
 import com.ms.blog.service.CategoryService;
 import com.ms.blog.service.TagService;
 import com.ms.blog.util.ResultUtils;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 文章业务类实现
@@ -52,15 +54,6 @@ public class ArticleServiceImpl implements ArticleService {
     private static final String HOT_ARTICLE_LIST = "HOT_ARTICLE_LIST_";
 
     @Override
-    @ServiceLog("获取所有文章")
-    public Result<PageData<ArticleVo>> getArticleList(PageParam pageParam) {
-        Page<ArticleVo> page = new Page<>(pageParam.getCurrentPage(), pageParam.getPageSize());
-        IPage<ArticleVo> iPage = articleMapper.getArticleList(page);
-        PageData<ArticleVo> pageData = new PageData<>(iPage, pageParam.getCurrentPage().longValue());
-        return ResultUtils.success(pageData);
-    }
-
-    @Override
     @ServiceLog("获取热门文章")
     public Result<List<ArticleVo>> getPopularArticleList() {
         return ResultUtils.success(JSON.parseArray(redisTemplate.opsForValue().get(HOT_ARTICLE_LIST), ArticleVo.class));
@@ -72,32 +65,34 @@ public class ArticleServiceImpl implements ArticleService {
         ArticleVo articleVo = JSON.parseObject(redisTemplate.opsForValue().get(id), ArticleVo.class);
         if (articleVo != null){
            articleVo.setQuantity(articleVo.getQuantity() + 1);
+           redisTemplate.delete(ARTICLE_ID_ + id);
            redisTemplate.opsForValue().set(ARTICLE_ID_ + id, JSON.toJSONString(articleVo));
            return ResultUtils.success(articleVo);
         }
 
-        articleVo = articleMapper.getArticleContent(id);
-
-        if (articleVo == null){
-            return ResultUtils.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMsg());
-        }
-        articleVo.setQuantity(articleVo.getQuantity() + 1);
-        redisTemplate.opsForValue().set(ARTICLE_ID_ + articleVo.getId(), JSON.toJSONString(articleVo));
-        return ResultUtils.success(articleVo);
+        Article article = articleMapper.getArticleContent(id);
+        return ResultUtils.success(copy(article));
     }
 
     @Override
     @ServiceLog("通过条件获取文章列表")
     public Result<PageData<ArticleVo>> getArticleListByType(ArticleConditionParam articleConditionParam) {
-        Page<ArticleVo> articleVoPage = new Page<>(articleConditionParam.getCurrentPage(), articleConditionParam.getPageSize());
-        IPage<ArticleVo> articleVoIPage = articleMapper.getArticleList(articleVoPage);
-        PageData<ArticleVo> articleVoPageData = new PageData<>(articleVoIPage, articleConditionParam.getCurrentPage().longValue());
+        Page<Article> articlePage = new Page<>(articleConditionParam.getCurrentPage(), articleConditionParam.getPageSize());
+        IPage<Article> articleIPage = articleMapper.getArticleList(articlePage);
+        PageData<Article> articlePageData = new PageData<>(articleIPage, articleConditionParam.getCurrentPage().longValue());
+        List<ArticleVo> articleVoList = new ArrayList<>();
+        for (Article article:articlePageData.getPageData()) {
+            articleVoList.add(copy(article));
+        }
+        PageData<ArticleVo> articleVoPageData = new PageData<>(articleVoList, articlePageData.getTotal(),
+                articlePageData.getTotalPages(), articleConditionParam.getCurrentPage().longValue());
         return ResultUtils.success(articleVoPageData);
     }
 
 
     @Override
     @ServiceLog("新增文章")
+    @Transactional(rollbackFor = Exception.class)
     public Result<Integer> insertArticle(ArticleParam articleParam, Integer userId) {
         Date createTime = new Date();
         Article article = Article.builder()
@@ -125,6 +120,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     @ServiceLog("暂存文章")
+    @Transactional(rollbackFor = Exception.class)
     public Result<Integer> temporaryArticle(ArticleParam articleParam, Integer userId) {
         Date createTime = new Date();
         Article article = Article.builder()
@@ -188,6 +184,15 @@ public class ArticleServiceImpl implements ArticleService {
             Integer tagId = tagService.getTagIdByName(name).getData().getId();
             articleMapper.insertArticleTagRelate(articleId, tagId);
         }
+    }
+
+    private ArticleVo copy(Article article){
+        ArticleVo articleVo = ArticleVo.builder()
+                .build();
+        BeanUtils.copyProperties(article, articleVo);
+        articleVo.setCategoryVo(categoryService.getCategoryById(articleVo.getId()).getData());
+        articleVo.setTagsVo(tagService.getTagListByArticleId(articleVo.getId()).getData());
+        return articleVo;
     }
 
 }
