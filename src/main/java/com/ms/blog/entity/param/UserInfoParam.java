@@ -13,9 +13,10 @@ import lombok.Data;
 @Data
 @ApiModel("用户信息参数")
 public class UserInfoParam {
-    @ApiModelProperty("用户id")
+
+    @ApiModelProperty("用户名")
     @NotBlank
-    private Integer id;
+    private String username;
 
     @ApiModelProperty("用户昵称")
     private String nickname;

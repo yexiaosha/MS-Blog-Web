@@ -3,7 +3,10 @@ package com.ms.blog.entity.param;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotBlank.List;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
@@ -105,4 +108,8 @@ public class ArticleParam{
     @Length(min = 5, max = 20)
     private String remark;
 
+    @ApiModelProperty("标签列表")
+    @NotEmpty
+    @Size(min = 1, max = 4, message = "文章标签必须在1个以上4个及4个以内")
+    private List tagList;
 }

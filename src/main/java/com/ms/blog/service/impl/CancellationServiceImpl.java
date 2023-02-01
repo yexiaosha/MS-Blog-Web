@@ -41,7 +41,7 @@ public class CancellationServiceImpl implements CancellationService {
     @Override
     @ServiceLog("获取注销请求列表")
     public Result<PageData<CancellationVo>> getCancellationList(CancellationParam cancellationParam) {
-        Page<Cancellation> page = new Page<>(cancellationParam.getPageParam().getCurrentPage(), cancellationParam.getPageParam().getPageSize());
+        Page<Cancellation> page = new Page<>(cancellationParam.getCurrentPage(), cancellationParam.getPageSize());
         IPage<Cancellation> iPage = cancellationMapper.getCancellationList(cancellationParam, page);
         List<CancellationVo> cancellationVoList = new ArrayList<>();
         for (Cancellation cancellation : page.getRecords()) {
@@ -54,7 +54,7 @@ public class CancellationServiceImpl implements CancellationService {
     @ServiceLog("处理注销请求")
     @Transactional(rollbackFor = Exception.class)
     public Result<Integer> handleCancellation(HandleCancellationParam handleCancellationParam,String handler) {
-        Cancellation cancellation = cancellationMapper.getCancellationById(handleCancellationParam.getId());
+        Cancellation cancellation = cancellationMapper.getCancellationById(handleCancellationParam.getCancellationId());
         if (cancellation == null){
             return ResultUtils.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMsg());
         }
@@ -64,10 +64,10 @@ public class CancellationServiceImpl implements CancellationService {
                 .handleDate(new Date())
                 .handler(handler)
                 .handlerId(userService.getUserInfo(handler).getData().getId())
-                .cancellationCreateTime(cancellationMapper.getCancellationById(handleCancellationParam.getId()).getCreateTime())
+                .cancellationCreateTime(cancellationMapper.getCancellationById(handleCancellationParam.getCancellationId()).getCreateTime())
                 .result(handleCancellationParam.getResult())
                 .resultSuggest(handleCancellationParam.getResultSuggest())
-                .userId(cancellationMapper.getCancellationById(handleCancellationParam.getId()).getUserId())
+                .userId(cancellationMapper.getCancellationById(handleCancellationParam.getCancellationId()).getUserId())
                 .build();
 
         return ResultUtils.success(cancellationMapper.insertHandledCancellation(handledCancellation));
