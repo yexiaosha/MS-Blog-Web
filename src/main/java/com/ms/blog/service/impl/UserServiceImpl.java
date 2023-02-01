@@ -35,6 +35,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -76,28 +77,29 @@ public class UserServiceImpl implements UserService {
         System.out.println(loginParam);*/
         User user = new User();
 
-        if(loginParam.getType() == 0){
+        if (loginParam.getType() == 0) {
             log.info("用户名登录");
             user = userMapper.userLoginByUsername(loginParam.getParams(), loginParam.getPassword());
         }
 
-        if (loginParam.getType() == 1){
+        if (loginParam.getType() == 1) {
             log.info("邮箱登录");
             user = userMapper.userLoginByEmail(loginParam.getParams(), loginParam.getPassword());
         }
 
-        if (user == null){
+        if (user == null) {
             log.info("账号或密码错误");
-            return ResultUtils.fail(ErrorCode.ACCOUNT_PWD_NOT_EXIST.getCode(), ErrorCode.ACCOUNT_PWD_NOT_EXIST.getMsg());
+            return ResultUtils.fail(ErrorCode.ACCOUNT_PWD_NOT_EXIST.getCode(),
+                    ErrorCode.ACCOUNT_PWD_NOT_EXIST.getMsg());
         }
 
-        if (user.getStatus() == 0){
+        if (user.getStatus() == 0) {
             log.info("用户不存在");
             return ResultUtils.fail(ErrorCode.ACCOUNT_HAS_DISABLED.getCode(), ErrorCode.ACCOUNT_HAS_DISABLED.getMsg());
         }
         userMapper.updateLastLoginTime(new Date(), user.getUsername());
         String token = JwtUtils.createToken(user.getUsername());
-        redisTemplate.opsForValue().set(TOKEN_+token, JSON.toJSONString(user),15, TimeUnit.DAYS);
+        redisTemplate.opsForValue().set(TOKEN_ + token, JSON.toJSONString(user), 15, TimeUnit.DAYS);
 
         LoginVo loginVo = new LoginVo();
         loginVo.setToken(token);
@@ -109,17 +111,17 @@ public class UserServiceImpl implements UserService {
     @ServiceLog("用户注册")
     public Result<Integer> userRegister(RegisterParam registerParam, UserDto userDto) {
         Result<Integer> result = mailService.verifyMailCode(registerParam.getMailCode());
-        if (result.getStatus() == 0){
+        if (result.getStatus() == 0) {
             return result;
         }
         result = captchaService.verifyCaptcha(registerParam.getCaptcha());
 
-        if (result.getStatus() == 0){
+        if (result.getStatus() == 0) {
             return result;
         }
 
         if (userMapper.findUserByUsername(registerParam.getUsername()) == null
-                || userMapper.findUserByEmail(registerParam.getEmail()) == null){
+                || userMapper.findUserByEmail(registerParam.getEmail()) == null) {
             return ResultUtils.fail(ErrorCode.ACCOUNT_HAS_EXIST.getCode(), ErrorCode.ACCOUNT_HAS_EXIST.getMsg());
         }
 
@@ -161,14 +163,18 @@ public class UserServiceImpl implements UserService {
     @ServiceLog("获取用户基本信息")
     public Result<UserVo> getUserInfo(String username) {
         User user = userMapper.getUserInfo(username);
-        return ResultUtils.success(copy(user));
+        UserVo userVo = UserVo.builder().build();
+        BeanUtils.copyProperties(user, userVo);
+        return ResultUtils.success(userVo);
     }
 
     @Override
     @ServiceLog("获取用户详细信息")
     public Result<UserAuthVo> getUserInfoDetails(String username) {
         UserAuth userAuth = userMapper.getUserInfoDetails(username);
-        return ResultUtils.success(copy(userAuth));
+        UserAuthVo userAuthVo = UserAuthVo.builder().build();
+        BeanUtils.copyProperties(userAuth, userAuthVo);
+        return ResultUtils.success(userAuthVo);
     }
 
     @Override
@@ -194,10 +200,13 @@ public class UserServiceImpl implements UserService {
         IPage<User> userIPage = userMapper.getUserList(userParam, page);
 
         List<UserVo> userVoList = new ArrayList<>();
-        for (User user:userIPage.getRecords()) {
-            userVoList.add(copy(user));
+        UserVo userVo = UserVo.builder().build();
+        for (User user : userIPage.getRecords()) {
+            BeanUtils.copyProperties(user, userVo);
+            userVoList.add(userVo);
         }
-        PageData<UserVo> userVoPageData = new PageData<>(userVoList, userIPage.getTotal(),userIPage.getPages(),userIPage.getCurrent());
+        PageData<UserVo> userVoPageData = new PageData<>(userVoList, userIPage.getTotal(), userIPage.getPages(),
+                userIPage.getCurrent());
         return ResultUtils.success(userVoPageData);
     }
 
@@ -207,18 +216,19 @@ public class UserServiceImpl implements UserService {
         resetPasswordParam.setPassword(Md5Util.encodePassword(resetPasswordParam.getPassword()));
         Result<Integer> result = captchaService.verifyCaptcha(resetPasswordParam.getCaptcha());
 
-        if (result.getStatus() == 1){
+        if (result.getStatus() == 1) {
             return result;
         }
 
         if (userMapper.findUserByEmail(resetPasswordParam.getEmail()) == null
-                || userMapper.findUserByUsername(resetPasswordParam.getUsername()) == null){
-            return ResultUtils.fail(ErrorCode.ACCOUNT_PWD_NOT_EXIST.getCode(), ErrorCode.ACCOUNT_PWD_NOT_EXIST.getMsg());
+                || userMapper.findUserByUsername(resetPasswordParam.getUsername()) == null) {
+            return ResultUtils.fail(ErrorCode.ACCOUNT_PWD_NOT_EXIST.getCode(),
+                    ErrorCode.ACCOUNT_PWD_NOT_EXIST.getMsg());
         }
 
         result = mailService.verifyMailCode(resetPasswordParam.getEmailVerifyCode());
 
-        if (result.getStatus() == 1){
+        if (result.getStatus() == 1) {
             return result;
         }
         User user = User.builder()
@@ -226,7 +236,7 @@ public class UserServiceImpl implements UserService {
                 .updateTime(new Date())
                 .build();
 
-        if (redisTemplate.opsForValue().get(TOKEN_ + token) == null){
+        if (redisTemplate.opsForValue().get(TOKEN_ + token) == null) {
             return ResultUtils.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMsg());
         }
 
@@ -238,7 +248,7 @@ public class UserServiceImpl implements UserService {
     @ServiceLog("提交注销表单")
     public Result<Integer> cancelUserAccount(CancellationParam cancellationParam, String token) {
         User user = userMapper.findUserByUsername(cancellationParam.getUsername());
-        if (user == null){
+        if (user == null) {
             return ResultUtils.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMsg());
         }
 
@@ -269,39 +279,6 @@ public class UserServiceImpl implements UserService {
             return ResultUtils.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMsg());
         }
 
-        return ResultUtils.success("检查通过", JSON.parseObject(userJson,User.class));
-    }
-
-    public UserVo copy(User user){
-        return UserVo.builder()
-                .id(user.getId())
-                .browser(user.getBrowser())
-                .userAuthId(user.getUserAuthId())
-                .createTime(user.getCreateTime())
-                .ipAddress(user.getIpAddress())
-                .ipSource(user.getIpSource())
-                .os(user.getOs())
-                .lastLoginTime(user.getLastLoginTime())
-                .password(user.getPassword())
-                .loginType(user.getLoginType())
-                .roleId(user.getRoleId())
-                .status(user.getStatus())
-                .username(user.getUsername())
-                .updateTime(user.getUpdateTime())
-                .build();
-    }
-
-    public UserAuthVo copy(UserAuth userAuth){
-        return UserAuthVo.builder()
-                .avatar(userAuth.getAvatar())
-                .intro(userAuth.getIntro())
-                .id(userAuth.getId())
-                .createTime(userAuth.getCreateTime())
-                .email(userAuth.getEmail())
-                .isDisabled(userAuth.getIsDisabled())
-                .nikeName(userAuth.getNikeName())
-                .website(userAuth.getWebsite())
-                .updateTime(userAuth.getUpdateTime())
-                .build();
+        return ResultUtils.success("检查通过", JSON.parseObject(userJson, User.class));
     }
 }
