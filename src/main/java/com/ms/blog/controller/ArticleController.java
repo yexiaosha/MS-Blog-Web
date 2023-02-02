@@ -72,7 +72,7 @@ public class ArticleController {
     @ApiImplicitParams(
             @ApiImplicitParam(value = "文章id", name = "articleId")
     )
-    public Result<Integer> deleteArticles(@RequestParam Integer articleId){
+    public Result<Integer> deleteArticles(@RequestParam @NotBlank Integer articleId){
         return articleService.deleteArticle(articleId);
     }
 

@@ -23,6 +23,7 @@ public class ResultUtils {
     public static <T> Result<T> success(String msg){
         return new Result<>(1, "00000", msg, null);
     }
+
     public static <T> Result<T> success(String msg, T data){
         return new Result<>(1, "00000", msg, data);
     }

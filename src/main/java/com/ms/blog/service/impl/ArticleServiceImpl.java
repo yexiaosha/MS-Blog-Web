@@ -77,7 +77,7 @@ public class ArticleServiceImpl implements ArticleService {
     @ServiceLog("通过条件获取文章列表")
     public Result<PageData<ArticleVo>> getArticleListByType(ArticleConditionParam articleConditionParam) {
         Page<Article> articlePage = new Page<>(articleConditionParam.getCurrentPage(), articleConditionParam.getPageSize());
-        IPage<Article> articleIPage = articleMapper.getArticleList(articlePage);
+        IPage<Article> articleIPage = articleMapper.getArticleList(articlePage,articleConditionParam);
         PageData<Article> articlePageData = new PageData<>(articleIPage, articleConditionParam.getCurrentPage().longValue());
         List<ArticleVo> articleVoList = new ArrayList<>();
         for (Article article:articlePageData.getPageData()) {
@@ -173,7 +173,7 @@ public class ArticleServiceImpl implements ArticleService {
     public Result<Integer> deleteArticle(Integer id) {
         Article article = new Article();
         article.setIsPublish(articleMapper.getArticleById(id).getIsPublish());
-        if (article == null){
+        if (article.getIsPublish() == null){
             return ResultUtils.fail(ErrorCode.ARTICLE_NOT_EXIST.getCode(), ErrorCode.ARTICLE_NOT_EXIST.getMsg());
         }
         article.setIsPublish(0);
