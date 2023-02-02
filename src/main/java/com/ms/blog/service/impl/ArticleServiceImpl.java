@@ -9,7 +9,6 @@ import com.ms.blog.common.Result;
 import com.ms.blog.common.aspect.annotation.ServiceLog;
 import com.ms.blog.dao.ArticleMapper;
 import com.ms.blog.entity.Article;
-import com.ms.blog.entity.Tag;
 import com.ms.blog.entity.param.ArticleConditionParam;
 import com.ms.blog.entity.param.ArticleParam;
 import com.ms.blog.entity.vo.ArticleVo;
@@ -108,14 +107,12 @@ public class ArticleServiceImpl implements ArticleService {
                 .title(articleParam.getTitle())
                 .originalUrl(articleParam.getOriginalUrl())
                 .isStick(0)
-                .isPublish(1)
+                .isPublish(2)
                 .isSecret(articleParam.getIsSecret())
                 .categoryId(categoryService.getCategoryByName(articleParam.getCategory()).getData().getId())
                 .build();
 
-        setArticleTagRelate(articleParam, createTime, article);
-
-        return ResultUtils.success("发布成功");
+        return setArticleTagRelate(articleParam, createTime, article);
     }
 
     @Override
@@ -136,36 +133,54 @@ public class ArticleServiceImpl implements ArticleService {
                 .title(articleParam.getTitle())
                 .originalUrl(articleParam.getOriginalUrl())
                 .isStick(0)
-                .isPublish(0)
+                .isPublish(1)
                 .isSecret(articleParam.getIsSecret())
                 .categoryId(categoryService.getCategoryByName(articleParam.getCategory()).getData().getId())
                 .build();
 
-        setArticleTagRelate(articleParam, createTime, article);
-        return ResultUtils.success("暂存成功");
+        return setArticleTagRelate(articleParam, createTime, article);
     }
 
     @Override
     @ServiceLog("更改文章")
     public Result<Integer> updateArticle(ArticleParam articleParam) {
-
-        return null;
+        Article article = Article.builder()
+                .userId(articleParam.getUserId())
+                .content(articleParam.getContent())
+                .contentMd(articleParam.getContentMd())
+                .avatar(articleParam.getAvatar())
+                .isOriginal(articleParam.getIsOriginal())
+                .remark(articleParam.getRemark())
+                .summary(articleParam.getSummary())
+                .updateDate(new Date())
+                .title(articleParam.getTitle())
+                .originalUrl(articleParam.getOriginalUrl())
+                .isStick(articleParam.getIsStick())
+                .isPublish(1)
+                .isSecret(articleParam.getIsSecret())
+                .categoryId(categoryService.getCategoryByName(articleParam.getCategory()).getData().getId())
+                .build();
+        articleMapper.updateArticleInfo(article);
+        for (String a : articleParam.getTagList()) {
+            Integer tagId = tagService.getTagIdByName(a).getData().getId();
+            articleMapper.insertArticleTagRelate(articleParam.getId() ,tagId);
+        }
+        return ResultUtils.success();
     }
 
     @Override
     @ServiceLog("删除文章")
     public Result<Integer> deleteArticle(Integer id) {
-        return null;
+        Article article = new Article();
+        article.setIsPublish(articleMapper.getArticleById(id).getIsPublish());
+        if (article == null){
+            return ResultUtils.fail(ErrorCode.ARTICLE_NOT_EXIST.getCode(), ErrorCode.ARTICLE_NOT_EXIST.getMsg());
+        }
+        article.setIsPublish(0);
+        return ResultUtils.success(articleMapper.updateArticleInfo(article));
     }
 
-
-    @Override
-    @ServiceLog("获取文章标签")
-    public Result<List<Tag>> getArticleTags(Integer id) {
-        return null;
-    }
-
-    private void setArticleTagRelate(ArticleParam articleParam, Date createTime, Article article) {
+    private Result<Integer> setArticleTagRelate(ArticleParam articleParam, Date createTime, Article article) {
         articleMapper.insertArticle(article);
         List<Article> articleList = articleMapper.getArticleByUserId(articleParam.getUserId());
         Integer articleId = null;
@@ -184,6 +199,8 @@ public class ArticleServiceImpl implements ArticleService {
             Integer tagId = tagService.getTagIdByName(name).getData().getId();
             articleMapper.insertArticleTagRelate(articleId, tagId);
         }
+
+        return ResultUtils.success("暂存成功");
     }
 
     private ArticleVo copy(Article article){

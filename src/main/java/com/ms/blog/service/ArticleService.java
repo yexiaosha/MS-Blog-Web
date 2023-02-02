@@ -2,7 +2,6 @@ package com.ms.blog.service;
 
 import com.ms.blog.common.PageData;
 import com.ms.blog.common.Result;
-import com.ms.blog.entity.Tag;
 import com.ms.blog.entity.param.ArticleConditionParam;
 import com.ms.blog.entity.param.ArticleParam;
 import com.ms.blog.entity.vo.ArticleVo;
@@ -65,10 +64,4 @@ public interface ArticleService {
      */
     Result<Integer> deleteArticle(Integer id);
 
-    /**
-     * 获取文章tag
-     * @param id 文章id
-     * @return 文章标签列表
-     */
-    Result<List<Tag>> getArticleTags(Integer id);
 }

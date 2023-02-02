@@ -2,6 +2,7 @@ package com.ms.blog.controller;
 
 import com.ms.blog.common.PageData;
 import com.ms.blog.common.Result;
+import com.ms.blog.common.UserThreadLocal;
 import com.ms.blog.common.aspect.annotation.ControllerLog;
 import com.ms.blog.entity.param.CancellationParam;
 import com.ms.blog.entity.param.HandleCancellationParam;
@@ -12,7 +13,6 @@ import com.ms.blog.service.CancellationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,9 +41,9 @@ public class CancellationController {
     @PostMapping("/handle")
     @ApiOperation("处理注销请求")
     @ControllerLog("处理注销请求")
-    public Result<Integer> handleCancellation(@RequestBody HandleCancellationParam handleCancellationParam, HttpServletRequest request){
-        String handler = (String) request.getSession().getAttribute("username");
-        return cancellationService.handleCancellation(handleCancellationParam, handler);
+    public Result<Integer> handleCancellation(@RequestBody HandleCancellationParam handleCancellationParam){
+        String handlerName = UserThreadLocal.get().getUsername();
+        return cancellationService.handleCancellation(handleCancellationParam, handlerName);
     }
 
     @PostMapping("/list/handled")

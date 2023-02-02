@@ -66,13 +66,13 @@ public class ArticleController {
     }
 
     @DeleteMapping("/delete")
-    @ApiOperation("批量删除文章")
-    @ControllerLog("批量删除文章")
+    @ApiOperation("删除文章")
+    @ControllerLog("删除文章")
     @ApiImplicitParams(
             @ApiImplicitParam(value = "文章id", name = "articleId")
     )
     public Result<Integer> deleteArticles(@RequestParam Integer articleId){
-        return null;
+        return articleService.deleteArticle(articleId);
     }
 
     @PostMapping("/insert")
@@ -98,8 +98,4 @@ public class ArticleController {
         return articleService.updateArticle(articleParam);
     }
 
-    @PostMapping("/tags")
-    @ApiOperation("获取文章所有的标签")
-    @ControllerLog("获取文章所有的标签")
-    public Result getArticleTags(){return null;}
 }

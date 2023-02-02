@@ -38,4 +38,6 @@ public interface ArticleMapper {
     List<Article> getArticleByUserId(Integer userId);
 
     int updateArticleInfo(Article article);
+
+    Article getArticleById(Integer id);
 }

@@ -27,7 +27,8 @@ public enum ErrorCode {
     CAPTCHA_ERROR("A0130", "验证码发生错误，请重试"),
     ACCOUNT_HAS_DISABLED("A0322", "该用户已被冻结"),
     EMAIL_SEND_ERROR("A0135","邮件发送错误"),
-    EMAIL_VERIFY_FAIL("A0132", "邮箱校验错误");
+    EMAIL_VERIFY_FAIL("A0132", "邮箱校验错误"),
+    ARTICLE_NOT_EXIST("A0021","文章不存在");
 
     /**
      * 反序列化
