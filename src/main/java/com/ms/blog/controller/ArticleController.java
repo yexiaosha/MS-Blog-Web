@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,7 +42,7 @@ public class ArticleController {
     @Resource
     private ArticleService articleService;
 
-    @PostMapping("/List/conditions")
+    @PostMapping("/list")
     @ApiOperation("根据某一条件获取相应文章列表")
     @ControllerLog("根据某一条件获取相应文章列表")
     public Result<PageData<ArticleVo>> getArticleListByType(@RequestBody ArticleConditionParam articleConditionParam){
@@ -91,7 +92,7 @@ public class ArticleController {
         return articleService.temporaryArticle(articleParam, user.getId());
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     @ApiOperation("更改文章")
     @ControllerLog("更改文章")
     public Result<Integer> updateArticle(@RequestBody ArticleParam articleParam){

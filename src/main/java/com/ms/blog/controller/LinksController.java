@@ -2,6 +2,7 @@ package com.ms.blog.controller;
 
 import com.ms.blog.common.Result;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,14 +33,20 @@ public class LinksController {
     }
 
     @DeleteMapping("/delete")
-    @ApiOperation("删除链接")
+    @ApiOperation("下架/删除链接")
     public Result deleteLinks(){
         return null;
     }
 
     @PostMapping("/input")
-    @ApiOperation("批量导入友情链接")
+    @ApiOperation("通过表格批量导入友情链接")
     public Result inputLinks(){
         return null;
+    }
+
+    @PostMapping("/download")
+    @ApiModelProperty("下载上传表格模板")
+    public void downloadTemplate(){
+
     }
 }
