@@ -4,6 +4,7 @@ import com.ms.blog.entity.ExcelCheckErr;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * excel数据导入结果
@@ -12,6 +13,7 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class ExcelCheckResult<T> {
     private List<T> successes;
     private List<ExcelCheckErr<T>> errs;

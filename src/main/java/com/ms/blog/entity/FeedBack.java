@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class FeedBack {
+public class FeedBack{
     /**
      * 主键id
      */

@@ -8,4 +8,5 @@
 
     <select id="getFriendLinks" resultType="com.ms.blog.entity.FriendLink"></select>
     <select id="getFriendLinkByName" resultType="com.ms.blog.entity.FriendLink"></select>
+    <select id="getFriendLink" resultType="com.ms.blog.entity.FriendLink"></select>
 </mapper>

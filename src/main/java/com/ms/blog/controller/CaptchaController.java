@@ -3,7 +3,7 @@ package com.ms.blog.controller;
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
 import com.ms.blog.common.Result;
-import com.ms.blog.common.aspect.annotation.ControllerLog;
+import com.ms.blog.common.annotation.ControllerLog;
 import com.ms.blog.service.CaptchaService;
 import com.ms.blog.util.UUIDUtils;
 import io.swagger.annotations.Api;

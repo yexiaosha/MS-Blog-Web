@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ms.blog.common.ErrorCode;
 import com.ms.blog.common.PageData;
 import com.ms.blog.common.Result;
-import com.ms.blog.common.aspect.annotation.ServiceLog;
+import com.ms.blog.common.annotation.ServiceLog;
 import com.ms.blog.dao.CancellationMapper;
 import com.ms.blog.entity.Cancellation;
 import com.ms.blog.entity.HandledCancellation;

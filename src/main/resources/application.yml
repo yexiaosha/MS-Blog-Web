@@ -43,7 +43,7 @@ server:
   port: 8080
 
 #blog:
-#  lenth:
+#  length:
 #    article: 50
 #    markdown: 50
 

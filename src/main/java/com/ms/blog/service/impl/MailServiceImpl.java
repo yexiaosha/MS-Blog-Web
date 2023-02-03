@@ -2,7 +2,7 @@ package com.ms.blog.service.impl;
 
 import com.ms.blog.common.ErrorCode;
 import com.ms.blog.common.Result;
-import com.ms.blog.common.aspect.annotation.ServiceLog;
+import com.ms.blog.common.annotation.ServiceLog;
 import com.ms.blog.service.MailService;
 import com.ms.blog.util.ResultUtils;
 import com.ms.blog.util.UUIDUtils;

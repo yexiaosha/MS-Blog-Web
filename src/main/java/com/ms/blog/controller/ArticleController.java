@@ -3,7 +3,7 @@ package com.ms.blog.controller;
 import com.ms.blog.common.PageData;
 import com.ms.blog.common.Result;
 import com.ms.blog.common.UserThreadLocal;
-import com.ms.blog.common.aspect.annotation.ControllerLog;
+import com.ms.blog.common.annotation.ControllerLog;
 import com.ms.blog.entity.User;
 import com.ms.blog.entity.param.ArticleConditionParam;
 import com.ms.blog.entity.param.ArticleParam;

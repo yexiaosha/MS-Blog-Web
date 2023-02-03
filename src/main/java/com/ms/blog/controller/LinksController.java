@@ -2,7 +2,7 @@ package com.ms.blog.controller;
 
 import com.ms.blog.common.PageData;
 import com.ms.blog.common.Result;
-import com.ms.blog.common.aspect.annotation.ControllerLog;
+import com.ms.blog.common.annotation.ControllerLog;
 import com.ms.blog.entity.param.FriendLinkParam;
 import com.ms.blog.entity.param.FriendLinkSearchParam;
 import com.ms.blog.entity.vo.FriendLinkVo;
@@ -10,6 +10,7 @@ import com.ms.blog.service.LinksService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
+import java.io.IOException;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -59,8 +60,8 @@ public class LinksController {
     @PostMapping("/input")
     @ApiOperation("通过表格批量导入友情链接")
     @ControllerLog("通过表格批量导入友情链接")
-    public void inputLinks(HttpServletResponse response, @RequestPart("file") MultipartFile multipartFile){
-
+    public void inputLinks(HttpServletResponse response, @RequestPart("file") MultipartFile multipartFile) throws IOException {
+        linksService.uploadFriendLinkByExcel(response, multipartFile);
     }
 
     @PostMapping("/download")

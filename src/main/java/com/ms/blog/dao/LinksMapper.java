@@ -3,6 +3,7 @@ package com.ms.blog.dao;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ms.blog.entity.FriendLink;
+import com.ms.blog.entity.dto.FriendLinkDto;
 import com.ms.blog.entity.param.FriendLinkParam;
 import com.ms.blog.entity.param.FriendLinkSearchParam;
 import org.apache.ibatis.annotations.Mapper;
@@ -43,4 +44,6 @@ public interface LinksMapper {
      * @return 结果
      */
     int updateFriendLinkInfo(FriendLinkParam friendLinkParam);
+
+    FriendLink getFriendLink(FriendLinkDto friendLinkDto);
 }

@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ms.blog.common.ErrorCode;
 import com.ms.blog.common.PageData;
 import com.ms.blog.common.Result;
-import com.ms.blog.common.aspect.annotation.ServiceLog;
+import com.ms.blog.common.annotation.ServiceLog;
 import com.ms.blog.dao.ArticleMapper;
 import com.ms.blog.entity.Article;
 import com.ms.blog.entity.param.ArticleConditionParam;

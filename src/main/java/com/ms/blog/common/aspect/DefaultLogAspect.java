@@ -1,8 +1,8 @@
 package com.ms.blog.common.aspect;
 
 import com.alibaba.fastjson.JSON;
-import com.ms.blog.common.aspect.annotation.ControllerLog;
-import com.ms.blog.common.aspect.annotation.ServiceLog;
+import com.ms.blog.common.annotation.ControllerLog;
+import com.ms.blog.common.annotation.ServiceLog;
 import com.ms.blog.entity.ExceptionLog;
 import com.ms.blog.entity.User;
 import com.ms.blog.entity.UserLog;
@@ -52,11 +52,11 @@ public class DefaultLogAspect {
 
     private UserLog userLog;
 
-    @Pointcut("@annotation(com.ms.blog.common.aspect.annotation.ServiceLog)")
+    @Pointcut("@annotation(com.ms.blog.common.annotation.ServiceLog)")
     public void serviceAspect() {
     }
 
-    @Pointcut("@annotation(com.ms.blog.common.aspect.annotation.ControllerLog)")
+    @Pointcut("@annotation(com.ms.blog.common.annotation.ControllerLog)")
     public void controllerAspect() {
     }
 

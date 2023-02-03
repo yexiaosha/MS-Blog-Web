@@ -2,7 +2,7 @@ package com.ms.blog.controller;
 
 import com.ms.blog.common.PageData;
 import com.ms.blog.common.Result;
-import com.ms.blog.common.aspect.annotation.ControllerLog;
+import com.ms.blog.common.annotation.ControllerLog;
 import com.ms.blog.entity.dto.UserDto;
 import com.ms.blog.entity.param.CancellationParam;
 import com.ms.blog.entity.param.LoginParam;

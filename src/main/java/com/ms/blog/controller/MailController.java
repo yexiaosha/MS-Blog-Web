@@ -1,7 +1,7 @@
 package com.ms.blog.controller;
 
 import com.ms.blog.common.Result;
-import com.ms.blog.common.aspect.annotation.ControllerLog;
+import com.ms.blog.common.annotation.ControllerLog;
 import com.ms.blog.service.MailService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

@@ -1,7 +1,7 @@
 package com.ms.blog.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.ms.blog.common.aspect.annotation.ServiceLog;
+import com.ms.blog.common.annotation.ServiceLog;
 import com.ms.blog.dao.ArticleMapper;
 import com.ms.blog.entity.Article;
 import com.ms.blog.entity.vo.ArticleVo;

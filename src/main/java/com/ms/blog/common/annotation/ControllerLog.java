@@ -1,4 +1,4 @@
-package com.ms.blog.common.aspect.annotation;
+package com.ms.blog.common.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -7,15 +7,15 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 拦截service业务进行日志切面注解
+ * 拦截controller进行日志切面注解定义
  * @author wyh
- * @date 2022/11/23 10:15
+ * @date 2022/11/23 10:13
  */
 
 @Target({ElementType.PARAMETER, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface ServiceLog {
+public @interface ControllerLog {
 
     String value() default "";
 }
