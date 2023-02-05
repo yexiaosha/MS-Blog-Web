@@ -1,4 +1,4 @@
-package com.ms.blog.entity;
+package com.ms.blog.entity.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,18 +6,19 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 /**
- * 整合包实体
+ * 整合包视图类
  *
  * @author wyh
- * @date 2023/01/12 18:33
+ * @date 2023/02/05 15:17
  */
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class ModPack {
+@AllArgsConstructor
+public class ModPackVo{
     /**
      * 主键id
      */
@@ -51,11 +52,20 @@ public class ModPack {
     /**
      * 整合包介绍
      */
-    private String introduce;
+    private Integer introduce;
 
+    /**
+     * 相关链接
+     */
+    private List<ModPackRelatedLinkVo> relatedLinkVoList;
 
     /**
      * 版本号
      */
     private String version;
+
+    /**
+     * 制作人表
+     */
+    private List<String> creatorList;
 }
