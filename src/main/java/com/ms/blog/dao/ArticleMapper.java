@@ -3,7 +3,7 @@ package com.ms.blog.dao;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ms.blog.entity.Article;
-import com.ms.blog.entity.param.ArticleConditionParam;
+import com.ms.blog.entity.param.ArticleSearchParam;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -20,7 +20,7 @@ public interface ArticleMapper {
      * @param page 分页参数
      * @return 分页列表
      */
-    IPage<Article> getArticleList(Page<Article> page, ArticleConditionParam articleConditionParam);
+    IPage<Article> getArticleList(Page<Article> page, ArticleSearchParam articleSearchParam);
 
     /**
      * 获取热门文章

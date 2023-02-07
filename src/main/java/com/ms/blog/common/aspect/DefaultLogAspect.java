@@ -126,7 +126,7 @@ public class DefaultLogAspect {
      * @param e         所导致的异常类
      */
     @AfterThrowing(pointcut = "serviceAspect()", throwing = "e")
-    public void daAfterThrowing(JoinPoint joinPoint, Throwable e) {
+    public void doAfterThrowing(JoinPoint joinPoint, Throwable e) {
         HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
         String token = request.getHeader("Authorization");
         String name = getUsername(token);

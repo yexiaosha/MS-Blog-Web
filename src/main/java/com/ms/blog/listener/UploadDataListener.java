@@ -74,7 +74,7 @@ public class UploadDataListener<T> extends AnalysisEventListener<T> {
         }
 
         try {
-            Method validatorMethod = validator.getDeclaredMethod(" noValidateData", List.class);
+            Method validatorMethod = validator.getDeclaredMethod("nonValidateData", List.class);
             validatorMethod.setAccessible(true);
             if (list.size() >= BATCH_COUNT) {
                 @SuppressWarnings("unchecked")

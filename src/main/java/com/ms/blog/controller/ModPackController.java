@@ -35,8 +35,8 @@ public class ModPackController {
     @PostMapping("/update")
     @ApiOperation("更改整合包信息")
     @ControllerLog("更新整合包信息")
-    public Result<Integer> updateModPack(){
-        return null;
+    public Result<Integer> updateModPackInfo(@RequestBody ModPackParam modPackParam){
+        return modPackService.updateModPackInfo(modPackParam);
     }
 
     @GetMapping("/list")

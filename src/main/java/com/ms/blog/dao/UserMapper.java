@@ -112,4 +112,6 @@ public interface UserMapper {
      * @return 是否成功
      */
    int updateUserInfoDetails(UserAuth userAuth);
+
+   User getUserById(Integer id);
 }

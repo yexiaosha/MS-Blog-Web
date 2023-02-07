@@ -67,5 +67,5 @@ public class ModPackVo{
     /**
      * 制作人表
      */
-    private List<String> creatorList;
+    private List<CreatorVo> creatorList;
 }

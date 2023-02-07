@@ -53,7 +53,6 @@ public class LinksController {
 
     @PostMapping("/input")
     @ApiOperation("通过表格批量导入友情链接")
-    @ControllerLog("通过表格批量导入友情链接")
     public void inputLinks(HttpServletResponse response, @RequestPart("file") MultipartFile multipartFile) throws IOException {
         linksService.uploadFriendLinkByExcel(response, multipartFile);
     }

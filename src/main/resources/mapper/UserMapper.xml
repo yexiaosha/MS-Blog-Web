@@ -200,4 +200,5 @@
             AND browser = #{userParam.browser}
         </if>
     </select>
+    <select id="getUserById" resultType="com.ms.blog.entity.User"></select>
 </mapper>

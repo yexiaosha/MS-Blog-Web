@@ -30,6 +30,7 @@ import java.util.LinkedList;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import net.lingala.zip4j.ZipFile;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -42,6 +43,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @date 2023/02/02 11:04
  */
 @Service
+@Slf4j
 public class LinksServiceImpl implements LinksService {
 
     @Resource
@@ -92,7 +94,6 @@ public class LinksServiceImpl implements LinksService {
     }
 
     @Override
-    @ServiceLog("解析表并批量新增友情链接")
     @Transactional(rollbackFor = Exception.class)
     public void uploadFriendLinkByExcel(HttpServletResponse response, MultipartFile file) throws IOException{
         response.setContentType("application/vnd.ms-excel");
@@ -107,23 +108,24 @@ public class LinksServiceImpl implements LinksService {
 
         String filePath = "D:\\Temp" + File.separator;
         String zipName = "ErrorTable" + ".zip";
+        if (listener.getSign() != 1){
+            response.setHeader("Content-Disposition", "attachment; filename=" + URLEncoder.encode(zipName, "UTF-8"));
 
-        response.setHeader("Content-Disposition", "attachment; filename=" + URLEncoder.encode(zipName, "UTF-8"));
+            new ZipFile(filePath + zipName).addFiles(getErrFiles(filePath, listener.getSign()));
 
-        new ZipFile(filePath + zipName).addFiles(getErrFiles(filePath, listener.getSign()));
-
-        OutputStream outputStream = response.getOutputStream();
-        File zipFile = new File(filePath + zipName);
-        InputStream input = new FileInputStream(zipFile);
-        try {
-            byte[] buf = new byte[1024];
-            int read;
-            while ((read = input.read(buf)) > 0) {
-                outputStream.write(buf, 0, read);
+            OutputStream outputStream = response.getOutputStream();
+            File zipFile = new File(filePath + zipName);
+            InputStream input = new FileInputStream(zipFile);
+            try {
+                byte[] buf = new byte[1024];
+                int read;
+                while ((read = input.read(buf)) > 0) {
+                    outputStream.write(buf, 0, read);
+                }
+            } finally {
+                input.close();
+                outputStream.close();
             }
-        } finally {
-            input.close();
-            outputStream.close();
         }
     }
 
@@ -142,9 +144,9 @@ public class LinksServiceImpl implements LinksService {
 
     public List<File> getErrFiles(String filePath, int sign) {
         List<File> files = new LinkedList<>();
-
-        for (int i = 0; i < sign; i++) {
-            files.add(new File(filePath + "Err" + i + 1 + ".xlsx"));
+        log.info(String.valueOf(sign));
+        for (int i = 0; i < sign-1; i++) {
+            files.add(new File(filePath + "Err" + (i + 1) + ".xlsx"));
         }
 
         return files;

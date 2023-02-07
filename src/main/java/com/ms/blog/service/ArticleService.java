@@ -2,7 +2,7 @@ package com.ms.blog.service;
 
 import com.ms.blog.common.PageData;
 import com.ms.blog.common.Result;
-import com.ms.blog.entity.param.ArticleConditionParam;
+import com.ms.blog.entity.param.ArticleSearchParam;
 import com.ms.blog.entity.param.ArticleParam;
 import com.ms.blog.entity.vo.ArticleVo;
 import java.util.List;
@@ -29,10 +29,10 @@ public interface ArticleService {
 
     /**
      * 根据条件搜索文章
-     * @param articleConditionParam 搜索参数
+     * @param articleSearchParam 搜索参数
      * @return  搜索结果
      */
-    Result<PageData<ArticleVo>> getArticleListByType(ArticleConditionParam articleConditionParam);
+    Result<PageData<ArticleVo>> getArticleListByType(ArticleSearchParam articleSearchParam);
 
     /**
      * 增加文章

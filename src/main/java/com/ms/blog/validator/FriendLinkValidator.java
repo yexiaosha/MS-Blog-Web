@@ -79,7 +79,7 @@ public class FriendLinkValidator extends BaseNonRegularExpressionValidator<Frien
 
     @Override
     public void outPutErrExcel(List<ExcelCheckErr<FriendLink>> errList, int sign) throws IOException {
-        OutputStream outputStream = new FileOutputStream("D:/Temp/Err" + sign + ".xlsx");
+        OutputStream outputStream = new FileOutputStream("D:/Temp/Err" +sign + ".xlsx");
         List<FriendLinkErrVo> excelErrs = errList.stream().map(excelCheckErrs ->{
             FriendLinkErrVo friendLinkErrVo = JSON.parseObject(JSON.toJSONString(excelCheckErrs.getT()), FriendLinkErrVo.class);
             friendLinkErrVo.setErrMessage(excelCheckErrs.getErrMessage());

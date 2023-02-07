@@ -18,7 +18,7 @@ import org.hibernate.validator.constraints.Length;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @ApiModel("文章检索字段")
-public class ArticleConditionParam extends PageParam {
+public class ArticleSearchParam extends PageParam {
 
     @ApiModelProperty("是否私密文章")
     @Min(0)

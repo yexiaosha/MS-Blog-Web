@@ -5,7 +5,7 @@ import com.ms.blog.common.Result;
 import com.ms.blog.common.UserThreadLocal;
 import com.ms.blog.common.annotation.ControllerLog;
 import com.ms.blog.entity.User;
-import com.ms.blog.entity.param.ArticleConditionParam;
+import com.ms.blog.entity.param.ArticleSearchParam;
 import com.ms.blog.entity.param.ArticleParam;
 import com.ms.blog.entity.vo.ArticleVo;
 import com.ms.blog.service.ArticleService;
@@ -45,8 +45,8 @@ public class ArticleController {
     @PostMapping("/list")
     @ApiOperation("根据某一条件获取相应文章列表")
     @ControllerLog("根据某一条件获取相应文章列表")
-    public Result<PageData<ArticleVo>> getArticleListByType(@RequestBody ArticleConditionParam articleConditionParam){
-        return articleService.getArticleListByType(articleConditionParam);
+    public Result<PageData<ArticleVo>> getArticleListByType(@RequestBody ArticleSearchParam articleSearchParam){
+        return articleService.getArticleListByType(articleSearchParam);
     }
 
     @PostMapping("/list/hot")

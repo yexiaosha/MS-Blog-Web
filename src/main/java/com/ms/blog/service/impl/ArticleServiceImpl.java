@@ -9,7 +9,7 @@ import com.ms.blog.common.Result;
 import com.ms.blog.common.annotation.ServiceLog;
 import com.ms.blog.dao.ArticleMapper;
 import com.ms.blog.entity.Article;
-import com.ms.blog.entity.param.ArticleConditionParam;
+import com.ms.blog.entity.param.ArticleSearchParam;
 import com.ms.blog.entity.param.ArticleParam;
 import com.ms.blog.entity.vo.ArticleVo;
 import com.ms.blog.service.ArticleService;
@@ -75,16 +75,16 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     @ServiceLog("通过条件获取文章列表")
-    public Result<PageData<ArticleVo>> getArticleListByType(ArticleConditionParam articleConditionParam) {
-        Page<Article> articlePage = new Page<>(articleConditionParam.getCurrentPage(), articleConditionParam.getPageSize());
-        IPage<Article> articleIPage = articleMapper.getArticleList(articlePage,articleConditionParam);
-        PageData<Article> articlePageData = new PageData<>(articleIPage, articleConditionParam.getCurrentPage().longValue());
+    public Result<PageData<ArticleVo>> getArticleListByType(ArticleSearchParam articleSearchParam) {
+        Page<Article> articlePage = new Page<>(articleSearchParam.getCurrentPage(), articleSearchParam.getPageSize());
+        IPage<Article> articleIPage = articleMapper.getArticleList(articlePage, articleSearchParam);
+        PageData<Article> articlePageData = new PageData<>(articleIPage, articleSearchParam.getCurrentPage().longValue());
         List<ArticleVo> articleVoList = new ArrayList<>();
         for (Article article:articlePageData.getPageData()) {
             articleVoList.add(copy(article));
         }
         PageData<ArticleVo> articleVoPageData = new PageData<>(articleVoList, articlePageData.getTotal(),
-                articlePageData.getTotalPages(), articleConditionParam.getCurrentPage().longValue());
+                articlePageData.getTotalPages(), articleSearchParam.getCurrentPage().longValue());
         return ResultUtils.success(articleVoPageData);
     }
 

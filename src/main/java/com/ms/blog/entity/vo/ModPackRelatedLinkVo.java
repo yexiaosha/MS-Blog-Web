@@ -16,4 +16,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ModPackRelatedLinkVo {
+    private Integer id;
+    private String name;
+    private String url;
+    private String pic;
 }
