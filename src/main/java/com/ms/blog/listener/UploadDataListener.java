@@ -116,16 +116,12 @@ public class UploadDataListener<T> extends AnalysisEventListener<T> {
             successList.addAll(result.getSuccesses());
             errList.addAll(result.getErrs());
             saveData(successList);
-            try {
-                outPutErrorExcel(errList);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            outPutErrorExcel(errList);
             list.clear();
             errList.clear();
             successList.clear();
             log.info("所有数据解析完毕");
-        } catch (NoSuchMethodException| IllegalAccessException | InvocationTargetException | InstantiationException e) {
+        } catch (NoSuchMethodException| IllegalAccessException | InvocationTargetException | InstantiationException | IOException e) {
             e.printStackTrace();
         }
     }

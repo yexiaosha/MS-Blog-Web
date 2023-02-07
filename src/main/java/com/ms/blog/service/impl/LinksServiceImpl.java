@@ -33,6 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.lingala.zip4j.ZipFile;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -92,6 +93,7 @@ public class LinksServiceImpl implements LinksService {
 
     @Override
     @ServiceLog("解析表并批量新增友情链接")
+    @Transactional(rollbackFor = Exception.class)
     public void uploadFriendLinkByExcel(HttpServletResponse response, MultipartFile file) throws IOException{
         response.setContentType("application/vnd.ms-excel");
 
