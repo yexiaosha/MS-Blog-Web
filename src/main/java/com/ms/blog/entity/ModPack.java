@@ -53,7 +53,6 @@ public class ModPack {
      */
     private String introduce;
 
-
     /**
      * 版本号
      */
