@@ -11,7 +11,7 @@
  Target Server Version : 50740
  File Encoding         : 65001
 
- Date: 07/02/2023 09:56:41
+ Date: 07/02/2023 18:35:13
 */
 
 SET NAMES utf8mb4;
@@ -500,14 +500,12 @@ INSERT INTO `b_menu` VALUES (270, '269', '/system/home/cache', '', '获取缓存
 DROP TABLE IF EXISTS `b_mod_pack`;
 CREATE TABLE `b_mod_pack`  (
   `id` int(10) NOT NULL,
-  `user_id` int(10) NOT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `create_date` datetime(1) NULL DEFAULT NULL,
   `update_date` datetime(0) NULL DEFAULT NULL,
   `status` int(10) NULL DEFAULT NULL,
   `overall_progress` int(10) NULL DEFAULT NULL,
   `introduce` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `ralated_links` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `version` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
@@ -554,6 +552,8 @@ CREATE TABLE `b_related_link`  (
   `name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `url` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `pic` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '网站图标链接',
+  `create_date` date NULL DEFAULT NULL,
+  `update_date` date NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 

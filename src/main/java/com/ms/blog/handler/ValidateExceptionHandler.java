@@ -43,7 +43,7 @@ public class ValidateExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ConstraintViolationException.class)
     public Result<Boolean> validateErrorHandler(ConstraintViolationException e) {
-        log.info("数据验证异常：", e);
+        log.info("数据验证异常：{}", e);
         return ResultUtils.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMsg());
     }
 
