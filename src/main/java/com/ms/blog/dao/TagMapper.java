@@ -14,8 +14,8 @@ public interface TagMapper {
 
     /**
      * 根据用户id查询所属标签列表
-     * @param Articleid 文章id
+     * @param articleId 文章id
      * @return 标签列表
      */
-    List<TagVo> getTagListByArticleId(Integer Articleid);
+    List<TagVo> getTagListByArticleId(Integer articleId);
 }

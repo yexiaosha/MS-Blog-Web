@@ -163,6 +163,10 @@ public class ArticleServiceImpl implements ArticleService {
         articleMapper.updateArticleInfo(article);
         for (String a : articleParam.getTagList()) {
             Integer tagId = tagService.getTagIdByName(a).getData().getId();
+            if (tagId == null){
+                log.info("标签不存在");
+                continue;
+            }
             articleMapper.insertArticleTagRelate(articleParam.getId() ,tagId);
         }
         return ResultUtils.success();
@@ -197,6 +201,10 @@ public class ArticleServiceImpl implements ArticleService {
 
         for (String name : articleParam.getTagList()) {
             Integer tagId = tagService.getTagIdByName(name).getData().getId();
+            if (tagId == null){
+                log.info("标签不存在");
+                continue;
+            }
             articleMapper.insertArticleTagRelate(articleId, tagId);
         }
 
