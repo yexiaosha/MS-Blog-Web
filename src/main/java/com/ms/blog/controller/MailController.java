@@ -3,6 +3,7 @@ package com.ms.blog.controller;
 import com.ms.blog.common.Result;
 import com.ms.blog.common.annotation.ControllerLog;
 import com.ms.blog.service.MailService;
+import com.ms.blog.util.ResultUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import javax.annotation.Resource;
@@ -28,7 +29,8 @@ public class MailController {
     @ApiOperation("发送邮箱验证码")
     @ControllerLog("发送邮箱验证码")
     public Result<Integer> sentMailVerifyCode(@RequestParam String email){
-        return mailService.sentMailVerifyCode(email);
+        mailService.sentMailVerifyCode(email);
+        return ResultUtils.success();
     }
 
 }
