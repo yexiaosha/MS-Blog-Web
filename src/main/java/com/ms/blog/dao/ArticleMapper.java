@@ -78,4 +78,12 @@ public interface ArticleMapper {
      * @return 文章类
      */
     Article getArticleById(Integer id);
+
+    /**
+     * 通过标签获取文章id
+     * @param tagID 标签id
+     * @param articlePage 文章分页参数
+     * @return 分页结果
+     */
+    IPage<Article> getArticleByTag(Integer tagID, Page<Article> articlePage);
 }

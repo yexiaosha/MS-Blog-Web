@@ -201,4 +201,5 @@
         </if>
     </select>
     <select id="getUserById" resultType="com.ms.blog.entity.User"></select>
+    <select id="getUserAuthById" resultType="com.ms.blog.entity.UserAuth"></select>
 </mapper>

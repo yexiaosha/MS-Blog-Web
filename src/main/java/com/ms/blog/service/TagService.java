@@ -3,6 +3,7 @@ package com.ms.blog.service;
 import com.ms.blog.common.PageData;
 import com.ms.blog.common.PageParam;
 import com.ms.blog.common.Result;
+import com.ms.blog.entity.Tag;
 import com.ms.blog.entity.param.TagParam;
 import com.ms.blog.entity.vo.TagVo;
 import java.util.List;
@@ -19,7 +20,7 @@ public interface TagService {
      * @param tagName 标签名
      * @return 通用结果
      */
-    Result<TagVo> getTagIdByName(String tagName);
+    Result<Integer> getTagByName(String tagName);
 
     /**
      * 根据用户id查询所属标签列表
@@ -50,16 +51,16 @@ public interface TagService {
     Result<Integer> insertTag(TagParam tagParam);
 
     /**
-     * 修改标签信息
-     * @param tagParam 标签参数类
-     * @return  结果
-     */
-    Result<Integer> updateTag(TagParam tagParam);
-
-    /**
      * 获取热门标签
      * @return  热门标签列表
      */
     Result<List<TagVo>> getPopularTagList();
+
+    /**
+     * 通过标签id获取标签
+     * @param id 标签id
+     * @return 标签类
+     */
+    Tag getTagById(Integer id);
 
 }

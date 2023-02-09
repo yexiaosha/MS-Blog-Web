@@ -5,16 +5,19 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ms.blog.common.ErrorCode;
 import com.ms.blog.common.PageData;
+import com.ms.blog.common.PageParam;
 import com.ms.blog.common.Result;
 import com.ms.blog.common.annotation.ServiceLog;
 import com.ms.blog.dao.ArticleMapper;
 import com.ms.blog.entity.Article;
-import com.ms.blog.entity.param.ArticleSearchParam;
 import com.ms.blog.entity.param.ArticleParam;
+import com.ms.blog.entity.param.ArticleSearchParam;
+import com.ms.blog.entity.param.ArticleSimpleVo;
 import com.ms.blog.entity.vo.ArticleVo;
 import com.ms.blog.service.ArticleService;
 import com.ms.blog.service.CategoryService;
 import com.ms.blog.service.TagService;
+import com.ms.blog.service.UserService;
 import com.ms.blog.util.ResultUtils;
 import java.util.ArrayList;
 import java.util.Date;
@@ -48,9 +51,14 @@ public class ArticleServiceImpl implements ArticleService {
     @Resource
     private TagService tagService;
 
+    @Resource
+    private UserService userService;
+
     private static final String ARTICLE_ID_ = "ARTICLE_ID_";
 
     private static final String HOT_ARTICLE_LIST = "HOT_ARTICLE_LIST_";
+
+    private static final String TAG_ID = "TAG_ID_";
 
     @Override
     @ServiceLog("获取热门文章")
@@ -70,7 +78,9 @@ public class ArticleServiceImpl implements ArticleService {
         }
 
         Article article = articleMapper.getArticleContent(id);
-        return ResultUtils.success(copy(article));
+        articleVo = copy(article);
+        redisTemplate.opsForValue().set(ARTICLE_ID_ + id, JSON.toJSONString(articleVo));
+        return ResultUtils.success(articleVo);
     }
 
     @Override
@@ -162,7 +172,7 @@ public class ArticleServiceImpl implements ArticleService {
                 .build();
         articleMapper.updateArticleInfo(article);
         for (String a : articleParam.getTagList()) {
-            Integer tagId = tagService.getTagIdByName(a).getData().getId();
+            Integer tagId = tagService.getTagByName(a).getData();
             if (tagId == null){
                 log.info("标签不存在");
                 continue;
@@ -184,6 +194,36 @@ public class ArticleServiceImpl implements ArticleService {
         return ResultUtils.success(articleMapper.updateArticleInfo(article));
     }
 
+    @Override
+    @ServiceLog("获取标签中所有文章")
+    public Result<PageData<ArticleSimpleVo>> getArticleListByTag(Integer tagId, PageParam pageParam) {
+        Page<Article> articlePage = new Page<>(pageParam.getCurrentPage(), pageParam.getPageSize());
+        IPage<Article> articleIPage = articleMapper.getArticleByTag(tagId, articlePage);
+        List<ArticleSimpleVo> articleSimpleVoList = new ArrayList<>();
+        for (Article a : articleIPage.getRecords()) {
+            ArticleSimpleVo articleSimpleVo = ArticleSimpleVo.builder()
+                    .id(a.getId())
+                    .title(a.getTitle())
+                    .createDate(a.getCreateTime())
+                    .nikeName(userService.getUserInfoDetailsByUserId(a.getUserId()).getNikeName())
+                    .updateDate(a.getUpdateDate())
+                    .summary(a.getSummary())
+                    .username(userService.getUserByUserId(a.getUserId()).getUsername())
+                    .build();
+            articleSimpleVoList.add(articleSimpleVo);
+        }
+
+        Integer clickVol = JSON.parseObject(redisTemplate.opsForValue().get(TAG_ID + tagId), Integer.class);
+        if (clickVol != null){
+            redisTemplate.opsForValue().set(TAG_ID + tagId, JSON.toJSONString(clickVol + 1));
+        }
+        clickVol = tagService.getTagById(tagId).getClickVolume();
+        redisTemplate.opsForValue().set(TAG_ID + tagId, JSON.toJSONString(clickVol + 1));
+
+        PageData<ArticleSimpleVo> articleSimpleVoPageData = new PageData<>(articleSimpleVoList, articleIPage.getTotal(), articleIPage.getPages(), articleIPage.getCurrent());
+        return ResultUtils.success(articleSimpleVoPageData);
+    }
+
     private Result<Integer> setArticleTagRelate(ArticleParam articleParam, Date createTime, Article article) {
         articleMapper.insertArticle(article);
         List<Article> articleList = articleMapper.getArticleByUserId(articleParam.getUserId());
@@ -200,7 +240,7 @@ public class ArticleServiceImpl implements ArticleService {
         }
 
         for (String name : articleParam.getTagList()) {
-            Integer tagId = tagService.getTagIdByName(name).getData().getId();
+            Integer tagId = tagService.getTagByName(name).getData();
             if (tagId == null){
                 log.info("标签不存在");
                 continue;

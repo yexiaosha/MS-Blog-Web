@@ -48,7 +48,7 @@ public class MailServiceImpl implements MailService {
         try {
             sendSimpleMail(email,"MineSpace验证服务",message);
         }catch (Exception e){
-            log.error("{}",e);
+            log.error("{0}", e);
         }
     }
 

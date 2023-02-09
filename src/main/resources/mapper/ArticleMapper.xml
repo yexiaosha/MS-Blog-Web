@@ -13,4 +13,5 @@
     <select id="getArticleContent" resultType="com.ms.blog.entity.Article"></select>
     <select id="getArticleByUserId" resultType="com.ms.blog.entity.Article"></select>
     <select id="getArticleById" resultType="com.ms.blog.entity.Article"></select>
+    <select id="getArticleByTag" resultType="com.ms.blog.entity.Article"></select>
 </mapper>

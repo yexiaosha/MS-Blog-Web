@@ -1,9 +1,11 @@
 package com.ms.blog.service;
 
 import com.ms.blog.common.PageData;
+import com.ms.blog.common.PageParam;
 import com.ms.blog.common.Result;
-import com.ms.blog.entity.param.ArticleSearchParam;
 import com.ms.blog.entity.param.ArticleParam;
+import com.ms.blog.entity.param.ArticleSearchParam;
+import com.ms.blog.entity.param.ArticleSimpleVo;
 import com.ms.blog.entity.vo.ArticleVo;
 import java.util.List;
 
@@ -63,5 +65,13 @@ public interface ArticleService {
      * @return 通用结果
      */
     Result<Integer> deleteArticle(Integer id);
+
+    /**
+     * 获取该标签的文章列表
+     * @param tagId 文章Id
+     * @param pageParam 分页信息
+     * @return 结果
+     */
+    Result<PageData<ArticleSimpleVo>> getArticleListByTag(Integer tagId, PageParam pageParam);
 
 }

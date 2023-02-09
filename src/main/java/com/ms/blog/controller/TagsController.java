@@ -14,7 +14,6 @@ import javax.annotation.Resource;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,37 +35,28 @@ public class TagsController {
     @ApiOperation("查找所有标签")
     @ControllerLog("查找所有标签")
     public Result<PageData<TagVo>> getTagList(@RequestBody PageParam pageParam){
-
-        return null;
+        return tagService.getTagList(pageParam);
     }
 
     @DeleteMapping("/delete/{id}")
     @ApiOperation("删除标签")
     @ControllerLog("删除标签")
     public Result<Integer> deleteTags(@PathVariable("id") Integer id){
-        return null;
+        return tagService.deleteTag(id);
     }
 
     @PostMapping("/insert")
     @ApiOperation("插入标签")
     @ControllerLog("插入标签")
-    public Result insertTag(@RequestBody TagParam tagParam){
-        return null;
+    public Result<Integer> insertTag(@RequestBody TagParam tagParam){
+        return tagService.insertTag(tagParam);
 
-    }
-
-    @PutMapping("/update")
-    @ApiOperation("更改标签")
-    @ControllerLog("更改标签")
-    public Result updateTag(@RequestBody TagParam tagParam){
-        return null;
     }
 
     @PostMapping("/popular")
     @ApiOperation("获取热门标签")
     @ControllerLog("获取热门标签")
     public Result<List<TagVo>> getPopularTagList(){
-        return null;
-
+        return tagService.getPopularTagList();
     }
 }

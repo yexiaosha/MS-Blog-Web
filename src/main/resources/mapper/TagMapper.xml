@@ -3,6 +3,13 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ms.blog.dao.TagMapper">
+    <insert id="insertTag"></insert>
+    <update id="updateTagClickVolume"></update>
+    <delete id="deleteTag"></delete>
 
-    <select id="getTagListByArticleId" resultType="com.ms.blog.entity.vo.TagVo"></select>
+    <select id="getTagListByArticleId" resultType="com.ms.blog.entity.Tag"></select>
+    <select id="getTagByName" resultType="java.lang.Integer"></select>
+    <select id="getTagList" resultType="com.ms.blog.entity.Tag"></select>
+    <select id="getPopularTagList" resultType="com.ms.blog.entity.Tag"></select>
+    <select id="getTagById" resultType="com.ms.blog.entity.Tag"></select>
 </mapper>

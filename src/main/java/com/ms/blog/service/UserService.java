@@ -3,6 +3,7 @@ package com.ms.blog.service;
 import com.ms.blog.common.PageData;
 import com.ms.blog.common.Result;
 import com.ms.blog.entity.User;
+import com.ms.blog.entity.UserAuth;
 import com.ms.blog.entity.dto.UserDto;
 import com.ms.blog.entity.param.CancellationParam;
 import com.ms.blog.entity.param.LoginParam;
@@ -93,4 +94,18 @@ public interface UserService {
      * @return 通用结果
      */
     Result<User> checkToken(String token);
+
+    /**
+     * 根据用户id获取用户昵称
+     * @param userId 用户id
+     * @return 用户详细信息
+     */
+    UserAuth getUserInfoDetailsByUserId(Integer userId);
+
+    /**
+     * 通过用户id获取用户名
+     * @param userId 用户id
+     * @return 用户类
+     */
+    User getUserByUserId(Integer userId);
 }

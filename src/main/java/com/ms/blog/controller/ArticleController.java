@@ -1,12 +1,14 @@
 package com.ms.blog.controller;
 
 import com.ms.blog.common.PageData;
+import com.ms.blog.common.PageParam;
 import com.ms.blog.common.Result;
 import com.ms.blog.common.UserThreadLocal;
 import com.ms.blog.common.annotation.ControllerLog;
 import com.ms.blog.entity.User;
-import com.ms.blog.entity.param.ArticleSearchParam;
 import com.ms.blog.entity.param.ArticleParam;
+import com.ms.blog.entity.param.ArticleSearchParam;
+import com.ms.blog.entity.param.ArticleSimpleVo;
 import com.ms.blog.entity.vo.ArticleVo;
 import com.ms.blog.service.ArticleService;
 import io.swagger.annotations.Api;
@@ -21,7 +23,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -92,11 +93,11 @@ public class ArticleController {
         return articleService.temporaryArticle(articleParam, user.getId());
     }
 
-    @PutMapping("/update")
-    @ApiOperation("更改文章")
-    @ControllerLog("更改文章")
-    public Result<Integer> updateArticle(@RequestBody ArticleParam articleParam){
-        return articleService.updateArticle(articleParam);
+    @PostMapping("/tag/{tagId}")
+    @ApiOperation("获取该标签的文章列表")
+    @ControllerLog("获取该标签的文章列表")
+    public Result<PageData<ArticleSimpleVo>> getArticleListByTag(@PathVariable("tagId") Integer tagId, @RequestBody PageParam pageParam){
+        return null;
     }
 
 }

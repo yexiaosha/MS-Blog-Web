@@ -44,11 +44,4 @@ public class ArticleSearchParam extends PageParam {
     @Max(1)
     private Integer isOriginal;
 
-    @ApiModelProperty("分类名")
-    @Length(min = 1, max = 10, message ="分类名必须大于等于1小于等于10个字符" )
-    private String categoryName;
-
-    @ApiModelProperty("文章标签名")
-    @Length(min = 1, max = 10, message ="文章标签名必须大于等于1小于等于10个字符")
-    private String tagName;
 }

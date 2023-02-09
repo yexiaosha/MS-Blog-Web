@@ -99,7 +99,7 @@ public class UserServiceImpl implements UserService {
         }
         userMapper.updateLastLoginTime(new Date(), user.getUsername());
         String token = JwtUtils.createToken(user.getUsername());
-        redisTemplate.opsForValue().set(TOKEN_ + token, JSON.toJSONString(user), 15, TimeUnit.DAYS);
+        redisTemplate.opsForValue().set(TOKEN_ + token, JSON.toJSONString(user.getUsername()), 15, TimeUnit.DAYS);
 
         LoginVo loginVo = new LoginVo();
         loginVo.setToken(token);
@@ -180,15 +180,14 @@ public class UserServiceImpl implements UserService {
     @Override
     @ServiceLog("更改用户详细信息")
     public Result<Integer> updateUserDetailInfo(UserInfoParam userInfoParam) {
-       /* UserAuth userAuth = UserAuth.builder()
+        UserAuth userAuth = UserAuth.builder()
                 .intro(userInfoParam.getIntro())
                 .updateTime(new Date())
                 .nikeName(userInfoParam.getNickname())
                 .avatar(userInfoParam.getAvatar())
                 .website(userInfoParam.getWebsite())
                 .build();
-        return ResultUtils.success(userMapper.updateUserInfoDetails(userAuth));*/
-        return null;
+        return ResultUtils.success(userMapper.updateUserInfoDetails(userAuth));
     }
 
     @Override
@@ -280,5 +279,17 @@ public class UserServiceImpl implements UserService {
         }
 
         return ResultUtils.success("检查通过", JSON.parseObject(userJson, User.class));
+    }
+
+    @Override
+    @ServiceLog("根据用户id获取用户详情")
+    public UserAuth getUserInfoDetailsByUserId(Integer userId) {
+        return userMapper.getUserAuthById(userId);
+    }
+
+    @Override
+    @ServiceLog("根据用户id获取用户")
+    public User getUserByUserId(Integer userId) {
+        return userMapper.getUserById(userId);
     }
 }

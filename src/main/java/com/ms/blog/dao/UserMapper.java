@@ -114,4 +114,5 @@ public interface UserMapper {
    int updateUserInfoDetails(UserAuth userAuth);
 
    User getUserById(Integer id);
+   UserAuth getUserAuthById(Integer id);
 }

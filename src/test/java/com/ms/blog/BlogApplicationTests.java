@@ -10,7 +10,9 @@ class BlogApplicationTests {
 
     @Test
     void contextLoads() {
-
+        String a = "123";
+        Integer b = Integer.valueOf(a);
+        log.info("{}",b);
     }
 
 }
