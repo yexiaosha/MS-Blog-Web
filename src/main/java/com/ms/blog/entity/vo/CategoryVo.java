@@ -1,8 +1,10 @@
 package com.ms.blog.entity.vo;
 
 import java.util.Date;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 分类视图类
@@ -11,6 +13,8 @@ import lombok.Data;
  */
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class CategoryVo {
     /**
      *  主键id

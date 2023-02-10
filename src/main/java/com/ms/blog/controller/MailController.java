@@ -5,6 +5,8 @@ import com.ms.blog.common.annotation.ControllerLog;
 import com.ms.blog.service.MailService;
 import com.ms.blog.util.ResultUtils;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import javax.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +30,9 @@ public class MailController {
     @GetMapping("/send")
     @ApiOperation("发送邮箱验证码")
     @ControllerLog("发送邮箱验证码")
+    @ApiImplicitParams(
+            @ApiImplicitParam(name = "email", value = "邮箱")
+    )
     public Result<Integer> sentMailVerifyCode(@RequestParam String email){
         mailService.sentMailVerifyCode(email);
         return ResultUtils.success();

@@ -26,4 +26,14 @@ public interface CronJobService {
      * 定时更新标签点击量
      */
     void updateTagClickVolume();
+
+    /**
+     * 定时更新热门分类
+     */
+    void updatePopularCategory();
+
+    /**
+     * 定时更新分类点击量
+     */
+    void updateCategoryClickVolume();
 }

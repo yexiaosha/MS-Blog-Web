@@ -60,6 +60,8 @@ public class ArticleServiceImpl implements ArticleService {
 
     private static final String TAG_ID = "TAG_ID_";
 
+    private static final String CATEGORY_ID = "CATEGORY_ID";
+
     @Override
     @ServiceLog("获取热门文章")
     public Result<List<ArticleVo>> getPopularArticleList() {
@@ -196,6 +198,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     @ServiceLog("获取标签中所有文章")
+    @Transactional(rollbackFor = Exception.class)
     public Result<PageData<ArticleSimpleVo>> getArticleListByTag(Integer tagId, PageParam pageParam) {
         Page<Article> articlePage = new Page<>(pageParam.getCurrentPage(), pageParam.getPageSize());
         IPage<Article> articleIPage = articleMapper.getArticleByTag(tagId, articlePage);
@@ -219,6 +222,36 @@ public class ArticleServiceImpl implements ArticleService {
         }
         clickVol = tagService.getTagById(tagId).getClickVolume();
         redisTemplate.opsForValue().set(TAG_ID + tagId, JSON.toJSONString(clickVol + 1));
+
+        PageData<ArticleSimpleVo> articleSimpleVoPageData = new PageData<>(articleSimpleVoList, articleIPage.getTotal(), articleIPage.getPages(), articleIPage.getCurrent());
+        return ResultUtils.success(articleSimpleVoPageData);
+    }
+
+    @Override
+    @ServiceLog("获取分类的所有文章")
+    public Result<PageData<ArticleSimpleVo>> getArticleListByCategory(Integer categoryId, PageParam pageParam) {
+        Page<Article> articlePage = new Page<>(pageParam.getCurrentPage(), pageParam.getPageSize());
+        IPage<Article> articleIPage = articleMapper.getArticleByCategory(categoryId, articlePage);
+        List<ArticleSimpleVo> articleSimpleVoList = new ArrayList<>();
+        for (Article a : articleIPage.getRecords()) {
+            ArticleSimpleVo articleSimpleVo = ArticleSimpleVo.builder()
+                    .id(a.getId())
+                    .title(a.getTitle())
+                    .createDate(a.getCreateTime())
+                    .nikeName(userService.getUserInfoDetailsByUserId(a.getUserId()).getNikeName())
+                    .updateDate(a.getUpdateDate())
+                    .summary(a.getSummary())
+                    .username(userService.getUserByUserId(a.getUserId()).getUsername())
+                    .build();
+            articleSimpleVoList.add(articleSimpleVo);
+        }
+
+        Integer clickVol = JSON.parseObject(redisTemplate.opsForValue().get(CATEGORY_ID + categoryId), Integer.class);
+        if (clickVol != null){
+            redisTemplate.opsForValue().set(CATEGORY_ID + categoryId, JSON.toJSONString(clickVol + 1));
+        }
+        clickVol = categoryService.getCategoryById(categoryId).getData().getClickVolume();
+        redisTemplate.opsForValue().set(CATEGORY_ID + categoryId, JSON.toJSONString(clickVol + 1));
 
         PageData<ArticleSimpleVo> articleSimpleVoPageData = new PageData<>(articleSimpleVoList, articleIPage.getTotal(), articleIPage.getPages(), articleIPage.getCurrent());
         return ResultUtils.success(articleSimpleVoPageData);

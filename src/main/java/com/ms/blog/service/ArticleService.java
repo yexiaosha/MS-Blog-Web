@@ -74,4 +74,12 @@ public interface ArticleService {
      */
     Result<PageData<ArticleSimpleVo>> getArticleListByTag(Integer tagId, PageParam pageParam);
 
+    /**
+     * 获取该分类的文章列表
+     * @param categoryId 分类id
+     * @param pageParam 分页信息
+     * @return 结果
+     */
+    Result<PageData<ArticleSimpleVo>> getArticleListByCategory(Integer categoryId, PageParam pageParam);
+
 }

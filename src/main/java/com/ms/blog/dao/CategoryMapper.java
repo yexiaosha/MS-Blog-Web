@@ -1,6 +1,7 @@
 package com.ms.blog.dao;
 
 import com.ms.blog.entity.Category;
+import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -17,4 +18,12 @@ public interface CategoryMapper {
      * @return 分类对象
      */
     Category getCategoryById(Integer id);
+
+    Category getCategoryByName(String name);
+
+    List<Category> getCategoryList();
+    int deleteCategory(Integer id);
+    int insertCategory(Category category);
+    int updateCategory(Category category);
+    int updateCategoryClickVolume(Integer id, Integer clickVolume);
 }

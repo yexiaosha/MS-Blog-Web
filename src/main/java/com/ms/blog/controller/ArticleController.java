@@ -93,11 +93,29 @@ public class ArticleController {
         return articleService.temporaryArticle(articleParam, user.getId());
     }
 
+    @PostMapping("/update")
+    @ApiOperation("更改文章")
+    @ControllerLog("更改文章")
+    public Result<Integer> updateArticle(@RequestBody ArticleParam articleParam){
+        return articleService.updateArticle(articleParam);
+
+    }
+
     @PostMapping("/tag/{tagId}")
     @ApiOperation("获取该标签的文章列表")
     @ControllerLog("获取该标签的文章列表")
     public Result<PageData<ArticleSimpleVo>> getArticleListByTag(@PathVariable("tagId") Integer tagId, @RequestBody PageParam pageParam){
-        return null;
+        return articleService.getArticleListByTag(tagId, pageParam);
+    }
+
+    @PostMapping("/category/{categoryId}")
+    @ApiOperation("获取该分类的文章列表")
+    @ControllerLog("获取该分类的文章列表")
+    @ApiImplicitParams(
+            @ApiImplicitParam(name = "categoryId", value = "分类id")
+    )
+    public Result<PageData<ArticleSimpleVo>> getArticleListByCategory(@PathVariable("categoryId") Integer categoryId, PageParam pageParam){
+        return articleService.getArticleListByCategory(categoryId, pageParam);
     }
 
 }
