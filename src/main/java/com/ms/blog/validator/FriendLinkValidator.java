@@ -60,6 +60,8 @@ public class FriendLinkValidator extends BaseNonRegularExpressionValidator<Frien
                 errList.add(new ExcelCheckErr<>(f, errMsg.toString()));
             }
         }
+        successList.stream().distinct();
+        errList.stream().distinct();
         return new ExcelCheckResult<>(successList, errList);
     }
 

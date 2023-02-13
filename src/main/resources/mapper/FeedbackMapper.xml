@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ms.blog.dao.FeedbackMapper">
+
+    <insert id="insertFeedback"></insert>
+    <delete id="deleteFeedback"></delete>
+    <select id="getFeedbackByParam" resultType="com.ms.blog.entity.FeedBack"></select>
+    <select id="getFeedbackList" resultType="com.ms.blog.entity.FeedBack"></select>
+</mapper>
