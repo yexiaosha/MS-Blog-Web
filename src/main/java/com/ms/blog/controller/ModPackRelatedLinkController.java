@@ -30,7 +30,7 @@ public class ModPackRelatedLinkController {
     @Resource
     private ModPackRelatedLinkService modPackRelatedLinkService;
 
-    @GetMapping("/list/{id}")
+    @GetMapping("/list")
     @ControllerLog("插入整合包相关链接")
     @ApiOperation("插入整合包相关链接")
     public Result<Integer> insertRelatedLink(@RequestBody ModPackRelatedLinkParam modPackRelatedLinkParam){

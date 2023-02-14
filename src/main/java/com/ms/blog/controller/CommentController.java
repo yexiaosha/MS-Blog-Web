@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CommentController {
 
     @ApiOperation("查找所有评论")
-    @GetMapping("/List")
+    @GetMapping("/list")
     public Result getComments(){
         return null;
     }
