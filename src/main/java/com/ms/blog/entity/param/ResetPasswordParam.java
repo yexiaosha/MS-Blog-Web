@@ -25,6 +25,7 @@ public class ResetPasswordParam {
     @ApiModelProperty("密码")
     @Length(min = 8, message = "密码必须八位以上，且必须包含字母、数字和特殊字符")
     @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,}$")
+    @NotNull
     private String password;
 
     @ApiModelProperty("邮箱")
