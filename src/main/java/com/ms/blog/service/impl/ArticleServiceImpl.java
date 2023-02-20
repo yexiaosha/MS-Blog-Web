@@ -157,6 +157,7 @@ public class ArticleServiceImpl implements ArticleService {
     @ServiceLog("更改文章")
     public Result<Integer> updateArticle(ArticleParam articleParam) {
         Article article = Article.builder()
+                .id(articleParam.getId())
                 .userId(articleParam.getUserId())
                 .content(articleParam.getContent())
                 .contentMd(articleParam.getContentMd())

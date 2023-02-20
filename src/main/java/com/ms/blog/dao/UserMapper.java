@@ -113,6 +113,17 @@ public interface UserMapper {
      */
    int updateUserInfoDetails(UserAuth userAuth);
 
+    /**
+     * 根据用户id获取用户基本信息
+     * @param id 用户id
+     * @return 用户实体
+     */
    User getUserById(Integer id);
+
+    /**
+     * 根据用户id获取用户详情
+     * @param id 用户id
+     * @return  用户详情
+     */
    UserAuth getUserAuthById(Integer id);
 }

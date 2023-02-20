@@ -3,12 +3,191 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ms.blog.dao.ArticleMapper">
-    <insert id="insertArticle"></insert>
-    <insert id="insertArticleTagRelate"></insert>
-    <update id="updateArticleQuantity"></update>
-    <update id="updateArticleInfo"></update>
+    <insert id="insertArticle">
+        INSERT INTO b_article
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="article.userId!=null">
+                user_id
+            </if>
+            <if test="article.content!=null">
+                content
+            </if>
+            <if test="article.contentMd!=null">
+                content_md
+            </if>
+            <if test="article.avatar!=null">
+                avatar
+            </if>
+            <if test="article.isOriginal!=null">
+                is_original
+            </if>
+            <if test="article.remark!=null">
+                remark
+            </if>
+            <if test="article.summary!=null">
+                summary
+            </if>
+            <if test="article.updateDate!=null">
+                update_time
+            </if>
+            <if test="article.title!=null">
+                title
+            </if>
+            <if test="article.originalUrl!=null">
+                original_url
+            </if>
+            <if test="article.isStick!=null">
+                is_stick
+            </if>
+            <if test="article.isPublish!=null">
+                is_publish
+            </if>
+            <if test="article.isSecret!=null">
+                is_secret
+            </if>
+            <if test="article.categoryId">
+                category_id
+            </if>
 
-    <select id="getArticleList" resultType="com.ms.blog.entity.Article"></select>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="article.userId!=null">
+                #{userId}
+            </if>
+            <if test="article.content!=null">
+                #{content}
+            </if>
+            <if test="article.contentMd!=null">
+                #{contentMd}
+            </if>
+            <if test="article.avatar!=null">
+                #{avatar}
+            </if>
+            <if test="article.isOriginal!=null">
+                #{isOriginal}
+            </if>
+            <if test="article.remark!=null">
+                #{remark}
+            </if>
+            <if test="article.summary!=null">
+                #{summary}
+            </if>
+            <if test="article.updateDate!=null">
+                #{updateDate}
+            </if>
+            <if test="article.title!=null">
+                #{title}
+            </if>
+            <if test="article.originalUrl!=null">
+                #{originalUrl}
+            </if>
+            <if test="article.isStick!=null">
+                #{isStick}
+            </if>
+            <if test="article.isPublish!=null">
+                #{isPublish}
+            </if>
+            <if test="article.isSecret!=null">
+                #{isSecret}
+            </if>
+            <if test="article.categoryId">
+                #{categoryId}
+            </if>
+        </trim>
+    </insert>
+    <insert id="insertArticleTagRelate">
+        INSERT INTO b_article_tag
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="articleId!=null">
+                article_id
+            </if>
+            <if test="tagId!=null">
+                tag_id
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="articleId!=null">
+                #{articleId}
+            </if>
+            <if test="tagId!=null">
+                #{tagId}
+            </if>
+        </trim>
+    </insert>
+    <update id="updateArticleQuantity">
+        UPDATE b_article SET quantity=#{quantity} WHERE id=#{id}
+    </update>
+    <update id="updateArticleInfo">
+        UPDATE b_article
+        <set>
+            <if test="article.userId!=null">
+                user_id=#{userId}
+            </if>
+            <if test="article.content!=null">
+                content=#{content}
+            </if>
+            <if test="article.contentMd!=null">
+                content_md=#{contentMd}
+            </if>
+            <if test="article.avatar!=null">
+                avatar=#{avatar}
+            </if>
+            <if test="article.isOriginal!=null">
+                is_original=#{isOriginal}
+            </if>
+            <if test="article.remark!=null">
+                remark=#{remark}
+            </if>
+            <if test="article.summary!=null">
+                summary=#{summary}
+            </if>
+            <if test="article.updateDate!=null">
+                update_time=#{updateDate}
+            </if>
+            <if test="article.title!=null">
+                title=#{title}
+            </if>
+            <if test="article.originalUrl!=null">
+                original_url=#{originalUrl}
+            </if>
+            <if test="article.isStick!=null">
+                is_stick=#{isStick}
+            </if>
+            <if test="article.isPublish!=null">
+                is_publish=#{isPublish}
+            </if>
+            <if test="article.isSecret!=null">
+                is_secret=#{isSecret}
+            </if>
+            <if test="article.categoryId">
+                category_id=#{categoryId}
+            </if>
+        </set>
+        WHERE id=#{id}
+    </update>
+
+    <select id="getArticleList" resultType="com.ms.blog.entity.Article">
+        select id           as i,
+               user_id      as ui,
+               category_id  as ci,
+               title        as t,
+               avatar       as a,
+               summary      as s,
+               content      as c,
+               content_md   as cm,
+               is_secret    as is2,
+               is_stick     as is3,
+               is_publish   as ip,
+               is_original  as o,
+               original_url as ou,
+               quantity     as q,
+               remark       as r,
+               create_time  as ct,
+               keywords     as k,
+               update_time  as ut
+        from b_article WHERE 
+        <if test=""></if>
+    </select>
     <select id="getPopularArticleList" resultType="com.ms.blog.entity.Article"></select>
     <select id="getArticleContent" resultType="com.ms.blog.entity.Article"></select>
     <select id="getArticleByUserId" resultType="com.ms.blog.entity.Article"></select>
