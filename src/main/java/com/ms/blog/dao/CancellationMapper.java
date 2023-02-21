@@ -23,7 +23,26 @@ public interface CancellationMapper {
      * @return
      */
     IPage<Cancellation> getCancellationList(CancellationParam cancellationParam, Page<Cancellation> page);
+
+    /**
+     * 通过注销请求id获取对象
+     * @param id  id
+     * @return 注销请求
+     */
     Cancellation getCancellationById(Integer id);
+
+    /**
+     * 新增已经注销的请求
+     * @param handledCancellation   已处理的注销请求
+     * @return  结果
+     */
     int insertHandledCancellation(HandledCancellation handledCancellation);
+
+    /**
+     * 获取已经处理的
+     * @param handledCancellationParam 已处理注销请求
+     * @param page  分页参数
+     * @return  分页结果
+     */
     IPage<HandledCancellation> getHandledCancellationList(HandledCancellationParam handledCancellationParam, Page<HandledCancellation> page);
 }

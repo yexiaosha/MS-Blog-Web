@@ -42,7 +42,7 @@ public class HandledCancellationParam extends PageParam {
 
     @ApiModelProperty("处理者用户名")
     @Length(min = 3, max = 20)
-    private String handler;
+    private String handlerName;
 
     @ApiModelProperty("处理结果")
     @NotBlank

@@ -62,12 +62,13 @@ public class CancellationServiceImpl implements CancellationService {
         HandledCancellation handledCancellation = HandledCancellation.builder()
                 .cancellationId(cancellation.getId())
                 .handleDate(new Date())
-                .handler(handler)
+                .handlerName(handler)
                 .handlerId(userService.getUserInfo(handler).getData().getId())
                 .cancellationCreateTime(cancellationMapper.getCancellationById(handleCancellationParam.getCancellationId()).getCreateTime())
                 .result(handleCancellationParam.getResult())
                 .resultSuggest(handleCancellationParam.getResultSuggest())
                 .userId(cancellationMapper.getCancellationById(handleCancellationParam.getCancellationId()).getUserId())
+                .username(cancellationMapper.getCancellationById(handleCancellationParam.getCancellationId()).getUsername())
                 .build();
 
         return ResultUtils.success(cancellationMapper.insertHandledCancellation(handledCancellation));
@@ -93,7 +94,7 @@ public class CancellationServiceImpl implements CancellationService {
                 .cancellationId(handledCancellation.getCancellationId())
                 .handleDate(handledCancellation.getHandleDate())
                 .id(handledCancellation.getId())
-                .handler(handledCancellation.getHandler())
+                .handler(handledCancellation.getHandlerName())
                 .handlerId(handledCancellation.getHandlerId())
                 .result(handledCancellation.getResult())
                 .resultSuggest(handledCancellation.getResultSuggest())

@@ -3,9 +3,123 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ms.blog.dao.CancellationMapper">
-    <insert id="insertHandledCancellation"></insert>
+    <insert id="insertHandledCancellation">
+        INSERT INTO b_handled_cacellation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">
+                id
+            </if>
+            <if test="cancellationId!=null">
+                cancellation_id
+            </if>
+            <if test="userId!=null">
+                user_id
+            </if>
+            <if test="cancellationCreateTime!=null">
+                cancellation_create_time
+            </if>
+            <if test="handleDate!=null">
+                handle_date
+            </if>
+            <if test="handler!=null">
+                handler_name
+            </if>
+            <if test="result!=null">
+                result
+            </if>
+            <if test="resultSuggest!=null">
+                result_suggest
+            </if>
+            <if test="handlerId!=null">
+                handler_id
+            </if>
+            <if test="username!=null">
+                username
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="id!=null">
+                #{id}
+            </if>
+            <if test="cancellationId!=null">
+                #{cancellationId}
+            </if>
+            <if test="userId!=null">
+                #{userId}
+            </if>
+            <if test="cancellationCreateTime!=null">
+                #{cancellationCreateTime}
+            </if>
+            <if test="handleDate!=null">
+                #{handleDate}
+            </if>
+            <if test="handler!=null">
+                #{handlerName}
+            </if>
+            <if test="result!=null">
+                #{result}
+            </if>
+            <if test="resultSuggest!=null">
+                #{resultSuggest}
+            </if>
+            <if test="handlerId!=null">
+                #{handlerId}
+            </if>
+            <if test="username!=null">
+                #{username}
+            </if>
+        </trim>
+    </insert>
 
-    <select id="getCancellationList" resultType="com.ms.blog.entity.Cancellation"></select>
-    <select id="getCancellationById" resultType="com.ms.blog.entity.Cancellation"></select>
-    <select id="getHandledCancellationList" resultType="com.ms.blog.entity.HandledCancellation"></select>
+    <select id="getCancellationList" resultType="com.ms.blog.entity.Cancellation">
+        select id as i, user_id as ui, username as u, email as e, create_time as ct, reason_text as rt
+        from b_cancellation_request WHERE 1=1
+        <if test="username!=null">
+            AND username=#{username}
+        </if>
+        <if test="email!=null">
+            AND email=#{email}
+        </if>
+        <if test="reasonText!=null">
+            ANd reason_text=#{reasonText}
+        </if>
+    </select>
+    <select id="getCancellationById" resultType="com.ms.blog.entity.Cancellation">
+        select id as i, user_id as ui, username as u, email as e, create_time as ct, reason_text as rt
+        from b_cancellation_request WHERE id=#{id}
+    </select>
+    <select id="getHandledCancellationList" resultType="com.ms.blog.entity.HandledCancellation">
+        select id                      as i,
+               cancellation_id         as ci,
+               user_id                 as ui,
+               cancllation_create_time as cct,
+               handle_time             as ht,
+               handler_name            as hn,
+               result                  as r,
+               result_suggest          as rs,
+               handler_id              as hi,
+               username                as u
+        from b_handled_cacellation WHERE 1=1
+        <if test="cancellationId!=null">
+            AND cancellation_id=#{cancellationId}
+        </if>
+        <if test="userId!=null">
+            AND user_id=#{userId}
+        </if>
+        <if test="username!=null">
+            AND username=#{username}
+        </if>
+        <if test="cancellationCreateTime!=null">
+            AND cancllation_create_time=#{cancellationCreateTime}
+        </if>
+        <if test="handleTime!=null">
+            AND handle_time=#{handleTime}
+        </if>
+        <if test="handlerName!=null">
+            AND handler_name=#{handlerName}
+        </if>
+        <if test="result=!null">
+            AND result=#{result}
+        </if>
+    </select>
 </mapper>

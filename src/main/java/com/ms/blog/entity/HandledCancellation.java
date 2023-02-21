@@ -19,9 +19,10 @@ public class HandledCancellation {
     private Integer id;
     private Integer cancellationId;
     private Integer userId;
+    private String username;
     private Date cancellationCreateTime;
     private Date handleDate;
-    private String handler;
+    private String handlerName;
     private Integer result;
     private String resultSuggest;
     private Integer handlerId;
