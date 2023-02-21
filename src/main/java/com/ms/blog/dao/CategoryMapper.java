@@ -23,6 +23,12 @@ public interface CategoryMapper {
 
     List<Category> getCategoryList();
     int deleteCategory(Integer id);
+
+    /**
+     * 新增分类
+     * @param category 分类实体
+     * @return 结果
+     */
     int insertCategory(Category category);
     int updateCategory(Category category);
     int updateCategoryClickVolume(Integer id, Integer clickVolume);

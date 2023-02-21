@@ -21,7 +21,7 @@ public class HandledCancellation {
     private Integer userId;
     private String username;
     private Date cancellationCreateTime;
-    private Date handleDate;
+    private Date handleTime;
     private String handlerName;
     private Integer result;
     private String resultSuggest;

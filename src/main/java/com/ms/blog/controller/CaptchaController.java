@@ -71,7 +71,7 @@ public class CaptchaController {
     @GetMapping("/verify")
     @ApiOperation("验证码验证")
     @ControllerLog("验证验证码")
-    public Result verifyCaptcha(@RequestParam @Validated @NotNull String captcha){
+    public Result<Integer> verifyCaptcha(@RequestParam @Validated @NotNull String captcha){
         return captchaService.verifyCaptcha(captcha);
     }
 }

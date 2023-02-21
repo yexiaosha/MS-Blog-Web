@@ -22,6 +22,6 @@ public class ModPackRelatedLink {
     private String name;
     private String url;
     private String pic;
-    private Date updateDate;
-    private Date createDate;
+    private Date updateTime;
+    private Date createTime;
 }

@@ -108,5 +108,5 @@ public class Article {
     /**
      * 修改时间
      */
-    private Date updateDate;
+    private Date updateTime;
 }

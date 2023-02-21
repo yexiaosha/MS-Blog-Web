@@ -39,10 +39,10 @@ public class Category {
     /**
      * 创建时间
      */
-    private Date createDate;
+    private Date createTime;
 
     /**
      * 更新时间
      */
-    private Date updateDate;
+    private Date updateTime;
 }

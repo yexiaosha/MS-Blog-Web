@@ -76,9 +76,9 @@ public class CategoryServiceImpl implements CategoryService {
     @ServiceLog("新增分类")
     public Result<Integer> insertCategory(CategoryParam categoryParam) {
         Category category = Category.builder()
-                .createDate(new Date())
+                .createTime(new Date())
                 .name(categoryParam.getName())
-                .updateDate(new Date())
+                .updateTime(new Date())
                 .build();
 
         return ResultUtils.success(categoryMapper.insertCategory(category));
@@ -88,7 +88,7 @@ public class CategoryServiceImpl implements CategoryService {
     @ServiceLog("修改分类")
     public Result<Integer> updateCategory(CategoryParam categoryParam) {
         Category category = Category.builder()
-                .updateDate(new Date())
+                .updateTime(new Date())
                 .name(categoryParam.getName())
                 .id(categoryParam.getId())
                 .build();

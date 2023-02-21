@@ -19,8 +19,8 @@ public class ArticleSimpleVo {
     private Integer id;
     private String title;
     private String summary;
-    private Date updateDate;
-    private Date createDate;
+    private Date updateTime;
+    private Date createTime;
     private String nikeName;
     private String username;
 }

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * 统一接口异常处理
  * 对@Controller进行异常处理
  * @author wyh
- * @data 2022/11/18 17:35
+ * @date 2022/11/18 17:35
  */
 
 @RestControllerAdvice

@@ -31,12 +31,12 @@ public class ModPack {
     /**
      * 创建时间
      */
-    private Date createDate;
+    private Date createTime;
 
     /**
      * 修改时间
      */
-    private Date updateDate;
+    private Date updateTime;
 
     /**
      * 整合包状态 0正式上线 1测试中 2停更

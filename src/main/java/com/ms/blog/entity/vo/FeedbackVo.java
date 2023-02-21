@@ -20,5 +20,5 @@ public class FeedbackVo {
     private String email;
     private String title;
     private String content;
-    private Date createDate;
+    private Date createTime;
 }

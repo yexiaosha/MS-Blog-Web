@@ -28,8 +28,8 @@ public class ModPackRelatedLinkServiceImpl implements ModPackRelatedLinkService 
     @ServiceLog("新增相关链接")
     public Result<Integer> insertRelatedLink(ModPackRelatedLinkParam modPackRelatedLinkParam) {
         ModPackRelatedLink modPackRelatedLink = ModPackRelatedLink.builder()
-                .createDate(new Date())
-                .updateDate(new Date())
+                .createTime(new Date())
+                .updateTime(new Date())
                 .modPackId(modPackRelatedLinkParam.getModPackId())
                 .name(modPackRelatedLinkParam.getName())
                 .pic(modPackRelatedLinkParam.getPic())
@@ -49,7 +49,7 @@ public class ModPackRelatedLinkServiceImpl implements ModPackRelatedLinkService 
     @ServiceLog("更改相关链接信息")
     public Result<Integer> updateRelatedLink(ModPackRelatedLinkParam modPackRelatedLinkParam) {
         ModPackRelatedLink modPackRelatedLink = ModPackRelatedLink.builder()
-                .createDate(new Date())
+                .createTime(new Date())
                 .modPackId(modPackRelatedLinkParam.getModPackId())
                 .name(modPackRelatedLinkParam.getName())
                 .pic(modPackRelatedLinkParam.getPic())

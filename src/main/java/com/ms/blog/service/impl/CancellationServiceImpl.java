@@ -61,7 +61,7 @@ public class CancellationServiceImpl implements CancellationService {
 
         HandledCancellation handledCancellation = HandledCancellation.builder()
                 .cancellationId(cancellation.getId())
-                .handleDate(new Date())
+                .handleTime(new Date())
                 .handlerName(handler)
                 .handlerId(userService.getUserInfo(handler).getData().getId())
                 .cancellationCreateTime(cancellationMapper.getCancellationById(handleCancellationParam.getCancellationId()).getCreateTime())
@@ -92,7 +92,7 @@ public class CancellationServiceImpl implements CancellationService {
         return HandledCancellationVo.builder()
                 .cancellationCreateTime(handledCancellation.getCancellationCreateTime())
                 .cancellationId(handledCancellation.getCancellationId())
-                .handleDate(handledCancellation.getHandleDate())
+                .handleDate(handledCancellation.getHandleTime())
                 .id(handledCancellation.getId())
                 .handler(handledCancellation.getHandlerName())
                 .handlerId(handledCancellation.getHandlerId())

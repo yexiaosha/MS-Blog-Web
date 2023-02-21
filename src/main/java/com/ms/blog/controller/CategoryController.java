@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -49,14 +49,14 @@ public class CategoryController {
     @PostMapping("/insert")
     @ApiModelProperty("新增分类")
     @ControllerLog("新增分类")
-    public Result<Integer> insertCategory(@RequestParam CategoryParam categoryParam){
+    public Result<Integer> insertCategory(@RequestBody CategoryParam categoryParam){
         return categoryService.insertCategory(categoryParam);
     }
 
     @PutMapping("/update")
     @ApiModelProperty("修改分类")
     @ControllerLog("修改分类")
-    public Result<Integer> updateCategory(@RequestParam CategoryParam categoryParam){
+    public Result<Integer> updateCategory(@RequestBody CategoryParam categoryParam){
         return categoryService.updateCategory(categoryParam);
     }
 
