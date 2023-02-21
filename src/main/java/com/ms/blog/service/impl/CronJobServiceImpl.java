@@ -14,13 +14,16 @@ import com.ms.blog.service.CategoryService;
 import com.ms.blog.service.CronJobService;
 import com.ms.blog.service.TagService;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -59,6 +62,9 @@ public class CronJobServiceImpl implements CronJobService {
 
     private static final String CATEGORY_ID = "CATEGORY_ID";
 
+    @Value("${blog.mark-days}")
+    private Integer markDays;
+
     @Resource
     private ArticleMapper articleMapper;
 
@@ -86,7 +92,10 @@ public class CronJobServiceImpl implements CronJobService {
     @Scheduled(cron = "0 0 6 * * ?")
     @Transactional(rollbackFor = Exception.class)
     public void updatePopularArticle() {
-        List<Article> articleList = articleMapper.getPopularArticleList();
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -markDays);
+        Date date = calendar.getTime();
+        List<Article> articleList = articleMapper.getPopularArticleList(date);
         List<ArticleVo>articleVoList = new ArrayList<>();
         for (Article article : articleList) {
             articleVoList.add(copy(article));

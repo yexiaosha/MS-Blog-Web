@@ -121,43 +121,43 @@
         UPDATE b_article
         <set>
             <if test="article.userId!=null">
-                user_id=#{userId}
+                user_id=#{userId},
             </if>
             <if test="article.content!=null">
-                content=#{content}
+                content=#{content},
             </if>
             <if test="article.contentMd!=null">
-                content_md=#{contentMd}
+                content_md=#{contentMd},
             </if>
             <if test="article.avatar!=null">
-                avatar=#{avatar}
+                avatar=#{avatar},
             </if>
             <if test="article.isOriginal!=null">
-                is_original=#{isOriginal}
+                is_original=#{isOriginal},
             </if>
             <if test="article.remark!=null">
-                remark=#{remark}
+                remark=#{remark},
             </if>
             <if test="article.summary!=null">
-                summary=#{summary}
+                summary=#{summary},
             </if>
             <if test="article.updateDate!=null">
-                update_time=#{updateDate}
+                update_time=#{updateDate},
             </if>
             <if test="article.title!=null">
-                title=#{title}
+                title=#{title},
             </if>
             <if test="article.originalUrl!=null">
-                original_url=#{originalUrl}
+                original_url=#{originalUrl},
             </if>
             <if test="article.isStick!=null">
-                is_stick=#{isStick}
+                is_stick=#{isStick},
             </if>
             <if test="article.isPublish!=null">
-                is_publish=#{isPublish}
+                is_publish=#{isPublish},
             </if>
             <if test="article.isSecret!=null">
-                is_secret=#{isSecret}
+                is_secret=#{isSecret},
             </if>
             <if test="article.categoryId">
                 category_id=#{categoryId}
@@ -185,13 +185,155 @@
                create_time  as ct,
                keywords     as k,
                update_time  as ut
-        from b_article WHERE 
-        <if test=""></if>
+        from b_article WHERE 1=1
+        <if test="isSecret=1 and isSecret=0">
+            AND is_secret=#{isSecret}
+        </if>
+        <if test="isStick=1 and isStick=0">
+            AND is_stick=#{isStick}
+        </if>
+        <if test="title!=null">
+            AND title=#{title}
+        </if>
+        <if test="isPublish=1 and isPublish=0">
+            AND is_publish=#{isPublish}
+        </if>
+        <if test="isOriginal=1 and isOriginal=0">
+            AND is_original=#{isOriginal}
+        </if>
     </select>
-    <select id="getPopularArticleList" resultType="com.ms.blog.entity.Article"></select>
-    <select id="getArticleContent" resultType="com.ms.blog.entity.Article"></select>
-    <select id="getArticleByUserId" resultType="com.ms.blog.entity.Article"></select>
-    <select id="getArticleById" resultType="com.ms.blog.entity.Article"></select>
-    <select id="getArticleByTag" resultType="com.ms.blog.entity.Article"></select>
-    <select id="getArticleByCategory" resultType="com.ms.blog.entity.Article"></select>
+    <select id="getPopularArticleList" resultType="com.ms.blog.entity.Article">
+        select id           as i,
+               user_id      as ui,
+               category_id  as ci,
+               title        as t,
+               avatar       as a,
+               summary      as s,
+               content      as c,
+               content_md   as cm,
+               is_secret    as is2,
+               is_stick     as is3,
+               is_publish   as ip,
+               is_original  as o,
+               original_url as ou,
+               quantity     as q,
+               remark       as r,
+               create_time  as ct,
+               keywords     as k,
+               update_time  as ut
+        from b_article WHERE create_time>=#{date} ORDER BY update_time desc
+    </select>
+    <select id="getArticleContent" resultType="com.ms.blog.entity.Article">
+        select id           as i,
+               user_id      as ui,
+               category_id  as ci,
+               title        as t,
+               avatar       as a,
+               summary      as s,
+               content      as c,
+               content_md   as cm,
+               is_secret    as is2,
+               is_stick     as is3,
+               is_publish   as ip,
+               is_original  as o,
+               original_url as ou,
+               quantity     as q,
+               remark       as r,
+               create_time  as ct,
+               keywords     as k,
+               update_time  as ut
+        from b_article WHERE id=#{id}
+    </select>
+    <select id="getArticleByUserId" resultType="com.ms.blog.entity.Article">
+        select id           as i,
+               user_id      as ui,
+               category_id  as ci,
+               title        as t,
+               avatar       as a,
+               summary      as s,
+               content      as c,
+               content_md   as cm,
+               is_secret    as is2,
+               is_stick     as is3,
+               is_publish   as ip,
+               is_original  as o,
+               original_url as ou,
+               quantity     as q,
+               remark       as r,
+               create_time  as ct,
+               keywords     as k,
+               update_time  as ut
+        from b_article WHERE user_id=#{userId}
+    </select>
+    <select id="getArticleById" resultType="com.ms.blog.entity.Article">
+        select id           as i,
+               user_id      as ui,
+               category_id  as ci,
+               title        as t,
+               avatar       as a,
+               summary      as s,
+               content      as c,
+               content_md   as cm,
+               is_secret    as is2,
+               is_stick     as is3,
+               is_publish   as ip,
+               is_original  as o,
+               original_url as ou,
+               quantity     as q,
+               remark       as r,
+               create_time  as ct,
+               keywords     as k,
+               update_time  as ut
+        from b_article WHERE id=#{id}
+    </select>
+    <select id="getArticleByTag" resultType="com.ms.blog.entity.Article">
+        select id           as i,
+               user_id      as ui,
+               category_id  as ci,
+               title        as t,
+               avatar       as a,
+               summary      as s,
+               content      as c,
+               content_md   as cm,
+               is_secret    as is2,
+               is_stick     as is3,
+               is_publish   as ip,
+               is_original  as o,
+               original_url as ou,
+               quantity     as q,
+               remark       as r,
+               create_time  as ct,
+               keywords     as k,
+               update_time  as ut
+        from b_article WHERE id IN
+        <foreach collection="articleIdList" item="articleId" open="(" separator="," close=")">
+            #{articleId}
+        </foreach>
+    </select>
+
+    <select id="getArticleIdByTagId" resultType="java.lang.Integer">
+        SELECT b_article_tag.article_id FROM b_article_tag WHERE tag_id=#{tagId}
+    </select>
+
+    <select id="getArticleByCategory" resultType="com.ms.blog.entity.Article">
+        select id           as i,
+               user_id      as ui,
+               category_id  as ci,
+               title        as t,
+               avatar       as a,
+               summary      as s,
+               content      as c,
+               content_md   as cm,
+               is_secret    as is2,
+               is_stick     as is3,
+               is_publish   as ip,
+               is_original  as o,
+               original_url as ou,
+               quantity     as q,
+               remark       as r,
+               create_time  as ct,
+               keywords     as k,
+               update_time  as ut
+        from b_article WHERE category_id=#{categoryId}
+    </select>
 </mapper>

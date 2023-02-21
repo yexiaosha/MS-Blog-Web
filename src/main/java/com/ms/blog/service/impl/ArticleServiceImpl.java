@@ -14,15 +14,18 @@ import com.ms.blog.entity.param.ArticleParam;
 import com.ms.blog.entity.param.ArticleSearchParam;
 import com.ms.blog.entity.param.ArticleSimpleVo;
 import com.ms.blog.entity.vo.ArticleVo;
+import com.ms.blog.entity.vo.UserVo;
 import com.ms.blog.service.ArticleService;
 import com.ms.blog.service.CategoryService;
 import com.ms.blog.service.TagService;
 import com.ms.blog.service.UserService;
 import com.ms.blog.util.ResultUtils;
+import io.netty.util.internal.StringUtil;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -90,13 +93,22 @@ public class ArticleServiceImpl implements ArticleService {
     public Result<PageData<ArticleVo>> getArticleListByType(ArticleSearchParam articleSearchParam) {
         Page<Article> articlePage = new Page<>(articleSearchParam.getCurrentPage(), articleSearchParam.getPageSize());
         IPage<Article> articleIPage = articleMapper.getArticleList(articlePage, articleSearchParam);
-        PageData<Article> articlePageData = new PageData<>(articleIPage, articleSearchParam.getCurrentPage().longValue());
+        List<Article> articleList = articleIPage.getRecords();
         List<ArticleVo> articleVoList = new ArrayList<>();
-        for (Article article:articlePageData.getPageData()) {
+        if (!StringUtil.isNullOrEmpty(articleSearchParam.getArticleWriter())){
+            UserVo data = userService.getUserInfo(articleSearchParam.getArticleWriter()).getData();
+            List<Article> articles = articleList.stream().filter(aVo -> data.getId().equals(aVo.getId())).collect(Collectors.toList());
+            for (Article article:articles) {
+                articleVoList.add(copy(article));
+            }
+            PageData<ArticleVo> articleVoPageData = new PageData<>(articleVoList, articleIPage.getTotal(), articleIPage.getPages(), articleIPage.getCurrent());
+            return ResultUtils.success(articleVoPageData);
+        }
+
+        for (Article article:articleList) {
             articleVoList.add(copy(article));
         }
-        PageData<ArticleVo> articleVoPageData = new PageData<>(articleVoList, articlePageData.getTotal(),
-                articlePageData.getTotalPages(), articleSearchParam.getCurrentPage().longValue());
+        PageData<ArticleVo> articleVoPageData = new PageData<>(articleVoList, articleIPage.getTotal(), articleIPage.getPages(), articleIPage.getCurrent());
         return ResultUtils.success(articleVoPageData);
     }
 
@@ -202,7 +214,8 @@ public class ArticleServiceImpl implements ArticleService {
     @Transactional(rollbackFor = Exception.class)
     public Result<PageData<ArticleSimpleVo>> getArticleListByTag(Integer tagId, PageParam pageParam) {
         Page<Article> articlePage = new Page<>(pageParam.getCurrentPage(), pageParam.getPageSize());
-        IPage<Article> articleIPage = articleMapper.getArticleByTag(tagId, articlePage);
+        List<Integer> articleIdList = articleMapper.getArticleIdByTagId(tagId);
+        IPage<Article> articleIPage = articleMapper.getArticleByTag(articleIdList, articlePage);
         List<ArticleSimpleVo> articleSimpleVoList = new ArrayList<>();
         for (Article a : articleIPage.getRecords()) {
             ArticleSimpleVo articleSimpleVo = ArticleSimpleVo.builder()

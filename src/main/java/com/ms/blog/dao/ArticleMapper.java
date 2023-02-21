@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ms.blog.entity.Article;
 import com.ms.blog.entity.param.ArticleSearchParam;
+import java.util.Date;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -26,7 +27,7 @@ public interface ArticleMapper {
      * 获取热门文章
      * @return 文章列表
      */
-    List<Article> getPopularArticleList();
+    List<Article> getPopularArticleList(Date date);
 
     /**
      * 获取文章详情
@@ -80,12 +81,19 @@ public interface ArticleMapper {
     Article getArticleById(Integer id);
 
     /**
-     * 通过标签获取文章
-     * @param tagId 标签id
+     * 通过文章id列表获取文章
+     * @param articleIdList 文章id列表
      * @param articlePage 文章分页参数
      * @return 分页结果
      */
-    IPage<Article> getArticleByTag(Integer tagId, Page<Article> articlePage);
+    IPage<Article> getArticleByTag(List<Integer> articleIdList, Page<Article> articlePage);
+
+    /**
+     * 根据标签id获取文章id列表
+     * @param tagId 标签id
+     * @return 文章id列表
+     */
+    List<Integer> getArticleIdByTagId(Integer tagId);
 
     /**
      * 通过分类获取文章

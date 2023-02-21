@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/msblog/relink")
-@Api("整合包相关链接接口")
+@Api(tags = "整合包相关链接接口")
 public class ModPackRelatedLinkController {
 
     @Resource

@@ -34,6 +34,9 @@ public class ArticleSearchParam extends PageParam {
     @Length(min = 3, max = 20,message = "作者名称必须大于等于3小于等于20个字符")
     private String articleWriter;
 
+    @ApiModelProperty("文章标题")
+    private String title;
+
     @ApiModelProperty("是否发布")
     @Min(0)
     @Max(1)

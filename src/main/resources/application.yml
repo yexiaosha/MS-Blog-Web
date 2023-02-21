@@ -42,10 +42,11 @@ mybatis-plus:
 server:
   port: 8080
 
-#blog:
-#  length:
-#    article: 50
-#    markdown: 50
+blog:
+  length:
+    article: 50
+    markdown: 50
+  mark-days: 7
 
 
 
