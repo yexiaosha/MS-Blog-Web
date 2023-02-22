@@ -18,8 +18,8 @@
             <if test="cancellationCreateTime!=null">
                 cancellation_create_time
             </if>
-            <if test="handleDate!=null">
-                handle_date
+            <if test="handleTime!=null">
+                handle_time
             </if>
             <if test="handler!=null">
                 handler_name
@@ -50,8 +50,8 @@
             <if test="cancellationCreateTime!=null">
                 #{cancellationCreateTime}
             </if>
-            <if test="handleDate!=null">
-                #{handleDate}
+            <if test="handleTime!=null">
+                #{handleTime}
             </if>
             <if test="handler!=null">
                 #{handlerName}

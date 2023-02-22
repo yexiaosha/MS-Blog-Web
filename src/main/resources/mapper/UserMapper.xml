@@ -38,13 +38,13 @@
         UPDATE b_user_auth
         <set>
             <if test="userAuth.nickname != null">
-                nickname = #{userAuth.nikeName}
+                nickname = #{userAuth.nikeName},
             </if>
             <if test="userAuth.avatar != null">
-                avatar = #{userAuth.avatar}
+                avatar = #{userAuth.avatar},
             </if>
             <if test="userAuth.intro != null">
-                intro = #{userAuth.intro}
+                intro = #{userAuth.intro},
             </if>
             <if test="userAuth.website">
                 website = #{userAuth.website}
