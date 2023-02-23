@@ -4,18 +4,37 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ms.blog.dao.CommentMapper">
     <insert id="insertChildComment">
-        INSERT INTO 
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test=""></if>
-        </trim>
+        INSERT INTO b_comment(id, user_id, article_id, content, reply_user_id, parent_id, create_time) VALUES
+        (id=#{id},user_id=#{userId},article_id=#{articleId},content=#{content},reply_user_id=#{replyUserId}
+        ,parent_id=#{parentId},create_time=#{createTime})
     </insert>
     <insert id="insertParentComment">
-
+        INSERT INTO b_comment(id, user_id, article_id, content, reply_user_id, create_time) VALUES
+            (id=#{id},user_id=#{userId},article_id=#{articleId},content=#{content},reply_user_id=#{replyUserId}
+            ,create_time=#{createTime})
     </insert>
     <delete id="deleteComment">
-
+        DELETE FROM b_comment WHERE id=#{id}
     </delete>
 
-    <select id="getParentCommentList" resultType="com.ms.blog.entity.Comment"></select>
-    <select id="getChildCommentList" resultType="com.ms.blog.entity.Comment"></select>
+    <select id="getParentCommentList" resultType="com.ms.blog.entity.Comment">
+        select id            as i,
+               user_id       as ui,
+               article_id    as ai,
+               content       as c,
+               reply_user_id as rui,
+               parent_id     as pi,
+               create_time   as ct
+        from b_comment  WHERE article_id=#{articleId}
+    </select>
+    <select id="getChildCommentList" resultType="com.ms.blog.entity.Comment">
+        select id            as i,
+               user_id       as ui,
+               article_id    as ai,
+               content       as c,
+               reply_user_id as rui,
+               parent_id     as pi,
+               create_time   as ct
+        from b_comment WHERE parent_id=#{parentId}
+    </select>
 </mapper>
