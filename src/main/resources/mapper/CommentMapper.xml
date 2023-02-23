@@ -3,9 +3,18 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ms.blog.dao.CommentMapper">
-    <insert id="insertChildComment"></insert>
-    <insert id="insertParentComment"></insert>
-    <delete id="deleteComment"></delete>
+    <insert id="insertChildComment">
+        INSERT INTO 
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test=""></if>
+        </trim>
+    </insert>
+    <insert id="insertParentComment">
+
+    </insert>
+    <delete id="deleteComment">
+
+    </delete>
 
     <select id="getParentCommentList" resultType="com.ms.blog.entity.Comment"></select>
     <select id="getChildCommentList" resultType="com.ms.blog.entity.Comment"></select>
