@@ -6,7 +6,10 @@ import com.ms.blog.dao.ModPackMapper;
 import com.ms.blog.dao.UserMapper;
 import com.ms.blog.entity.ModPack;
 import com.ms.blog.entity.ModPackRelatedLink;
+import com.ms.blog.entity.User;
+import com.ms.blog.entity.UserAuth;
 import com.ms.blog.entity.param.ModPackParam;
+import com.ms.blog.entity.vo.CreatorVo;
 import com.ms.blog.entity.vo.ModPackRelatedLinkVo;
 import com.ms.blog.entity.vo.ModPackVo;
 import com.ms.blog.service.ModPackService;
@@ -83,7 +86,17 @@ public class ModPackServiceImpl implements ModPackService {
             modPackRelatedLinkVoList.add(modPackRelatedLinkVo);
         }
         modPackVo.setRelatedLinkVoList(modPackRelatedLinkVoList);
-        modPackVo.setCreatorList(modPackMapper.getCreatorByModPackId(modPack.getId()));
+        List<Integer> userIdList = modPackMapper.getUserIdByModPackId(modPack.getId());
+        List<CreatorVo> creatorVoList = new ArrayList<>();
+        for (Integer i : userIdList) {
+            CreatorVo creatorVo = new CreatorVo();
+            User user = userMapper.getUserById(i);
+            creatorVo.setUsername(user.getUsername());
+            UserAuth userAuth = userMapper.getUserAuthById(i);
+            creatorVo.setNikeName(userAuth.getNikeName());
+            creatorVoList.add(creatorVo);
+        }
+        modPackVo.setCreatorList(creatorVoList);
         return modPackVo;
     }
 }

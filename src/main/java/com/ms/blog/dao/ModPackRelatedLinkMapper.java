@@ -10,7 +10,25 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface ModPackRelatedLinkMapper {
+
+    /**
+     * 新增整合包相关链接
+     * @param modPackRelatedLink 相关链接参数
+     * @return 结果
+     */
     int insertRelatedLink(ModPackRelatedLink modPackRelatedLink);
+
+    /**
+     * 删除整合包相关链接
+     * @param id 相关链接id
+     * @return 结果
+     */
     int deleteRelatedLink(Integer id);
+
+    /**
+     *  更新整合包相关链接
+     * @param modPackRelatedLink 整合包相关链接参数
+     * @return 结果
+     */
     int updateRelatedLink(ModPackRelatedLink modPackRelatedLink);
 }

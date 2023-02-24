@@ -16,7 +16,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class FriendLinkDto {
     private String name;
-    private String info;
     private String email;
     private String url;
 }

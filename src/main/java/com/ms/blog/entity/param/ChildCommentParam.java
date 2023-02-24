@@ -1,6 +1,7 @@
 package com.ms.blog.entity.param;
 
 import com.ms.blog.common.PageParam;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -12,5 +13,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class ChildCommentParam extends PageParam {
+    @ApiModelProperty("父评论id")
     private Integer parentId;
 }

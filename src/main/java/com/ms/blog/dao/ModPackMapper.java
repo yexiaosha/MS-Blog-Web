@@ -3,7 +3,6 @@ package com.ms.blog.dao;
 import com.ms.blog.entity.ModPack;
 import com.ms.blog.entity.ModPackRelatedLink;
 import com.ms.blog.entity.param.ModPackParam;
-import com.ms.blog.entity.vo.CreatorVo;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -41,7 +40,9 @@ public interface ModPackMapper {
      * @param modPackId 整合包id
      * @return 作者列表
      */
-    List<CreatorVo> getCreatorByModPackId(Integer modPackId);
+    List<Integer> getUserIdByModPackId(Integer modPackId);
+
+
 
     /**
      * 更新整合包基本信息

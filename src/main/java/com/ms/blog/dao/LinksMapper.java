@@ -45,5 +45,10 @@ public interface LinksMapper {
      */
     int updateFriendLinkInfo(FriendLinkParam friendLinkParam);
 
+    /**
+     * 验证
+     * @param friendLinkDto 数据类
+     * @return 结果
+     */
     FriendLink getFriendLink(FriendLinkDto friendLinkDto);
 }
