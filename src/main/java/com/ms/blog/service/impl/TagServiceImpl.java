@@ -47,7 +47,13 @@ import org.springframework.stereotype.Service;
     @Override
     @ServiceLog("根据用户id查询所属标签列表")
     public Result<List<TagVo>> getTagListByArticleId(Integer articleId) {
-        List<Tag> tagList = tagMapper.getTagListByArticleId(articleId);
+        List<Integer> tagIdList = tagMapper.getTagIdListByArticleId(articleId);
+        List<Tag> tagList  =new ArrayList<>();
+
+        for (Integer i : tagIdList) {
+            tagList.add(tagMapper.getTagById(i));
+        }
+
         List<TagVo> tagVoList = new ArrayList<>();
         TagVo tagVo = new TagVo();
         for (Tag t : tagList) {
@@ -75,7 +81,9 @@ import org.springframework.stereotype.Service;
     @Override
     @ServiceLog("通过标签id删除标签")
     public Result<Integer> deleteTag(Integer id) {
-        return ResultUtils.success(tagMapper.deleteTag(id));
+        tagMapper.deleteTag(id);
+        tagMapper.deleteArticleTag(id);
+        return ResultUtils.success();
     }
 
     @Override

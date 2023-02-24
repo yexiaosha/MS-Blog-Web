@@ -8,14 +8,18 @@ import com.ms.blog.entity.param.FriendLinkSearchParam;
 import com.ms.blog.entity.vo.FriendLinkVo;
 import com.ms.blog.service.LinksService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
+import java.io.IOException;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 友情链接接口
@@ -58,7 +62,7 @@ public class LinksController {
     }
 
     @PostMapping("/download")
-    @ApiModelProperty("下载上传表格模板")
+    @ApiOperation("下载上传表格模板")
     @ControllerLog("下载上传表格模板")
     public void downloadTemplate(HttpServletResponse response){
         linksService.downloadTemplate(response);

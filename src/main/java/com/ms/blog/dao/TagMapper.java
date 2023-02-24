@@ -15,18 +15,18 @@ import org.apache.ibatis.annotations.Mapper;
 public interface TagMapper {
 
     /**
-     * 根据用户id查询所属标签列表
+     * 根据文章id查询所属标签列表
      * @param articleId 文章id
      * @return 标签列表
      */
-    List<Tag> getTagListByArticleId(Integer articleId);
+    List<Integer> getTagIdListByArticleId(Integer articleId);
 
     /**
      * 通过标签名获取标签id
-     * @param TagName 表签名
+     * @param tagName 表签名
      * @return  标签类
      */
-    int getTagByName(String TagName);
+    int getTagByName(String tagName);
 
     /**
      * 获取所有标签
@@ -41,6 +41,13 @@ public interface TagMapper {
      * @return 结果
      */
     int deleteTag(Integer id);
+
+    /**
+     * 删除文章标签关联
+     * @param tagId 标签id
+     * @return 结果
+     */
+    int deleteArticleTag(Integer tagId);
 
     /**
      * 新增标签
@@ -64,9 +71,9 @@ public interface TagMapper {
 
     /**
      * 更新标签点击量
-     * @param TagId 标签id
+     * @param tagId 标签id
      * @param clickVolume  点击量
      * @return 结果
      */
-    int updateTagClickVolume(Integer TagId, Integer clickVolume);
+    int updateTagClickVolume(Integer tagId, Integer clickVolume);
 }

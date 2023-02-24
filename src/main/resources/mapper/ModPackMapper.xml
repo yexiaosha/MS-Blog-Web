@@ -3,12 +3,72 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ms.blog.dao.ModPackMapper">
-    <update id="updateModPackInfo"></update>
-    <update id="updateModPackCreator"></update>
+    <update id="updateModPackInfo">
+        UPDATE b_mod_pack 
+        <set>
+            <if test="name!=null">
+                b_mod_pack.name=#{name}
+            </if>
+            <if test="status!=null">
+                b_mod_pack.status=#{status}
+            </if>
+            <if test="overallProgress!=null">
+                overrall_progress=#{overallProgress}
+            </if>
+            <if test="introduce!=null">
+                introduce=#{introduce}
+            </if>
+            <if test="version!=null">
+                version=#{version}
+            </if>
+            <if test="updateTime!=null">
+                update_time=#{updateTime}
+            </if>
+        </set> WHERE id=#{id}
+    </update>
+    <update id="updateModPackCreator">
+        UPDATE b_user_mod_pack SET user_id=#{userId}
+        WHERE mod_pack_id=#{modPackId}
+    </update>
 
-    <select id="getModPackList" resultType="com.ms.blog.entity.ModPack"></select>
-    <select id="getModPackById" resultType="com.ms.blog.entity.ModPack"></select>
-    <select id="getRelatedLinkByModPackId" resultType="com.ms.blog.entity.ModPackRelatedLink"></select>
-    <select id="getCreatorByModPackId" resultType="com.ms.blog.entity.vo.CreatorVo"></select>
-    <select id="getModPackByName" resultType="com.ms.blog.entity.ModPack"></select>
+    <select id="getModPackList" resultType="com.ms.blog.entity.ModPack">
+        select id               as i,
+               name             as n,
+               create_date      as cd,
+               update_date      as ud,
+               status           as s,
+               overall_progress as op,
+               introduce        as i2,
+               version          as v
+        from b_mod_pack
+    </select>
+    <select id="getModPackById" resultType="com.ms.blog.entity.ModPack">
+        select id               as i,
+               name             as n,
+               create_date      as cd,
+               update_date      as ud,
+               status           as s,
+               overall_progress as op,
+               introduce        as i2,
+               version          as v
+        from b_mod_pack WHERE id=#{id}
+    </select>
+    <select id="getRelatedLinkByModPackId" resultType="com.ms.blog.entity.ModPackRelatedLink">
+        select id as i, mod_pack_id as mpi, name as n, url as u, pic as p, create_date as cd, update_date as ud
+        from b_related_link WHERE mod_pack_id=#{id}
+    </select>
+    <select id="getUserIdByModPackId" resultType="java.lang.Integer">
+        SELECT user_id FROM b_user_mod_pack WHERE mod_pack_id=#{modPackId}
+    </select>
+    <select id="getModPackByName" resultType="com.ms.blog.entity.ModPack">
+        select id               as i,
+               name             as n,
+               create_date      as cd,
+               update_date      as ud,
+               status           as s,
+               overall_progress as op,
+               introduce        as i2,
+               version          as v
+        from b_mod_pack WHERE b_mod_pack.name=#{name}
+    </select>
 </mapper>

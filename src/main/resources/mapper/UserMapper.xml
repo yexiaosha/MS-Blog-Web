@@ -120,6 +120,6 @@
                is_disable  as id,
                create_time as ct,
                update_time as ut
-        from b_user_auth WHERE id=#{id}
+        from b_user_auth WHERE b_user_auth.id=(SELECT user_auth_id FROM b_user WHERE b_user.id=#{id})
     </select>
 </mapper>

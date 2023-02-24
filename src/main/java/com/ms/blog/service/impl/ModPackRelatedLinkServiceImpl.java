@@ -50,6 +50,7 @@ public class ModPackRelatedLinkServiceImpl implements ModPackRelatedLinkService 
     public Result<Integer> updateRelatedLink(ModPackRelatedLinkParam modPackRelatedLinkParam) {
         ModPackRelatedLink modPackRelatedLink = ModPackRelatedLink.builder()
                 .createTime(new Date())
+                .id(modPackRelatedLinkParam.getId())
                 .modPackId(modPackRelatedLinkParam.getModPackId())
                 .name(modPackRelatedLinkParam.getName())
                 .pic(modPackRelatedLinkParam.getPic())

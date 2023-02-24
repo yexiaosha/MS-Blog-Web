@@ -13,6 +13,9 @@ import lombok.Data;
 @ApiModel("友情链接表单")
 public class FriendLinkParam {
 
+    @ApiModelProperty("主键id")
+    private Integer id;
+
     /**
      *  网站名称
      */

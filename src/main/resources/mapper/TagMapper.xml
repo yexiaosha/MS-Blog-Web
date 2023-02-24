@@ -3,13 +3,39 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ms.blog.dao.TagMapper">
-    <insert id="insertTag"></insert>
-    <update id="updateTagClickVolume"></update>
-    <delete id="deleteTag"></delete>
+    <insert id="insertTag">
+        INSERT INTO b_tags(name, click_volume,create_time, update_time) VALUES
+        (name=#{name}, click_volume=#{clickVolume}, create_time=#{createTime}, update_time=#{updateTime})
+    </insert>
+    <update id="updateTagClickVolume">
+        UPDATE b_tags SET click_volume=#{clickVolume} where id=#{tagId}
+    </update>
+    <delete id="deleteTag">
+        DELETE FROM b_tags WHERE b_tags.id=#{id}
+    </delete>
+    <delete id="deleteArticleTag">
+        DELETE FROM b_article_tag WHERE tag_id=#{tagId}
+    </delete>
 
-    <select id="getTagListByArticleId" resultType="com.ms.blog.entity.Tag"></select>
-    <select id="getTagByName" resultType="java.lang.Integer"></select>
-    <select id="getTagList" resultType="com.ms.blog.entity.Tag"></select>
-    <select id="getPopularTagList" resultType="com.ms.blog.entity.Tag"></select>
-    <select id="getTagById" resultType="com.ms.blog.entity.Tag"></select>
+    <select id="getTagIdListByArticleId" resultType="java.lang.Integer">
+        select id as i, article_id as ai, tag_id as ti
+        from b_article_tag WHERE article_id=#{articleId}
+    </select>
+
+    <select id="getTagByName" resultType="java.lang.Integer">
+        select id as i, name as n, click_volume as cv, sort as s, create_time as ct, update_time as ut
+        from b_tags WHERE name=#{tagName}
+    </select>
+    <select id="getTagList" resultType="com.ms.blog.entity.Tag">
+        select id as i, name as n, click_volume as cv, sort as s, create_time as ct, update_time as ut
+        from b_tags
+    </select>
+    <select id="getPopularTagList" resultType="com.ms.blog.entity.Tag">
+        select id as i, name as n, click_volume as cv, sort as s, create_time as ct, update_time as ut
+        from b_tags
+    </select>
+    <select id="getTagById" resultType="com.ms.blog.entity.Tag">
+        select id as i, name as n, click_volume as cv, sort as s, create_time as ct, update_time as ut
+        from b_tags WHERE id=#{id}
+    </select>
 </mapper>

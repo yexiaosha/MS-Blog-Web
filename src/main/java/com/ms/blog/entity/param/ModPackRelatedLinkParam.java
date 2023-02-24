@@ -13,6 +13,9 @@ import lombok.Data;
 @ApiModel("相关链接参数类")
 public class ModPackRelatedLinkParam {
 
+    @ApiModelProperty("主键id")
+    private Integer id;
+
     @ApiModelProperty("整合包id")
     private Integer modPackId;
 

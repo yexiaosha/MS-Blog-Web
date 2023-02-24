@@ -15,6 +15,9 @@ import lombok.Data;
 @ApiModel("整合包基础信息表单")
 public class ModPackParam {
 
+    @ApiModelProperty("主键id")
+    private Integer id;
+
     @ApiModelProperty("整合包名称")
     private String name;
 
@@ -30,5 +33,6 @@ public class ModPackParam {
     @ApiModelProperty("版本")
     private String version;
 
+    @ApiModelProperty("更新时间")
     private Date updateDate;
 }

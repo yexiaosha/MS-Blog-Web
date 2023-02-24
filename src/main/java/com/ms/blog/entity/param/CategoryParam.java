@@ -1,6 +1,7 @@
 package com.ms.blog.entity.param;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -11,6 +12,10 @@ import lombok.Data;
 @Data
 @ApiModel("分类参数类")
 public class CategoryParam {
+
+    @ApiModelProperty("分类id")
     private Integer id;
+
+    @ApiModelProperty("分类名")
     private String name;
 }

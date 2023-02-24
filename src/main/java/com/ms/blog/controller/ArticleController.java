@@ -8,7 +8,7 @@ import com.ms.blog.common.annotation.ControllerLog;
 import com.ms.blog.entity.User;
 import com.ms.blog.entity.param.ArticleParam;
 import com.ms.blog.entity.param.ArticleSearchParam;
-import com.ms.blog.entity.param.ArticleSimpleVo;
+import com.ms.blog.entity.vo.ArticleSimpleVo;
 import com.ms.blog.entity.vo.ArticleVo;
 import com.ms.blog.service.ArticleService;
 import io.swagger.annotations.Api;

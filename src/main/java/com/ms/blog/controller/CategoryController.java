@@ -6,7 +6,6 @@ import com.ms.blog.entity.param.CategoryParam;
 import com.ms.blog.entity.vo.CategoryVo;
 import com.ms.blog.service.CategoryService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import javax.annotation.Resource;
@@ -33,28 +32,28 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping("/List")
-    @ApiModelProperty("获取分类")
+    @ApiOperation("获取分类")
     @ControllerLog("获取所有分类")
     public Result<List<CategoryVo>> getCategoryList(){
         return categoryService.getCategoryList();
     }
 
     @DeleteMapping("/delete/{id}")
-    @ApiModelProperty("删除分类")
+    @ApiOperation("删除分类")
     @ControllerLog("删除分类")
     public Result<Integer> deleteCategory(@PathVariable("id") Integer id){
         return categoryService.deleteCategory(id);
     }
 
     @PostMapping("/insert")
-    @ApiModelProperty("新增分类")
+    @ApiOperation("新增分类")
     @ControllerLog("新增分类")
     public Result<Integer> insertCategory(@RequestBody CategoryParam categoryParam){
         return categoryService.insertCategory(categoryParam);
     }
 
     @PutMapping("/update")
-    @ApiModelProperty("修改分类")
+    @ApiOperation("修改分类")
     @ControllerLog("修改分类")
     public Result<Integer> updateCategory(@RequestBody CategoryParam categoryParam){
         return categoryService.updateCategory(categoryParam);

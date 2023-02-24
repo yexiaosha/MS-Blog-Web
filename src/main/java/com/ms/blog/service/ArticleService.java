@@ -5,7 +5,7 @@ import com.ms.blog.common.PageParam;
 import com.ms.blog.common.Result;
 import com.ms.blog.entity.param.ArticleParam;
 import com.ms.blog.entity.param.ArticleSearchParam;
-import com.ms.blog.entity.param.ArticleSimpleVo;
+import com.ms.blog.entity.vo.ArticleSimpleVo;
 import com.ms.blog.entity.vo.ArticleVo;
 import java.util.List;
 

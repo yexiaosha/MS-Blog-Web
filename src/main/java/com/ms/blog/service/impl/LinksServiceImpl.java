@@ -90,6 +90,7 @@ public class LinksServiceImpl implements LinksService {
             return ResultUtils.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMsg());
         }
 
+        friendLinkParam.setId(friendLink.getId());
         return ResultUtils.success(linksMapper.updateFriendLinkInfo(friendLinkParam));
     }
 
