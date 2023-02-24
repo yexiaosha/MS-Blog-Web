@@ -3,10 +3,159 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ms.blog.dao.LinksMapper">
-    <insert id="insertFriendLink"></insert>
-    <update id="updateFriendLinkInfo"></update>
+    <insert id="insertFriendLink">
+        INSERT INTO b_friend_link
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name!=null">
+                b_friend_link.name
+            </if>
+            <if test="url!=null">
+                url
+            </if>
+            <if test="avatar!=null">
+                avatar
+            </if>
+            <if test="info!=null">
+                info
+            </if>
+            <if test="email!=null">
+                email
+            </if>
+            <if test="reason!=null">
+                reason
+            </if>
+            <if test="status!=null">
+                b_friend_link.status
+            </if>
+            <if test="createTime!=null">
+                create_time
+            </if>
+            <if test="updateTime!=null">
+                update_time
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="name!=null">
+                #{name}
+            </if>
+            <if test="url!=null">
+                #{url}
+            </if>
+            <if test="avatar!=null">
+                #{avatar}
+            </if>
+            <if test="info!=null">
+                #{info}
+            </if>
+            <if test="email!=null">
+                #{email}
+            </if>
+            <if test="reason!=null">
+                #{reason}
+            </if>
+            <if test="status!=null">
+                #{status}
+            </if>
+            <if test="createTime!=null">
+                #{createTime}
+            </if>
+            <if test="updateTime!=null">
+                #{updateTime}
+            </if>
+        </trim>
+    </insert>
+    <update id="updateFriendLinkInfo">
+        UPDATE b_friend_link
+        <set>
+            <if test="name!=null">
+                b_friend_link.name=#{name}
+            </if>
+            <if test="url!=null">
+                url=#{url}
+            </if>
+            <if test="avatar!=null">
+                avatar=#{avatar}
+            </if>
+            <if test="info!=null">
+                info=#{info}
+            </if>
+            <if test="email!=null">
+                email=#{email}
+            </if>
+            <if test="reason!=null">
+                reason=#{reason}
+            </if>
+            <if test="status!=null">
+                b_friend_link.status=#{status}
+            </if>
+            <if test="createTime!=null">
+                create_time=#{createTime}
+            </if>
+            <if test="updateTime!=null">
+                update_time=#{updateTime}
+            </if>
+        </set> WHERE b_friend_link.id=#{id}
+    </update>
 
-    <select id="getFriendLinks" resultType="com.ms.blog.entity.FriendLink"></select>
-    <select id="getFriendLinkByName" resultType="com.ms.blog.entity.FriendLink"></select>
-    <select id="getFriendLink" resultType="com.ms.blog.entity.FriendLink"></select>
+    <select id="getFriendLinks" resultType="com.ms.blog.entity.FriendLink">
+        select id          as i,
+               name        as n,
+               url         as u,
+               avatar      as a,
+               info        as i2,
+               email       as e,
+               reason      as r,
+               sort        as s,
+               status      as s2,
+               create_time as ct,
+               update_time as ut
+        from b_friend_link 
+        <where>
+            <if test="id!=null">
+                and id=#{id}
+            </if>
+            <if test="name!=null">
+                and b_friend_link.name=#{name}
+            </if>
+        </where>
+    </select>
+    <select id="getFriendLinkByName" resultType="com.ms.blog.entity.FriendLink">
+        select id          as i,
+               name        as n,
+               url         as u,
+               avatar      as a,
+               info        as i2,
+               email       as e,
+               reason      as r,
+               sort        as s,
+               status      as s2,
+               create_time as ct,
+               update_time as ut
+        from b_friend_link WHERE b_friend_link.name=#{name}
+    </select>
+    <select id="getFriendLink" resultType="com.ms.blog.entity.FriendLink">
+        select id          as i,
+               name        as n,
+               url         as u,
+               avatar      as a,
+               info        as i2,
+               email       as e,
+               reason      as r,
+               sort        as s,
+               status      as s2,
+               create_time as ct,
+               update_time as ut
+        from b_friend_link
+        <where>
+            <if test="name!=null">
+                b_friend_link.name=#{name}
+            </if>
+            <if test="email!=null">
+                email=#{email}
+            </if>
+            <if test="url!=null">
+                url=#{url}
+            </if>
+        </where>
+    </select>
 </mapper>

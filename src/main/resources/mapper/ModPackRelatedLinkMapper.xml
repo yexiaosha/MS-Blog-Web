@@ -4,7 +4,65 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ms.blog.dao.ModPackRelatedLinkMapper">
 
-    <insert id="insertRelatedLink"></insert>
-    <update id="updateRelatedLink"></update>
-    <delete id="deleteRelatedLink"></delete>
+    <insert id="insertRelatedLink">
+        INSERT INTO b_related_link
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="modPackId!=null">
+                mod_pack_id
+            </if>
+            <if test="name!=null">
+                b_related_link.name
+            </if>
+            <if test="url!=null">
+                url
+            </if>
+            <if test="pic!=null">
+                pic
+            </if>
+            <if test="updateTime!=null">
+                update_time
+            </if>
+            <if test="createTime!=null">
+                create_time
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="modPackId!=null">
+                #{modPackId}
+            </if>
+            <if test="name!=null">
+                #{name}
+            </if>
+            <if test="url!=null">
+                #{url}
+            </if>
+            <if test="pic!=null">
+                #{pic}
+            </if>
+            <if test="updateTime!=null">
+                #{updateTime}
+            </if>
+            <if test="createTime!=null">
+                #{createTime}
+            </if>
+        </trim>
+    </insert>
+    <update id="updateRelatedLink">
+        UPDATE b_related_link
+        <set>
+            <if test="name!=null">
+                b_related_link.name=#{name}
+            </if>
+            <if test="pic!=null">
+                pic=#{pic}
+            </if>
+            <if test="url!=null">
+                url=#{url}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="deleteRelatedLink">
+        DELETE FROM b_related_link WHERE id=#{id}
+    </delete>
 </mapper>

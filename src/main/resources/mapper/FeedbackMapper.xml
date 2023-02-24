@@ -4,8 +4,52 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ms.blog.dao.FeedbackMapper">
 
-    <insert id="insertFeedback"></insert>
-    <delete id="deleteFeedback"></delete>
-    <select id="getFeedbackByParam" resultType="com.ms.blog.entity.FeedBack"></select>
-    <select id="getFeedbackList" resultType="com.ms.blog.entity.FeedBack"></select>
+    <insert id="insertFeedback">
+        INSERT INTO b_feed_back
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="email!=null">
+                email
+            </if>
+            <if test="title!=null">
+                title
+            </if>
+            <if test="content!=null">
+                content
+            </if>
+            <if test="createTime!=null">
+                create_time
+            </if>
+            <if test="type=0 and type=1 and type!=null">
+                type
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="email!=null">
+                #{email}
+            </if>
+            <if test="title!=null">
+                #{title}
+            </if>
+            <if test="content!=null">
+                #{content}
+            </if>
+            <if test="createTime!=null">
+                #{createTime}
+            </if>
+            <if test="type=0 and type=1 and type!=null">
+                #{type}
+            </if>
+        </trim>
+    </insert>
+    <delete id="deleteFeedback">
+        DELETE FROM b_feed_back WHERE  id=#{id}
+    </delete>
+    <select id="getFeedbackByParam" resultType="com.ms.blog.entity.FeedBack">
+        select id as i, email as e, title as t, content as c, img_url as iu, create_time as ct, type as t2
+        from b_feed_back WHERE type=#{type}
+    </select>
+    <select id="getFeedbackList" resultType="com.ms.blog.entity.FeedBack">
+        select id as i, email as e, title as t, content as c, img_url as iu, create_time as ct, type as t2
+        from b_feed_back
+    </select>
 </mapper>
