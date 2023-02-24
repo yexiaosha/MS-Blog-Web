@@ -58,8 +58,8 @@ public class CategoryServiceImpl implements CategoryService {
     public Result<List<CategoryVo>> getCategoryList() {
         List<Category> categoryList = categoryMapper.getCategoryList();
         List<CategoryVo> categoryVoList = new ArrayList<>();
-        CategoryVo categoryVo = new CategoryVo();
         for (Category c : categoryList) {
+            CategoryVo categoryVo = new CategoryVo();
             BeanUtils.copyProperties(c, categoryVo);
             categoryVoList.add(categoryVo);
         }

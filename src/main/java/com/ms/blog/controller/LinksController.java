@@ -13,7 +13,6 @@ import java.io.IOException;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +33,7 @@ public class LinksController {
     @Resource
     private LinksService linksService;
 
-    @GetMapping("/list")
+    @PostMapping("/list")
     @ApiOperation("获取友情链接")
     @ControllerLog("获取友情链接")
     public Result<PageData<FriendLinkVo>> getFriendLinks(@RequestBody FriendLinkSearchParam friendLinkSearchParam){

@@ -97,7 +97,7 @@
         </set> WHERE b_friend_link.id=#{id}
     </update>
 
-    <select id="getFriendLinks" resultType="com.ms.blog.entity.FriendLink">
+    <select id="getFriendLinks" parameterType="com.ms.blog.entity.param.FriendLinkSearchParam" resultType="com.ms.blog.entity.FriendLink">
         select id          as i,
                name        as n,
                url         as u,
@@ -111,11 +111,11 @@
                update_time as ut
         from b_friend_link 
         <where>
-            <if test="id!=null">
-                and id=#{id}
+            <if test="friendLinkSearchParam.id!=null">
+                and id=#{friendLinkSearchParam.id}
             </if>
-            <if test="name!=null">
-                and b_friend_link.name=#{name}
+            <if test="friendLinkSearchParam.name!=null">
+                and b_friend_link.name=#{friendLinkSearchParam.name}
             </if>
         </where>
     </select>
@@ -133,7 +133,7 @@
                update_time as ut
         from b_friend_link WHERE b_friend_link.name=#{name}
     </select>
-    <select id="getFriendLink" resultType="com.ms.blog.entity.FriendLink">
+    <select id="getFriendLink" parameterType="com.ms.blog.entity.dto.FriendLinkDto" resultType="com.ms.blog.entity.FriendLink">
         select id          as i,
                name        as n,
                url         as u,
