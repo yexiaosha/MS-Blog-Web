@@ -17,7 +17,7 @@
         DELETE FROM b_article_tag WHERE tag_id=#{tagId}
     </delete>
 
-    <select id="getTagIdListByArticleId" resultType="com.ms.blog.entity.Tag">
+    <select id="getTagIdListByArticleId" resultType="java.lang.Integer">
         select id as i, article_id as ai, tag_id as ti
         from b_article_tag WHERE article_id=#{articleId}
     </select>
