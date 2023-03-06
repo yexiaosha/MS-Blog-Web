@@ -37,45 +37,54 @@ public class FriendLinkValidator extends BaseNonRegularExpressionValidator<Frien
 
     @Override
     public ExcelCheckResult<FriendLink> nonValidateData(List<FriendLink> list) {
-        List<FriendLink> successList = new ArrayList<>();
-        List<ExcelCheckErr<FriendLink>> errList = new ArrayList<>();
-        for (FriendLink f : list) {
-            StringBuilder errMsg = new StringBuilder();
-            FriendLinkDto friendLinkDto = new FriendLinkDto();
-            friendLinkDto.setName(f.getName());
-            if (linksService.getFriendLink(friendLinkDto)!= null){
-                errMsg.append("网站名已存在");
+        try {
+            List<FriendLink> successList = new ArrayList<>();
+            List<ExcelCheckErr<FriendLink>> errList = new ArrayList<>();
+            for (FriendLink f : list) {
+                StringBuilder errMsg = new StringBuilder();
+                FriendLinkDto friendLinkDto = new FriendLinkDto();
+                friendLinkDto.setName(f.getName());
+                if (linksService.getFriendLink(friendLinkDto)!= null){
+                    errMsg.append("网站名已存在");
+                }
+                friendLinkDto.setEmail(f.getEmail());
+                if (linksService.getFriendLink(friendLinkDto) != null){
+                    errMsg.append("邮箱已存在");
+                }
+                friendLinkDto.setUrl(f.getUrl());
+                if (linksService.getFriendLink(friendLinkDto) != null){
+                    errMsg.append("链接已存在");
+                }
+                if (StringUtil.isNullOrEmpty(errMsg.toString())){
+                    successList.add(f);
+                }else {
+                    errList.add(new ExcelCheckErr<>(f, errMsg.toString()));
+                }
             }
-            friendLinkDto.setEmail(f.getEmail());
-            if (linksService.getFriendLink(friendLinkDto) != null){
-                errMsg.append("邮箱已存在");
-            }
-            friendLinkDto.setUrl(f.getUrl());
-            if (linksService.getFriendLink(friendLinkDto) != null){
-                errMsg.append("链接已存在");
-            }
-            if (StringUtil.isNullOrEmpty(errMsg.toString())){
-                successList.add(f);
-            }else {
-                errList.add(new ExcelCheckErr<>(f, errMsg.toString()));
-            }
+            List<FriendLink> success = successList.stream().distinct().collect(Collectors.toList());
+            List<ExcelCheckErr<FriendLink>> error = errList.stream().distinct().collect(Collectors.toList());
+            return new ExcelCheckResult<>(success, error);
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        successList.stream().distinct();
-        errList.stream().distinct();
-        return new ExcelCheckResult<>(successList, errList);
+        return null;
     }
 
     @Override
     public void saveData(List<FriendLink> list) {
 
-        FriendLinkParam friendLinkParam = new FriendLinkParam();
-        for (FriendLink f : list) {
-            friendLinkParam.setInfo(f.getInfo());
-            friendLinkParam.setEmail(f.getEmail());
-            friendLinkParam.setName(f.getName());
-            friendLinkParam.setUrl(f.getUrl());
-            linksService.insertFriendLink(friendLinkParam);
-        }
+       try {
+           FriendLinkParam friendLinkParam = new FriendLinkParam();
+           for (FriendLink f : list) {
+               friendLinkParam.setInfo(f.getInfo());
+               friendLinkParam.setEmail(f.getEmail());
+               friendLinkParam.setName(f.getName());
+               friendLinkParam.setUrl(f.getUrl());
+               linksService.insertFriendLink(friendLinkParam);
+           }
+       }catch (Exception e){
+           e.printStackTrace();
+       }
 
     }
 

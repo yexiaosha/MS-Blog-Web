@@ -12,6 +12,7 @@ import com.ms.blog.util.ResultUtils;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -48,6 +49,9 @@ public class CategoryServiceImpl implements CategoryService {
     @ServiceLog("根据id获取分类")
     public Result<CategoryVo> getCategoryById(Integer id) {
         Category category = categoryMapper.getCategoryById(id);
+        if (Objects.isNull(category)){
+            return ResultUtils.success();
+        }
         CategoryVo categoryVo = new CategoryVo();
         BeanUtils.copyProperties(category, categoryVo);
         return ResultUtils.success(categoryVo);

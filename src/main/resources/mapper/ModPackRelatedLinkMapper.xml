@@ -8,42 +8,42 @@
         INSERT INTO b_related_link
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="modPackId!=null">
-                mod_pack_id
+                mod_pack_id,
             </if>
             <if test="name!=null">
-                b_related_link.name
+                b_related_link.name,
             </if>
             <if test="url!=null">
-                url
+                url,
             </if>
             <if test="pic!=null">
-                pic
+                pic,
             </if>
             <if test="updateTime!=null">
-                update_time
+                update_time,
             </if>
             <if test="createTime!=null">
-                create_time
+                create_time,
             </if>
         </trim>
         <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
             <if test="modPackId!=null">
-                #{modPackId}
+                #{modPackId},
             </if>
             <if test="name!=null">
-                #{name}
+                #{name},
             </if>
             <if test="url!=null">
-                #{url}
+                #{url},
             </if>
             <if test="pic!=null">
-                #{pic}
+                #{pic},
             </if>
             <if test="updateTime!=null">
-                #{updateTime}
+                #{updateTime},
             </if>
             <if test="createTime!=null">
-                #{createTime}
+                #{createTime},
             </if>
         </trim>
     </insert>

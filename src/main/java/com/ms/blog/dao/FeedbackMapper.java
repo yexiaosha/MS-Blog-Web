@@ -6,6 +6,7 @@ import com.ms.blog.entity.FeedBack;
 import com.ms.blog.entity.param.FeedbackSearchParam;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 反馈接口
@@ -35,7 +36,7 @@ public interface FeedbackMapper {
      * @param id 反馈id
      * @return 结果
      */
-    int deleteFeedback(Integer id);
+    int deleteFeedback(@Param("id") Integer id);
 
     /**
      * 获取所有反馈表

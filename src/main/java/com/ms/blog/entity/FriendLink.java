@@ -86,7 +86,7 @@ public class FriendLink {
      * 创建时间
      */
     @ExcelIgnore
-    private Date creatTime;
+    private Date createTime;
 
     /**
      *  更新时间

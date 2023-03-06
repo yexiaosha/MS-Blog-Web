@@ -30,8 +30,9 @@
         SELECT b_category.id, name, click_volume, sort, create_time, update_time FROM b_category WHERE id=#{id}
     </select>
     <select id="getCategoryByName" resultType="com.ms.blog.entity.Category">
-        select id as i, name as n, click_volume as cv, sort as s, create_time as ct, update_time as ut
+        select id, name, click_volume, sort, create_time, update_time
         from b_category WHERE name=#{name}
+
     </select>
     <select id="getCategoryList" resultType="com.ms.blog.entity.Category">
         SELECT * FROM b_category

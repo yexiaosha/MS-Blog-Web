@@ -8,6 +8,7 @@ import com.ms.blog.entity.UserAuth;
 import com.ms.blog.entity.param.UserParam;
 import java.util.Date;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 用户访问接口
@@ -22,14 +23,14 @@ public interface UserMapper {
      * @param username 用户名
      * @return 用户
      */
-   User findUserByUsername(String username);
+   User findUserByUsername(@Param("username") String username);
 
     /**
      * 通过邮箱查找用户
      * @param email 邮箱
      * @return  用户
      */
-   User findUserByEmail(String email);
+   User findUserByEmail(@Param("email") String email);
 
     /**
      * 通过用户名登录
@@ -37,7 +38,7 @@ public interface UserMapper {
      * @param password  密码
      * @return  返回成功的用户名
      */
-   User userLoginByUsername(String username, String password);
+   User userLoginByUsername(@Param("username") String username, @Param("password") String password);
 
     /**
      * 通过邮箱登录
@@ -45,7 +46,7 @@ public interface UserMapper {
      * @param password  密码
      * @return  返回成功用户名
      */
-   User userLoginByEmail(String email, String password);
+   User userLoginByEmail(@Param("email") String email, @Param("password") String password);
 
     /**
      * 插入用户详情信息
@@ -67,21 +68,21 @@ public interface UserMapper {
      * @param username 用户名
      * @return 是否成功
      */
-   int updateLastLoginTime(Date date, String username);
+   int updateLastLoginTime(Date date, @Param("username") String username);
 
     /**
      * 获取用户基本信息
      * @param username 用户名
      * @return 用户基本信息
      */
-   User getUserInfo(String username);
+   User getUserInfo(@Param("username") String username);
 
     /**
      * 获取用户信息详情
      * @param username 用户名
      * @return 用户详情信息
      */
-   UserAuth getUserInfoDetails(String username);
+   UserAuth getUserInfoDetails(@Param("username") String username);
 
     /**
      * 获取用户列表
@@ -104,7 +105,7 @@ public interface UserMapper {
      * @param status 用户状态值
      * @return 是否成功
      */
-   int updateUserStatus(Integer id, Integer status);
+   int updateUserStatus(@Param("id") Integer id, @Param("status") Integer status);
 
     /**
      * 更改用户详细信息
@@ -118,12 +119,12 @@ public interface UserMapper {
      * @param id 用户id
      * @return 用户实体
      */
-   User getUserById(Integer id);
+   User getUserById(@Param("id") Integer id);
 
     /**
      * 根据用户id获取用户详情
      * @param id 用户id
      * @return  用户详情
      */
-   UserAuth getUserAuthById(Integer id);
+   UserAuth getUserAuthById(@Param("id") Integer id);
 }

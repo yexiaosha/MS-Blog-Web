@@ -7,6 +7,7 @@ import com.ms.blog.entity.param.ArticleSearchParam;
 import java.util.Date;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 文章接口
@@ -34,7 +35,7 @@ public interface ArticleMapper {
      * @param id 文章id
      * @return 文章对象
      */
-    Article getArticleContent(Integer id);
+    Article getArticleContent(@Param("id") Integer id);
 
     /**
      * 更新文章点击量
@@ -42,7 +43,7 @@ public interface ArticleMapper {
      * @param quantity 文章和点击量
      * @return 是否成功
      */
-    int updateArticleQuantity(Integer id, Integer quantity);
+    int updateArticleQuantity(@Param("id") Integer id, @Param("quantity") Integer quantity);
 
     /**
      *  新增文章
@@ -57,14 +58,14 @@ public interface ArticleMapper {
      * @param tagId 标签id
      * @return 结果
      */
-    int insertArticleTagRelate(Integer articleId, Integer tagId);
+    int insertArticleTagRelate(@Param("articleId") Integer articleId, @Param("tagId") Integer tagId);
 
     /**
      * 根据用户id获取文章列表
      * @param userId 用户id
      * @return 文章列表
      */
-    List<Article> getArticleByUserId(Integer userId);
+    List<Article> getArticleByUserId(@Param("userId") Integer userId);
 
     /**
      * 更改文章信息
@@ -78,7 +79,7 @@ public interface ArticleMapper {
      * @param id 文章id
      * @return 文章类
      */
-    Article getArticleById(Integer id);
+    Article getArticleById(@Param("id") Integer id);
 
     /**
      * 通过文章id列表获取文章
@@ -93,7 +94,7 @@ public interface ArticleMapper {
      * @param tagId 标签id
      * @return 文章id列表
      */
-    List<Integer> getArticleIdByTagId(Integer tagId);
+    List<Integer> getArticleIdByTagId(@Param("tagId") Integer tagId);
 
     /**
      * 通过分类获取文章
@@ -101,5 +102,5 @@ public interface ArticleMapper {
      * @param articlePage   文章分页参数
      * @return 分页结果
      */
-    IPage<Article> getArticleByCategory(Integer categoryId, Page<Article> articlePage);
+    IPage<Article> getArticleByCategory(@Param("categoryId") Integer categoryId, Page<Article> articlePage);
 }

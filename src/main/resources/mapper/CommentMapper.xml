@@ -18,23 +18,12 @@
     </delete>
 
     <select id="getParentCommentList" resultType="com.ms.blog.entity.Comment">
-        select id            as i,
-               user_id       as ui,
-               article_id    as ai,
-               content       as c,
-               reply_user_id as rui,
-               parent_id     as pi,
-               create_time   as ct
-        from b_comment  WHERE article_id=#{articleId}
+        select id, user_id, article_id, content, reply_user_id, parent_id, create_time
+        from b_comment WHERE article_id=#{articleId}
     </select>
     <select id="getChildCommentList" resultType="com.ms.blog.entity.Comment">
-        select id            as i,
-               user_id       as ui,
-               article_id    as ai,
-               content       as c,
-               reply_user_id as rui,
-               parent_id     as pi,
-               create_time   as ct
-        from b_comment WHERE parent_id=#{parentId}
+        select id, user_id, article_id, content, reply_user_id, parent_id, create_time
+        from b_comment
+        WHERE parent_id=#{parentId}
     </select>
 </mapper>

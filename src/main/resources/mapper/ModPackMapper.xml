@@ -32,43 +32,43 @@
     </update>
 
     <select id="getModPackList" resultType="com.ms.blog.entity.ModPack">
-        select id               as i,
-               name             as n,
-               create_date      as cd,
-               update_date      as ud,
-               status           as s,
-               overall_progress as op,
-               introduce        as i2,
-               version          as v
+        select id,
+               name,
+               create_time,
+               update_time,
+               status,
+               overall_progress,
+               introduce,
+               version
         from b_mod_pack
     </select>
     <select id="getModPackById" resultType="com.ms.blog.entity.ModPack">
-        select id               as i,
-               name             as n,
-               create_date      as cd,
-               update_date      as ud,
-               status           as s,
-               overall_progress as op,
-               introduce        as i2,
-               version          as v
+        select id,
+               name,
+               create_time,
+               update_time,
+               status,
+               overall_progress,
+               introduce,
+               version
         from b_mod_pack WHERE id=#{id}
     </select>
     <select id="getRelatedLinkByModPackId" resultType="com.ms.blog.entity.ModPackRelatedLink">
-        select id as i, mod_pack_id as mpi, name as n, url as u, pic as p, create_date as cd, update_date as ud
+        select id, mod_pack_id, name, url, pic, create_time, update_time
         from b_related_link WHERE mod_pack_id=#{id}
     </select>
     <select id="getUserIdByModPackId" resultType="java.lang.Integer">
         SELECT user_id FROM b_user_mod_pack WHERE mod_pack_id=#{modPackId}
     </select>
     <select id="getModPackByName" resultType="com.ms.blog.entity.ModPack">
-        select id               as i,
-               name             as n,
-               create_date      as cd,
-               update_date      as ud,
-               status           as s,
-               overall_progress as op,
-               introduce        as i2,
-               version          as v
+        select id,
+               name,
+               create_time,
+               update_time,
+               status,
+               overall_progress,
+               introduce,
+               version
         from b_mod_pack WHERE b_mod_pack.name=#{name}
     </select>
 </mapper>

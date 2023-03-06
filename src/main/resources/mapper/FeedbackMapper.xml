@@ -8,36 +8,36 @@
         INSERT INTO b_feed_back
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="email!=null">
-                email
+                email,
             </if>
             <if test="title!=null">
-                title
+                title,
             </if>
             <if test="content!=null">
-                content
+                content,
             </if>
             <if test="createTime!=null">
-                create_time
+                create_time,
             </if>
             <if test="type=0 and type=1 and type!=null">
-                type
+                type,
             </if>
         </trim>
         <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
             <if test="email!=null">
-                #{email}
+                #{email},
             </if>
             <if test="title!=null">
-                #{title}
+                #{title},
             </if>
             <if test="content!=null">
-                #{content}
+                #{content},
             </if>
             <if test="createTime!=null">
-                #{createTime}
+                #{createTime},
             </if>
             <if test="type=0 and type=1 and type!=null">
-                #{type}
+                #{type},
             </if>
         </trim>
     </insert>
@@ -45,11 +45,11 @@
         DELETE FROM b_feed_back WHERE  id=#{id}
     </delete>
     <select id="getFeedbackByParam" resultType="com.ms.blog.entity.FeedBack">
-        select id as i, email as e, title as t, content as c, img_url as iu, create_time as ct, type as t2
+        select id, email, title, content, img_url, create_time, type
         from b_feed_back WHERE type=#{type}
     </select>
     <select id="getFeedbackList" resultType="com.ms.blog.entity.FeedBack">
-        select id as i, email as e, title as t, content as c, img_url as iu, create_time as ct, type as t2
+        select id, email, title, content, img_url, create_time, type
         from b_feed_back
     </select>
 </mapper>

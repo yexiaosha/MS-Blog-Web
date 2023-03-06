@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ms.blog.entity.Tag;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 标签接口
@@ -26,7 +27,7 @@ public interface TagMapper {
      * @param tagName 表签名
      * @return  标签类
      */
-    int getTagByName(String tagName);
+    int getTagByName(@Param("tagName") String tagName);
 
     /**
      * 获取所有标签
@@ -40,14 +41,14 @@ public interface TagMapper {
      * @param id 标签id
      * @return 结果
      */
-    int deleteTag(Integer id);
+    int deleteTag(@Param("id") Integer id);
 
     /**
      * 删除文章标签关联
      * @param tagId 标签id
      * @return 结果
      */
-    int deleteArticleTag(Integer tagId);
+    int deleteArticleTag(@Param("tagId") Integer tagId);
 
     /**
      * 新增标签
@@ -67,7 +68,7 @@ public interface TagMapper {
      * @param id 标签id
      * @return 标签
      */
-    Tag getTagById(Integer id);
+    Tag getTagById(@Param("id") Integer id);
 
     /**
      * 更新标签点击量
@@ -75,5 +76,5 @@ public interface TagMapper {
      * @param clickVolume  点击量
      * @return 结果
      */
-    int updateTagClickVolume(Integer tagId, Integer clickVolume);
+    int updateTagClickVolume(@Param("tagId") Integer tagId, @Param("clickVolume") Integer clickVolume);
 }

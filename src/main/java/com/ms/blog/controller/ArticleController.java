@@ -63,7 +63,7 @@ public class ArticleController {
     @ApiImplicitParams(
             @ApiImplicitParam(value = "文章id", name = "id")
     )
-    public Result<ArticleVo> getArticleContent(@PathVariable("id") @NotBlank Integer id){
+    public Result<ArticleVo> getArticleContent(@PathVariable("id") Integer id){
         return articleService.getArticleContent(id);
     }
 

@@ -7,6 +7,7 @@ import com.ms.blog.entity.dto.FriendLinkDto;
 import com.ms.blog.entity.param.FriendLinkParam;
 import com.ms.blog.entity.param.FriendLinkSearchParam;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 友情链接接口
@@ -36,7 +37,7 @@ public interface LinksMapper {
      * @param name 友情链接名称
      * @return 友情链接对象
      */
-    FriendLink getFriendLinkByName(String name);
+    FriendLink getFriendLinkByName(@Param("name") String name);
 
     /**
      * 更改友情链接信息

@@ -7,6 +7,7 @@ import com.ms.blog.entity.HandledCancellation;
 import com.ms.blog.entity.param.CancellationParam;
 import com.ms.blog.entity.param.HandledCancellationParam;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 注销表单
@@ -29,7 +30,7 @@ public interface CancellationMapper {
      * @param id  id
      * @return 注销请求
      */
-    Cancellation getCancellationById(Integer id);
+    Cancellation getCancellationById(@Param("id") Integer id);
 
     /**
      * 新增已经注销的请求

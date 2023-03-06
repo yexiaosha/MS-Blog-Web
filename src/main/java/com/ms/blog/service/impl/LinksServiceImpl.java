@@ -69,7 +69,7 @@ public class LinksServiceImpl implements LinksService {
     @ServiceLog("新增友情链接")
     public Result<Integer> insertFriendLink(FriendLinkParam friendLinkParam) {
         FriendLink friendLink = FriendLink.builder()
-                .creatTime(new Date())
+                .createTime(new Date())
                 .email(friendLinkParam.getEmail())
                 .name(friendLinkParam.getName())
                 .info(friendLinkParam.getInfo())

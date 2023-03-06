@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ms.blog.entity.Comment;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 评论接口
@@ -19,7 +20,7 @@ public interface CommentMapper {
      * @param page 分页参数
      * @return 结果
      */
-    IPage<Comment> getParentCommentList(Integer articleId, Page<Comment> page);
+    IPage<Comment> getParentCommentList(@Param("articleId") Integer articleId, Page<Comment> page);
 
     /**
      * 获取子评论
@@ -27,14 +28,14 @@ public interface CommentMapper {
      * @param page 分页参数
      * @return 结果
      */
-    IPage<Comment> getChildCommentList(Integer parentId, Page<Comment> page);
+    IPage<Comment> getChildCommentList(@Param("articleId") Integer parentId, Page<Comment> page);
 
     /**
      * 删除评论
      * @param id 评论id
      * @return  删除评论
      */
-    int deleteComment(Integer id);
+    int deleteComment(@Param("id") Integer id);
 
     /**
      * 插入子评论

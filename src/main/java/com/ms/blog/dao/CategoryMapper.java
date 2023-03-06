@@ -3,6 +3,7 @@ package com.ms.blog.dao;
 import com.ms.blog.entity.Category;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 分类接口
@@ -17,14 +18,14 @@ public interface CategoryMapper {
      * @param id 主键id
      * @return 分类对象
      */
-    Category getCategoryById(Integer id);
+    Category getCategoryById(@Param("id") Integer id);
 
     /**
      * 通过分类名查找分类
      * @param name 分类名
      * @return 结果
      */
-    Category getCategoryByName(String name);
+    Category getCategoryByName(@Param("name") String name);
 
     /**
      * 查找所有分类
@@ -37,7 +38,7 @@ public interface CategoryMapper {
      * @param id 分类id
      * @return 结果
      */
-    int deleteCategory(Integer id);
+    int deleteCategory(@Param("id") Integer id);
 
     /**
      * 新增分类
@@ -59,5 +60,5 @@ public interface CategoryMapper {
      * @param clickVolume   点击量
      * @return 结果
      */
-    int updateCategoryClickVolume(Integer id, Integer clickVolume);
+    int updateCategoryClickVolume(@Param("id") Integer id, @Param("clickVolume") Integer clickVolume);
 }

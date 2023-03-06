@@ -2,6 +2,7 @@ package com.ms.blog.dao;
 
 import com.ms.blog.entity.ModPackRelatedLink;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 相关链接接口
@@ -23,7 +24,7 @@ public interface ModPackRelatedLinkMapper {
      * @param id 相关链接id
      * @return 结果
      */
-    int deleteRelatedLink(Integer id);
+    int deleteRelatedLink(@Param("id") Integer id);
 
     /**
      *  更新整合包相关链接
