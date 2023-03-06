@@ -44,9 +44,9 @@
     <delete id="deleteFeedback">
         DELETE FROM b_feed_back WHERE  id=#{id}
     </delete>
-    <select id="getFeedbackByParam" resultType="com.ms.blog.entity.FeedBack">
+    <select id="getFeedbackByParam" parameterType="com.ms.blog.entity.param.FeedbackSearchParam" resultType="com.ms.blog.entity.FeedBack">
         select id, email, title, content, img_url, create_time, type
-        from b_feed_back WHERE type=#{type}
+        from b_feed_back WHERE type=#{feedbackSearchParam.type}
     </select>
     <select id="getFeedbackList" resultType="com.ms.blog.entity.FeedBack">
         select id, email, title, content, img_url, create_time, type

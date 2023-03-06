@@ -8,6 +8,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
 
 /**
@@ -17,6 +18,7 @@ import org.hibernate.validator.constraints.Length;
  */
 @Data
 @ApiModel("已处理的注销申请")
+@EqualsAndHashCode(callSuper = true)
 public class HandledCancellationParam extends PageParam {
 
     @ApiModelProperty("注销请求id")
@@ -27,7 +29,7 @@ public class HandledCancellationParam extends PageParam {
     @NotBlank
     private Integer userId;
 
-    @ApiModelProperty("发起用户名")
+    @ApiModelProperty("用户名")
     @NotNull
     @Length(min = 3, max = 20)
     private String username;

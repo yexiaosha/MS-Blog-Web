@@ -73,7 +73,7 @@ public class CronJobServiceImpl implements CronJobService {
 
     @Override
     @ServiceLog("阅读量定时任务")
-    @Scheduled(cron = "0 */1 * * * ?")
+    @Scheduled(cron = "0/5 * * * * ?")
     @Transactional(rollbackFor = Exception.class)
     public void updateArticleQuantity() {
         Set<String> keys = redisTemplate.keys(ARTICLE_ID_.concat("*"));
@@ -128,7 +128,7 @@ public class CronJobServiceImpl implements CronJobService {
 
     @Override
     @ServiceLog("定时更新标签点击量")
-    @Scheduled(cron = "0 */1 * * * ?")
+    @Scheduled(cron = "0/5 * * * * ?")
     @Transactional(rollbackFor = Exception.class)
     public void updateTagClickVolume() {
         Set<String> keys = redisTemplate.keys(TAG_ID.concat("*"));
@@ -157,7 +157,7 @@ public class CronJobServiceImpl implements CronJobService {
 
     @Override
     @ServiceLog("定时更新分类点击量")
-    @Scheduled(cron = "0 */1 * * * ?")
+    @Scheduled(cron = "0/5 * * * * ?")
     @Transactional(rollbackFor = Exception.class)
     public void updateCategoryClickVolume() {
         Set<String> keys = redisTemplate.keys(CATEGORY_ID.concat("*"));

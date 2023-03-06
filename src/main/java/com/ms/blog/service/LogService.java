@@ -12,16 +12,16 @@ import com.ms.blog.entity.UserLog;
 public interface LogService {
 
     /**
-     *
-     * @param userLog
-     * @return
+     * 插入用户日志
+     * @param userLog 用户日志对象
+     * @return 结果
      */
     Result insertUserLog(UserLog userLog);
 
     /**
-     *
-     * @param exceptionLog
-     * @return
+     * 插入错误日志
+     * @param exceptionLog 错误日志
+     * @return 结果
      */
     Result insertExceptionLog(ExceptionLog exceptionLog);
 }
