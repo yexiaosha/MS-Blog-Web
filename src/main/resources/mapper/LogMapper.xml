@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ms.blog.dao.LogMapper">
+
+    <insert id="insertUserLog" parameterType="com.ms.blog.entity.UserLog">
+        INSERT INTO b_user_log
+            (username, ip, address, type, description, model, create_time, result, access_os,
+            browser, client_type, del_flag)
+            VALUES (#{username},#{ip},#{address},#{type},#{description},
+                    #{model},#{createTime},#{result},#{accessOs},#{browser},
+                    #{clientType},1)
+    </insert>
+    <insert id="insertExceptionLog">
+        INSERT INTO b_exception_log
+        (username, ip, ip_source, method, operation, params, exception_json, exception_message, create_time, del_flag)
+        VALUES(#{username},#{ip},#{source},#{method},#{operation},#{params},#{exceptionJson},#{exceptionMessage},#{createTime},1)
+    </insert>
+</mapper>

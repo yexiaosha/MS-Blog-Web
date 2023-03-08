@@ -11,6 +11,7 @@ import com.ms.blog.util.HttpContextUtils;
 import com.ms.blog.util.IpUtils;
 import com.ms.blog.util.JwtUtils;
 import com.ms.blog.util.SystemUtil;
+import io.netty.util.internal.StringUtil;
 import java.util.Date;
 import java.util.Map;
 import javax.annotation.Resource;
@@ -23,8 +24,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -48,7 +47,6 @@ public class DefaultLogAspect {
     @Resource
     private RedisTemplate<Object, Object> redisTemplate;
 
-    private static final Logger logger = LoggerFactory.getLogger(DefaultLogAspect.class);
 
     private UserLog userLog;
 
@@ -80,15 +78,15 @@ public class DefaultLogAspect {
             userLog.setDescription(description);
         }
         try {
-            logger.info("===============前置通知开始===============");
-            logger.info("请求类型：Controller接口" + method);
-            logger.info("请求方法：" + model);
-            logger.info("方法描述：" + userLog.getDescription());
-            if (username == null) {
+            log.info("===============前置通知开始===============");
+            log.info("请求类型：Controller接口" + method);
+            log.info("请求方法：" + model);
+            log.info("方法描述：" + userLog.getDescription());
+            if (StringUtil.isNullOrEmpty(username)) {
                 username = "游客";
             }
-            logger.info("请求用户：" + username);
-            logger.info("请求ip：" + ip);
+            log.info("请求用户：" + username);
+            log.info("请求ip：" + ip);
 
             userLog.setAddress(IpUtils.getIpLocation());
             userLog.setBrowser(SystemUtil.getBrowser(request));
@@ -101,21 +99,21 @@ public class DefaultLogAspect {
             userLog.setCreateTime(new Date());
 
         } catch (Exception e) {
-            logger.error("========前置通知代码异常========");
-            logger.error("异常信息：{}", e.getMessage());
+            log.error("========前置通知代码异常========");
+            log.error("异常信息：", e);
         }
     }
 
     @AfterReturning(pointcut = "controllerAspect()")
     public void doAfter() {
-        logger.info("=====请求完成=====");
+        log.info("=====请求完成=====");
         this.userLog.setResult("成功");
         logService.insertUserLog(userLog);
     }
 
     @AfterThrowing(pointcut = "controllerAspect()", throwing = "e")
     public void doAfterThrowing(Throwable e){
-        logger.info("请求失败,错误为："+ e.getMessage());
+        log.error("请求失败,错误为：",e);
         this.userLog.setResult("失败");
         logService.insertUserLog(userLog);
     }
@@ -123,7 +121,7 @@ public class DefaultLogAspect {
     /**
      * Service异常处理通知
      * @param joinPoint 切入点
-     * @param e         所导致的异常类
+     * @param e         所抛出的异常类
      */
     @AfterThrowing(pointcut = "serviceAspect()", throwing = "e")
     public void doAfterThrowing(JoinPoint joinPoint, Throwable e) {
@@ -149,14 +147,14 @@ public class DefaultLogAspect {
         }
 
         try {
-            logger.info("========异常日志========");
-            logger.info("执行代码：" + e.getClass().getName());
-            logger.info("执行信息：" + e.getMessage());
-            logger.info("执行方法：" + method + "()");
-            logger.info("方法描述：" + message);
-            logger.info("请求人：" + name);
-            logger.info("请求ip：" + ip);
-            logger.info("请求参数：" + params);
+            log.info("========异常日志========");
+            log.info("执行代码：" + e.getClass().getName());
+            log.info("执行信息：" + e.getMessage());
+            log.info("执行方法：" + method + "()");
+            log.info("方法描述：" + message);
+            log.info("请求人：" + name);
+            log.info("请求ip：" + ip);
+            log.info("请求参数：" + params);
             exceptionLog.setParams(String.valueOf(params));
             exceptionLog.setIp(ip);
             exceptionLog.setMethod(method);
@@ -167,8 +165,8 @@ public class DefaultLogAspect {
             exceptionLog.setCreateTime(new Date());
             logService.insertExceptionLog(exceptionLog);
         } catch (Exception ex) {
-            logger.error("=====异常通知代码异常=====");
-            logger.error("异常信息:{}", ex.getMessage());
+            log.error("=====异常通知代码异常=====");
+            log.error("异常信息：", e);
         }
     }
 

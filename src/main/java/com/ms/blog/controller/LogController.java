@@ -1,13 +1,17 @@
 package com.ms.blog.controller;
 
+import com.ms.blog.common.PageData;
 import com.ms.blog.common.Result;
+import com.ms.blog.entity.param.UserLogParam;
+import com.ms.blog.entity.vo.UserLogVo;
 import com.ms.blog.service.LogService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import javax.annotation.Resource;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -17,22 +21,18 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @Api(tags = "日志接口")
+@RequestMapping("/msblog/log")
 public class LogController {
 
     @Resource
     private LogService logService;
 
-    @ApiOperation("获取所有日志列表")
-    @GetMapping("/list")
-    public Result getLogs(){
-        return null;
+    @ApiOperation("获取用用户日志列表")
+    @GetMapping("/user/list")
+    public Result<PageData<UserLogVo>> getUserLogs(@RequestParam UserLogParam userLogParam){
+        return logService.getUserLogs(userLogParam);
     }
 
-    @ApiOperation("搜索日志记录")
-    @PostMapping("/search")
-    public Result searchLogs(){
-        return null;
-    }
 
     @ApiOperation("删除日志记录")
     @DeleteMapping("/delete")

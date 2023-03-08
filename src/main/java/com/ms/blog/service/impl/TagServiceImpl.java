@@ -69,8 +69,8 @@ import org.springframework.stereotype.Service;
         Page<Tag> tagPage = new Page<>(pageParam.getCurrentPage(), pageParam.getPageSize());
         IPage<Tag> tagIPage = tagMapper.getTagList(tagPage);
         List<TagVo> tagVoList = new ArrayList<>();
-        TagVo tagVo = new TagVo();
         for (Tag t : tagIPage.getRecords()) {
+            TagVo tagVo = new TagVo();
             BeanUtils.copyProperties(t, tagVo);
             tagVoList.add(tagVo);
         }

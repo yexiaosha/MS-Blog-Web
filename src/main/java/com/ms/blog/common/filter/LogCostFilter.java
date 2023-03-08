@@ -32,7 +32,7 @@ public class LogCostFilter implements Filter {
         long start = System.currentTimeMillis();
         chain.doFilter(request, response);
         time = System.currentTimeMillis() - start;
-        log.info("该请求响应时间为= " + time + "毫秒");
+        log.info("该请求响应时间为: " + time + "毫秒");
 
     }
 
