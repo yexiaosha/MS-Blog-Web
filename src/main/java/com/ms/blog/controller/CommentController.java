@@ -66,6 +66,6 @@ public class CommentController {
     @ApiOperation("获取子评论")
     @ControllerLog("获取子评论")
     public Result<PageData<CommentVo>> getChildCommentList(@RequestBody ChildCommentParam commentParam){
-        return null;
+        return commentService.getChildCommentList(commentParam);
     }
 }
