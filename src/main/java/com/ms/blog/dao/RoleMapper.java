@@ -1,5 +1,7 @@
 package com.ms.blog.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.ms.blog.entity.Article;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -8,7 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @date 2023/01/11 17:13
  */
 @Mapper
-public interface RoleMapper {
+public interface RoleMapper extends BaseMapper<Article> {
 
     /**
      * 通过角色类型id获取角色类型名称

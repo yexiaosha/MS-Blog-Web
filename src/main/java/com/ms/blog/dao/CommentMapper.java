@@ -1,7 +1,9 @@
 package com.ms.blog.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ms.blog.entity.Article;
 import com.ms.blog.entity.Comment;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -12,7 +14,7 @@ import org.apache.ibatis.annotations.Param;
  * @date 2023/02/20 14:17
  */
 @Mapper
-public interface CommentMapper {
+public interface CommentMapper extends BaseMapper<Article> {
 
     /**
      * 获取父评论

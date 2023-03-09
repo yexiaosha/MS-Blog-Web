@@ -1,7 +1,9 @@
 package com.ms.blog.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ms.blog.entity.Article;
 import com.ms.blog.entity.Tag;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
@@ -13,7 +15,7 @@ import org.apache.ibatis.annotations.Param;
  * @date 2023/02/01 17:37
  */
 @Mapper
-public interface TagMapper {
+public interface TagMapper extends BaseMapper<Article> {
 
     /**
      * 根据文章id查询所属标签列表

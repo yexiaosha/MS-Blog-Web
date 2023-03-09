@@ -1,5 +1,7 @@
 package com.ms.blog.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.ms.blog.entity.Article;
 import com.ms.blog.entity.Category;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
@@ -11,7 +13,7 @@ import org.apache.ibatis.annotations.Param;
  * @date 2023/02/01 17:27
  */
 @Mapper
-public interface CategoryMapper {
+public interface CategoryMapper extends BaseMapper<Article> {
 
     /**
      * 通过分类id获取分类

@@ -1,7 +1,9 @@
 package com.ms.blog.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ms.blog.entity.Article;
 import com.ms.blog.entity.FeedBack;
 import com.ms.blog.entity.param.FeedbackSearchParam;
 import java.util.List;
@@ -14,7 +16,7 @@ import org.apache.ibatis.annotations.Param;
  * @date 2023/02/13 10:32
  */
 @Mapper
-public interface FeedbackMapper {
+public interface FeedbackMapper extends BaseMapper<Article> {
 
     /**
      * 新增反馈

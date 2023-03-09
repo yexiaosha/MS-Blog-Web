@@ -114,7 +114,7 @@ public class ArticleController {
     @ApiImplicitParams(
             @ApiImplicitParam(name = "categoryId", value = "分类id")
     )
-    public Result<PageData<ArticleSimpleVo>> getArticleListByCategory(@PathVariable("categoryId") Integer categoryId, PageParam pageParam){
+    public Result<PageData<ArticleSimpleVo>> getArticleListByCategory(@PathVariable("categoryId") Integer categoryId, @RequestBody PageParam pageParam){
         return articleService.getArticleListByCategory(categoryId, pageParam);
     }
 

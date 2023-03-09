@@ -17,14 +17,12 @@ public interface LogService {
     /**
      * 插入用户日志
      * @param userLog 用户日志对象
-     * @return 结果
      */
    void insertUserLog(UserLog userLog);
 
     /**
      * 插入错误日志
      * @param exceptionLog 错误日志
-     * @return 结果
      */
     void insertExceptionLog(ExceptionLog exceptionLog);
 
@@ -35,4 +33,10 @@ public interface LogService {
      */
     Result<PageData<UserLogVo>> getUserLogs(UserLogParam userLogParam);
 
+    /**
+     * 删除日志
+     * @param id 日志id
+     * @return 结果
+     */
+    Result<Integer> deleteUserLogById(Integer id);
 }

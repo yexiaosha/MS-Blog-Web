@@ -1,5 +1,7 @@
 package com.ms.blog.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.ms.blog.entity.Article;
 import com.ms.blog.entity.ModPack;
 import com.ms.blog.entity.ModPackRelatedLink;
 import com.ms.blog.entity.param.ModPackParam;
@@ -15,7 +17,7 @@ import org.apache.ibatis.annotations.Param;
  */
 
 @Mapper
-public interface ModPackMapper {
+public interface ModPackMapper extends BaseMapper<Article> {
     /**
      * 获取整合包列表
      * @return 整合包列表

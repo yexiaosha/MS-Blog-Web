@@ -1,5 +1,6 @@
 package com.ms.blog.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ms.blog.entity.Article;
@@ -15,7 +16,7 @@ import org.apache.ibatis.annotations.Param;
  * @date 2023/01/16 14:36
  */
 @Mapper
-public interface ArticleMapper {
+public interface ArticleMapper extends BaseMapper<Article> {
 
     /**
      * 通过条件获取文章列表

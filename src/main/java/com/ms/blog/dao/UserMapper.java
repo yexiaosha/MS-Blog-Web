@@ -1,7 +1,9 @@
 package com.ms.blog.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ms.blog.entity.Article;
 import com.ms.blog.entity.Cancellation;
 import com.ms.blog.entity.User;
 import com.ms.blog.entity.UserAuth;
@@ -16,7 +18,7 @@ import org.apache.ibatis.annotations.Param;
  * @date 2023/01/10 18:05
  */
 @Mapper
-public interface UserMapper {
+public interface UserMapper extends BaseMapper<Article> {
 
     /**
      * 通过用户名查找用户

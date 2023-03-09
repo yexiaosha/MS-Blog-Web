@@ -1,8 +1,12 @@
 package com.ms.blog.dao;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ms.blog.entity.ExceptionLog;
 import com.ms.blog.entity.UserLog;
+import com.ms.blog.entity.param.UserLogParam;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 日志接口
@@ -25,4 +29,19 @@ public interface LogMapper {
      * @return 结果
      */
     int insertExceptionLog(ExceptionLog exceptionLog);
+
+    /**
+     * 获取用户日志列表
+     * @param param 参数类
+     * @param page 分页参数
+     * @return 分类列表
+     */
+    IPage<UserLog> getUserLogs(UserLogParam param, Page<UserLog> page);
+
+    /**
+     * 删除日志记录
+     * @param id 日志id
+     * @return 结果
+     */
+    int deleteUserLogById(@Param("id") Integer id);
 }

@@ -17,4 +17,47 @@
         (username, ip, ip_source, method, operation, params, exception_json, exception_message, create_time, del_flag)
         VALUES(#{username},#{ip},#{source},#{method},#{operation},#{params},#{exceptionJson},#{exceptionMessage},#{createTime},1)
     </insert>
+    <update id="deleteUserLogById">
+        UPDATE b_user_log SET del_flag=0 WHERE id=#{id}
+    </update>
+    <select id="getUserLogs" parameterType="com.ms.blog.entity.param.UserLogParam" resultType="com.ms.blog.entity.UserLog">
+        select id,
+               username,
+               ip,
+               address,
+               type,
+               description,
+               model,
+               create_time,
+               result,
+               access_os,
+               browser,
+               client_type,
+               del_flag
+        from b_user_log WHERE del_flag=1
+        <if test="param.username!=null and username!=''">
+            AND username=#{param.username}
+        </if>
+        <if test="param.os!=null ">
+            AND access_os=#{param.os}
+        </if>
+        <if test="param.ip!=null and ip!=''">
+            AND ip=#{param.ip}
+        </if>
+        <if test="param.type!=null">
+            AND type=#{param.type}
+        </if>
+        <if test="param.result!=null">
+            AND result=#{param.result}
+        </if>
+        <if test="param.createTime!=null">
+            AND create_time &lt;= #{param.createTime}
+        </if>
+        <if test="param.browser!=null">
+            AND browser=#{param.browser}
+        </if>
+        <if test="param.clientType!=null">
+            AND client_type=#{param.clientType}
+        </if>
+    </select>
 </mapper>

@@ -1,7 +1,9 @@
 package com.ms.blog.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ms.blog.entity.Article;
 import com.ms.blog.entity.Cancellation;
 import com.ms.blog.entity.HandledCancellation;
 import com.ms.blog.entity.param.CancellationParam;
@@ -15,7 +17,7 @@ import org.apache.ibatis.annotations.Param;
  * @date 2023/01/13 17:41
  */
 @Mapper
-public interface CancellationMapper {
+public interface CancellationMapper extends BaseMapper<Article> {
 
     /**
      * 获取注销请求

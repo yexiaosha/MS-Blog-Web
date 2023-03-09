@@ -292,8 +292,8 @@
                create_time,
                keywords,
                update_time
-        from b_article WHERE id IN
-        <foreach collection="articleIdList" item="articleId" open="(" separator="," close=")">
+        from b_article WHERE id
+        <foreach collection="articleIdList" item="articleId">
             #{articleId}
         </foreach>
     </select>

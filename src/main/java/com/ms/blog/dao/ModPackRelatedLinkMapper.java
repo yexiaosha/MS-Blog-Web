@@ -1,5 +1,7 @@
 package com.ms.blog.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.ms.blog.entity.Article;
 import com.ms.blog.entity.ModPackRelatedLink;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -10,7 +12,7 @@ import org.apache.ibatis.annotations.Param;
  * @date 2023/02/07 17:42
  */
 @Mapper
-public interface ModPackRelatedLinkMapper {
+public interface ModPackRelatedLinkMapper extends BaseMapper<Article> {
 
     /**
      * 新增整合包相关链接

@@ -1,7 +1,9 @@
 package com.ms.blog.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ms.blog.entity.Article;
 import com.ms.blog.entity.FriendLink;
 import com.ms.blog.entity.dto.FriendLinkDto;
 import com.ms.blog.entity.param.FriendLinkParam;
@@ -15,7 +17,7 @@ import org.apache.ibatis.annotations.Param;
  * @date 2023/02/02 11:02
  */
 @Mapper
-public interface LinksMapper {
+public interface LinksMapper extends BaseMapper<Article> {
 
     /**
      * 获取友情链接列表
