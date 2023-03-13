@@ -34,7 +34,7 @@ public interface ArticleService {
      * @param articleSearchParam 搜索参数
      * @return  搜索结果
      */
-    Result<PageData<ArticleVo>> getArticleListByType(ArticleSearchParam articleSearchParam);
+    Result<PageData<ArticleSimpleVo>> getArticleListByType(ArticleSearchParam articleSearchParam);
 
     /**
      * 增加文章

@@ -46,7 +46,7 @@ public class ArticleController {
     @PostMapping("/list")
     @ApiOperation("根据某一条件获取相应文章列表")
     @ControllerLog("根据某一条件获取相应文章列表")
-    public Result<PageData<ArticleVo>> getArticleListByType(@RequestBody ArticleSearchParam articleSearchParam){
+    public Result<PageData<ArticleSimpleVo>> getArticleListByType(@RequestBody ArticleSearchParam articleSearchParam){
         return articleService.getArticleListByType(articleSearchParam);
     }
 

@@ -10,6 +10,8 @@ import com.ms.blog.common.Result;
 import com.ms.blog.common.annotation.ServiceLog;
 import com.ms.blog.dao.ArticleMapper;
 import com.ms.blog.entity.Article;
+import com.ms.blog.entity.User;
+import com.ms.blog.entity.UserAuth;
 import com.ms.blog.entity.param.ArticleParam;
 import com.ms.blog.entity.param.ArticleSearchParam;
 import com.ms.blog.entity.vo.ArticleSimpleVo;
@@ -90,26 +92,38 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     @ServiceLog("通过条件获取文章列表")
-    public Result<PageData<ArticleVo>> getArticleListByType(ArticleSearchParam articleSearchParam) {
+    public Result<PageData<ArticleSimpleVo>> getArticleListByType(ArticleSearchParam articleSearchParam) {
         Page<Article> articlePage = new Page<>(articleSearchParam.getCurrentPage(), articleSearchParam.getPageSize());
         IPage<Article> articleIPage = articleMapper.getArticleList(articlePage, articleSearchParam);
         List<Article> articleList = articleIPage.getRecords();
-        List<ArticleVo> articleVoList = new ArrayList<>();
+        List<ArticleSimpleVo> articleSimpleVoList = new ArrayList<>();
         if (!StringUtil.isNullOrEmpty(articleSearchParam.getArticleWriter())){
             UserVo data = userService.getUserInfo(articleSearchParam.getArticleWriter()).getData();
             List<Article> articles = articleList.stream().filter(aVo -> data.getId().equals(aVo.getId())).collect(Collectors.toList());
             for (Article article:articles) {
-                articleVoList.add(copy(article));
+                ArticleSimpleVo articleSimpleVo = new ArticleSimpleVo();
+                BeanUtils.copyProperties(article, articleSimpleVo);
+                User user = userService.getUserByUserId(article.getUserId());
+                UserAuth userInfoDetailsByUserId = userService.getUserInfoDetailsByUserId(article.getUserId());
+                articleSimpleVo.setUsername(user.getUsername());
+                articleSimpleVo.setNikeName(userInfoDetailsByUserId.getNikeName());
+                articleSimpleVoList.add(articleSimpleVo);
             }
-            PageData<ArticleVo> articleVoPageData = new PageData<>(articleVoList, articleIPage.getTotal(), articleIPage.getPages(), articleIPage.getCurrent());
+            PageData<ArticleSimpleVo> articleVoPageData = new PageData<>(articleSimpleVoList, articleIPage.getTotal(), articleIPage.getPages(), articleIPage.getCurrent());
             return ResultUtils.success(articleVoPageData);
         }
 
         for (Article article:articleList) {
-            articleVoList.add(copy(article));
+            ArticleSimpleVo articleSimpleVo = new ArticleSimpleVo();
+            BeanUtils.copyProperties(article, articleSimpleVo);
+            User user = userService.getUserByUserId(article.getUserId());
+            UserAuth userInfoDetailsByUserId = userService.getUserInfoDetailsByUserId(article.getUserId());
+            articleSimpleVo.setUsername(user.getUsername());
+            articleSimpleVo.setNikeName(userInfoDetailsByUserId.getNikeName());
+            articleSimpleVoList.add(articleSimpleVo);
         }
-        PageData<ArticleVo> articleVoPageData = new PageData<>(articleVoList, articleIPage.getTotal(), articleIPage.getPages(), articleIPage.getCurrent());
-        return ResultUtils.success(articleVoPageData);
+        PageData<ArticleSimpleVo> articleSimpleVoPageData = new PageData<>(articleSimpleVoList, articleIPage.getTotal(), articleIPage.getPages(), articleIPage.getCurrent());
+        return ResultUtils.success(articleSimpleVoPageData);
     }
 
 
