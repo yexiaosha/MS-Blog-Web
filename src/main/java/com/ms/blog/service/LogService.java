@@ -4,7 +4,9 @@ import com.ms.blog.common.PageData;
 import com.ms.blog.common.Result;
 import com.ms.blog.entity.ExceptionLog;
 import com.ms.blog.entity.UserLog;
+import com.ms.blog.entity.param.ExceptionLogParam;
 import com.ms.blog.entity.param.UserLogParam;
+import com.ms.blog.entity.vo.ExceptionLogVo;
 import com.ms.blog.entity.vo.UserLogVo;
 
 /**
@@ -39,4 +41,18 @@ public interface LogService {
      * @return 结果
      */
     Result<Integer> deleteUserLogById(Integer id);
+
+    /**
+     * 获取错误日志列表
+     * @param exceptionLogParam 错误日志参数类
+     * @return 列表
+     */
+    Result<PageData<ExceptionLogVo>> getExceptionLogs(ExceptionLogParam exceptionLogParam);
+
+    /**
+     * 删除错误日志
+     * @param id id
+     * @return 结果
+     */
+    Result<Integer> deleteExceptionLogById(Integer id);
 }

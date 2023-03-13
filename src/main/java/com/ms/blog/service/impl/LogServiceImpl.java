@@ -7,7 +7,9 @@ import com.ms.blog.common.Result;
 import com.ms.blog.dao.LogMapper;
 import com.ms.blog.entity.ExceptionLog;
 import com.ms.blog.entity.UserLog;
+import com.ms.blog.entity.param.ExceptionLogParam;
 import com.ms.blog.entity.param.UserLogParam;
+import com.ms.blog.entity.vo.ExceptionLogVo;
 import com.ms.blog.entity.vo.UserLogVo;
 import com.ms.blog.service.LogService;
 import com.ms.blog.util.ResultUtils;
@@ -57,5 +59,24 @@ public class LogServiceImpl implements LogService {
     @Override
     public Result<Integer> deleteUserLogById(Integer id) {
         return ResultUtils.success(logMapper.deleteUserLogById(id));
+    }
+
+    @Override
+    public Result<PageData<ExceptionLogVo>> getExceptionLogs(ExceptionLogParam exceptionLogParam) {
+        Page<ExceptionLog> exceptionLogPage = new Page<>(exceptionLogParam.getCurrentPage(),exceptionLogParam.getPageSize());
+        IPage<ExceptionLog> exceptionLogIPage = logMapper.getExceptionLogs(exceptionLogParam, exceptionLogPage);
+        List<ExceptionLogVo> exceptionLogVoList = new ArrayList<>();
+        for (ExceptionLog e : exceptionLogIPage.getRecords()) {
+            ExceptionLogVo exceptionLogVo = new ExceptionLogVo();
+            BeanUtils.copyProperties(e, exceptionLogVo);
+            exceptionLogVoList.add(exceptionLogVo);
+        }
+        PageData<ExceptionLogVo> exceptionLogVoPageData = new PageData<>(exceptionLogVoList, exceptionLogIPage.getTotal(), exceptionLogIPage.getPages(), exceptionLogIPage.getCurrent());
+        return ResultUtils.success(exceptionLogVoPageData);
+    }
+
+    @Override
+    public Result<Integer> deleteExceptionLogById(Integer id) {
+        return ResultUtils.success(logMapper.deleteExceptionLog(id));
     }
 }

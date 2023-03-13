@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ms.blog.entity.ExceptionLog;
 import com.ms.blog.entity.UserLog;
+import com.ms.blog.entity.param.ExceptionLogParam;
 import com.ms.blog.entity.param.UserLogParam;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -44,4 +45,19 @@ public interface LogMapper {
      * @return 结果
      */
     int deleteUserLogById(@Param("id") Integer id);
+
+    /**
+     * 删除错误日志
+     * @param id 日志id
+     * @return 结果
+     */
+    int deleteExceptionLog(@Param("id") Integer id);
+
+    /**
+     * 获取错误日志
+     * @param exceptionLogParam 错误日志参数
+     * @param exceptionLogPage 分页参数
+     * @return 结果
+     */
+    IPage<ExceptionLog> getExceptionLogs(@Param("exceptionLogParam") ExceptionLogParam exceptionLogParam, Page<ExceptionLog> exceptionLogPage);
 }

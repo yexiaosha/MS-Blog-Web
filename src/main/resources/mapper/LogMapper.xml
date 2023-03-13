@@ -20,6 +20,9 @@
     <update id="deleteUserLogById">
         UPDATE b_user_log SET del_flag=0 WHERE id=#{id}
     </update>
+    <update id="deleteExceptionLog">
+        UPDATE b_exception_log SET del_flag=0 WHERE id=#{id}
+    </update>
     <select id="getUserLogs" parameterType="com.ms.blog.entity.param.UserLogParam" resultType="com.ms.blog.entity.UserLog">
         select id,
                username,
@@ -58,6 +61,35 @@
         </if>
         <if test="param.clientType!=null">
             AND client_type=#{param.clientType}
+        </if>
+    </select>
+    <select id="getExceptionLogs" resultType="com.ms.blog.entity.ExceptionLog">
+        select id,
+               username,
+               ip,
+               ip_source,
+               method,
+               operation,
+               params,
+               exception_json,
+               exception_message,
+               create_time,
+               del_flag
+        from b_exception_log WHERE del_flag=1
+        <if test="exceptionLogParam.username!=null">
+            AND username=#{exceptionLogParam.username}
+        </if>
+        <if test="exceptionLogParam.ip!=null">
+            AND ip=#{exceptionLogParam.ip}
+        </if>
+        <if test="exceptionLogParam.source">
+            AND ip_source=#{exceptionLogParam.source}
+        </if>
+        <if test="exceptionLogParam.method!=null">
+            AND method=#{exceptionLogParam.method}
+        </if>
+        <if test="exceptionLogParam.createTime!=null">
+            AND create_time&lt;=#{exceptionLogParam.createTime}
         </if>
     </select>
 </mapper>

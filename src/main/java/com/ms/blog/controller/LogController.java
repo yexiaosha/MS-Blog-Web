@@ -2,6 +2,7 @@ package com.ms.blog.controller;
 
 import com.ms.blog.common.PageData;
 import com.ms.blog.common.Result;
+import com.ms.blog.entity.param.ExceptionLogParam;
 import com.ms.blog.entity.param.UserLogParam;
 import com.ms.blog.entity.vo.ExceptionLogVo;
 import com.ms.blog.entity.vo.UserLogVo;
@@ -42,8 +43,16 @@ public class LogController {
         return logService.deleteUserLogById(id);
     }
 
-    public Result<PageData<ExceptionLogVo>> getExceptionLogs(){
+    @ApiOperation("获取错误日志列表")
+    @PostMapping("/exception/list")
+    public Result<PageData<ExceptionLogVo>> getExceptionLogs(@RequestBody ExceptionLogParam exceptionLogParam){
+        return logService.getExceptionLogs(exceptionLogParam);
+    }
 
-        return null;
+    @DeleteMapping("/exception/delete/{id}")
+    @ApiOperation("删除错误日志")
+    public Result<Integer> deleteExceptionLog(@PathVariable("id") Integer id){
+        return logService.deleteExceptionLogById(id);
+
     }
 }
