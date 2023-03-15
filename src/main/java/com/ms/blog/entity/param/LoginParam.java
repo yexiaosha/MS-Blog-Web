@@ -21,7 +21,7 @@ public class LoginParam {
     @NotBlank
     @Size(max = 25, min = 3, message = "用户名必须大于{min}, 小于{max}个字符")
     @ApiModelProperty("登录名 邮箱或者用户名")
-    private String params;
+    private String account;
 
     @NotBlank
     @Size(min = 8, message = "密码必须大于{min}个字符")

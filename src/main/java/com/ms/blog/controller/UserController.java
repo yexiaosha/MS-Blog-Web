@@ -21,11 +21,11 @@ import io.swagger.annotations.ApiOperation;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "用户接口")
 @RequestMapping("/msblog/user")
 @Slf4j
+@CrossOrigin
 public class UserController {
 
     @Resource
@@ -55,6 +56,7 @@ public class UserController {
     @GetMapping("/info/{username}")
     @ApiOperation("获取用户基础信息")
     @ControllerLog("获取用户基础信息")
+    @Deprecated
     public Result<UserVo> getUserInfo(@PathVariable("username") String username){
         return userService.getUserInfo(username);
     }
@@ -62,11 +64,12 @@ public class UserController {
     @GetMapping("/info/detail/{username}")
     @ApiOperation("获取用户详情")
     @ControllerLog("获取用户详情")
+    @Deprecated
     public Result<UserAuthVo> getUserInfoDetails(@PathVariable("username") String username){
         return userService.getUserInfoDetails(username);
     }
 
-    @PutMapping("/info/detail/update")
+    @PostMapping("/info/detail/update")
     @ApiOperation("更改用户信息")
     @ControllerLog("更改用户信息")
     public Result<Integer> updateUserDetailInfo(@RequestBody UserInfoParam userInfoParam){

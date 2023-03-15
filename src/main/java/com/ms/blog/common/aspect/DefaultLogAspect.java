@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.ms.blog.common.annotation.ControllerLog;
 import com.ms.blog.common.annotation.ServiceLog;
 import com.ms.blog.entity.ExceptionLog;
-import com.ms.blog.entity.User;
 import com.ms.blog.entity.UserLog;
 import com.ms.blog.service.LogService;
 import com.ms.blog.util.HttpContextUtils;
@@ -180,7 +179,6 @@ public class DefaultLogAspect {
         if (!(StringUtils.hasText(userJson))){
             return null;
         }
-        User user = JSON.parseObject(userJson, User.class);
-        return user.getUsername();
+        return JSON.parseObject(userJson,String.class);
     }
 }

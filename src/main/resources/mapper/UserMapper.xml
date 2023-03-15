@@ -37,20 +37,20 @@
     <update id="updateUserInfoDetails">
         UPDATE b_user_auth
         <set>
-            <if test="userAuth.nickname != null">
-                nickname = #{userAuth.nikeName},
+            <if test="nikeName != null">
+                nickname = #{nikeName},
             </if>
-            <if test="userAuth.avatar != null">
-                avatar = #{userAuth.avatar},
+            <if test="avatar != null">
+                avatar = #{avatar},
             </if>
-            <if test="userAuth.intro != null">
-                intro = #{userAuth.intro},
+            <if test="intro != null">
+                intro = #{intro},
             </if>
-            <if test="userAuth.website">
-                website = #{userAuth.website}
+            <if test="website != null">
+                website = #{website}
             </if>
         </set>
-        WHERE (SELECT user_auth_id FROM b_user WHERE b_user.id = #{userAuth.id}) = b_user_auth.id
+        WHERE (SELECT user_auth_id FROM b_user WHERE b_user.id = #{id}) = b_user_auth.id
     </update>
     <update id="updateUserStatus">
         UPDATE b_user SET status = #{status} WHERE id = #{id}

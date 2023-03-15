@@ -1,5 +1,6 @@
 package com.ms.blog.service.impl;
 
+import cn.hutool.core.lang.Validator;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -20,6 +21,7 @@ import com.ms.blog.entity.param.UserInfoParam;
 import com.ms.blog.entity.param.UserParam;
 import com.ms.blog.entity.vo.LoginVo;
 import com.ms.blog.entity.vo.UserAuthVo;
+import com.ms.blog.entity.vo.UserSimpleVo;
 import com.ms.blog.entity.vo.UserVo;
 import com.ms.blog.service.CaptchaService;
 import com.ms.blog.service.MailService;
@@ -32,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -69,7 +72,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @ServiceLog("用户登录")
     public Result<LoginVo> userLogin(LoginParam loginParam) {
-        loginParam.setPassword(Md5Util.encodePassword(loginParam.getPassword()));
+        //loginParam.setPassword(Md5Util.encodePassword(loginParam.getPassword()));
         /*Result result = captchaService.verifyCaptcha(loginParam.getCaptcha());
         if (result.getCode() == ErrorCode.CAPTCHA_ERROR.getCode()){
             return ResultUtils.fail(result.getCode(), result.getMessage());
@@ -77,14 +80,12 @@ public class UserServiceImpl implements UserService {
         System.out.println(loginParam);*/
         User user = new User();
 
-        if (loginParam.getType() == 0) {
-            log.info("用户名登录");
-            user = userMapper.userLoginByUsername(loginParam.getParams(), loginParam.getPassword());
-        }
-
-        if (loginParam.getType() == 1) {
+        if (Validator.isEmail(loginParam.getAccount())) {
             log.info("邮箱登录");
-            user = userMapper.userLoginByEmail(loginParam.getParams(), loginParam.getPassword());
+            user = userMapper.userLoginByEmail(loginParam.getAccount(), loginParam.getPassword());
+        }else {
+            log.info("用户名登录");
+            user = userMapper.userLoginByUsername(loginParam.getAccount(), loginParam.getPassword());
         }
 
         if (user == null) {
@@ -102,6 +103,20 @@ public class UserServiceImpl implements UserService {
         redisTemplate.opsForValue().set(TOKEN_ + token, JSON.toJSONString(user.getUsername()), 15, TimeUnit.DAYS);
 
         LoginVo loginVo = new LoginVo();
+        UserAuth userAuth = userMapper.getUserAuthById(user.getId());
+        if (!Objects.isNull(userAuth)){
+            UserSimpleVo userSimpleVo = UserSimpleVo.builder()
+                    .id(user.getId())
+                    .email(userAuth.getEmail())
+                    .username(user.getUsername())
+                    .avatar(userAuth.getAvatar())
+                    .intro(userAuth.getIntro())
+                    .nikeName(userAuth.getNikeName())
+                    .website(userAuth.getWebsite())
+                    .build();
+            loginVo.setUserSimpleVo(userSimpleVo);
+        }
+
         loginVo.setToken(token);
         //loginVo.setRole(roleService.getRoleNameByRoleId(user.getRoleId()));
         return ResultUtils.success(loginVo);

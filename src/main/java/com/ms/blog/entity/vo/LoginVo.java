@@ -18,4 +18,7 @@ public class LoginVo {
 
     @ApiModelProperty("用户类型")
     private String role;
+
+    @ApiModelProperty("用户简单信息")
+    private UserSimpleVo userSimpleVo;
 }
