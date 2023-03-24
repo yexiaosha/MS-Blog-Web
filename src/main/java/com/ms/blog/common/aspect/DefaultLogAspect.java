@@ -170,6 +170,9 @@ public class DefaultLogAspect {
     }
 
     public String getUsername(String token){
+        if (StringUtil.isNullOrEmpty(token)){
+            return null;
+        }
         Map<String, Object> map = JwtUtils.verifyToken(token);
         if (map == null){
             return null;

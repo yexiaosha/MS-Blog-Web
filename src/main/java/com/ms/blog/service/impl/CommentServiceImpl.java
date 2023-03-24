@@ -103,7 +103,7 @@ public class CommentServiceImpl implements CommentService {
     private CommentVo copy(Comment comment){
         CommentVo commentVo = new CommentVo();
         BeanUtils.copyProperties(comment, commentVo);
-        commentVo.setNikeName(userService.getUserInfoDetailsByUserId(comment.getId()).getNikeName());
+        commentVo.setNikeName(userService.getUserInfoDetailsByUserId(comment.getId()).getNickname());
         return commentVo;
     }
 

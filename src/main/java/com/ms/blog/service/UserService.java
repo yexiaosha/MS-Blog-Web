@@ -13,6 +13,7 @@ import com.ms.blog.entity.param.UserInfoParam;
 import com.ms.blog.entity.param.UserParam;
 import com.ms.blog.entity.vo.LoginVo;
 import com.ms.blog.entity.vo.UserAuthVo;
+import com.ms.blog.entity.vo.UserSimpleVo;
 import com.ms.blog.entity.vo.UserVo;
 
 /**
@@ -35,7 +36,7 @@ public interface UserService {
      * @param userDto 用户数据传输类
      * @return 通用结果
      */
-    Result<Integer> userRegister(RegisterParam registerParam, UserDto userDto);
+    Result<LoginVo> userRegister(RegisterParam registerParam, UserDto userDto);
 
     /**
      * 用户登出
@@ -63,7 +64,7 @@ public interface UserService {
      * @param userInfoParam 用户详细信息参数
      * @return 是否更改
      */
-    Result<Integer> updateUserDetailInfo(UserInfoParam userInfoParam);
+    Result<UserSimpleVo> updateUserDetailInfo(UserInfoParam userInfoParam);
 
     /**
      * 获取所有用户列表
@@ -75,10 +76,9 @@ public interface UserService {
     /**
      * 重置密码/忘记密码
      * @param resetPasswordParam 忘记密码表单
-     * @param token 令牌
      * @return 结果
      */
-    Result<Integer> resetPassword(ResetPasswordParam resetPasswordParam, String token);
+    Result<Integer> resetPassword(ResetPasswordParam resetPasswordParam);
 
     /**
      * 注销请求提交

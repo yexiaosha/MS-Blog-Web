@@ -106,7 +106,7 @@ public class ArticleServiceImpl implements ArticleService {
                 User user = userService.getUserByUserId(article.getUserId());
                 UserAuth userInfoDetailsByUserId = userService.getUserInfoDetailsByUserId(article.getUserId());
                 articleSimpleVo.setUsername(user.getUsername());
-                articleSimpleVo.setNikeName(userInfoDetailsByUserId.getNikeName());
+                articleSimpleVo.setNikeName(userInfoDetailsByUserId.getNickname());
                 articleSimpleVoList.add(articleSimpleVo);
             }
             PageData<ArticleSimpleVo> articleVoPageData = new PageData<>(articleSimpleVoList, articleIPage.getTotal(), articleIPage.getPages(), articleIPage.getCurrent());
@@ -119,7 +119,7 @@ public class ArticleServiceImpl implements ArticleService {
             User user = userService.getUserByUserId(article.getUserId());
             UserAuth userInfoDetailsByUserId = userService.getUserInfoDetailsByUserId(article.getUserId());
             articleSimpleVo.setUsername(user.getUsername());
-            articleSimpleVo.setNikeName(userInfoDetailsByUserId.getNikeName());
+            articleSimpleVo.setNikeName(userInfoDetailsByUserId.getNickname());
             articleSimpleVoList.add(articleSimpleVo);
         }
         PageData<ArticleSimpleVo> articleSimpleVoPageData = new PageData<>(articleSimpleVoList, articleIPage.getTotal(), articleIPage.getPages(), articleIPage.getCurrent());
@@ -236,7 +236,7 @@ public class ArticleServiceImpl implements ArticleService {
                     .id(a.getId())
                     .title(a.getTitle())
                     .createTime(a.getCreateTime())
-                    .nikeName(userService.getUserInfoDetailsByUserId(a.getUserId()).getNikeName())
+                    .nikeName(userService.getUserInfoDetailsByUserId(a.getUserId()).getNickname())
                     .updateTime(a.getUpdateTime())
                     .summary(a.getSummary())
                     .username(userService.getUserByUserId(a.getUserId()).getUsername())
@@ -266,7 +266,7 @@ public class ArticleServiceImpl implements ArticleService {
                     .id(a.getId())
                     .title(a.getTitle())
                     .createTime(a.getCreateTime())
-                    .nikeName(userService.getUserInfoDetailsByUserId(a.getUserId()).getNikeName())
+                    .nikeName(userService.getUserInfoDetailsByUserId(a.getUserId()).getNickname())
                     .updateTime(a.getUpdateTime())
                     .summary(a.getSummary())
                     .username(userService.getUserByUserId(a.getUserId()).getUsername())
@@ -316,7 +316,7 @@ public class ArticleServiceImpl implements ArticleService {
         ArticleVo articleVo = ArticleVo.builder()
                 .build();
         BeanUtils.copyProperties(article, articleVo);
-        articleVo.setCategoryVo(categoryService.getCategoryById(articleVo.getId()).getData());
+        articleVo.setCategoryVo(categoryService.getCategoryById(article.getCategoryId()).getData());
         articleVo.setTagsVo(tagService.getTagListByArticleId(articleVo.getId()).getData());
         return articleVo;
     }

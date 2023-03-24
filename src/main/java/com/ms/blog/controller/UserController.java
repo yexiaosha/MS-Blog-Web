@@ -12,6 +12,7 @@ import com.ms.blog.entity.param.UserInfoParam;
 import com.ms.blog.entity.param.UserParam;
 import com.ms.blog.entity.vo.LoginVo;
 import com.ms.blog.entity.vo.UserAuthVo;
+import com.ms.blog.entity.vo.UserSimpleVo;
 import com.ms.blog.entity.vo.UserVo;
 import com.ms.blog.service.UserService;
 import com.ms.blog.util.IpUtils;
@@ -72,7 +73,8 @@ public class UserController {
     @PostMapping("/info/detail/update")
     @ApiOperation("更改用户信息")
     @ControllerLog("更改用户信息")
-    public Result<Integer> updateUserDetailInfo(@RequestBody UserInfoParam userInfoParam){
+    public Result<UserSimpleVo> updateUserDetailInfo(@RequestBody UserInfoParam userInfoParam){
+        log.info(userInfoParam.toString());
         return userService.updateUserDetailInfo(userInfoParam);
 
     }
@@ -101,20 +103,21 @@ public class UserController {
     @PostMapping("/register")
     @ApiOperation("游客注册")
     @ControllerLog("游客注册")
-    public Result<Integer> registerUser(@RequestBody RegisterParam registerParam, HttpServletRequest request){
+    public Result<LoginVo> registerUser(@RequestBody RegisterParam registerParam, HttpServletRequest request){
         UserDto userDto = new UserDto();
         userDto.setIpAddress(IpUtils.getIpAddress(request));
         userDto.setIpSource(IpUtils.getIpLocation());
         userDto.setOs(SystemUtil.getOs(request));
         userDto.setBrowser(SystemUtil.getBrowser(request));
+        log.info(registerParam.toString());
         return userService.userRegister(registerParam, userDto);
     }
 
     @PostMapping("/reset")
     @ApiOperation("忘记密码/重置密码")
     @ControllerLog("忘记密码/重置密码")
-    private Result<Integer> resetPassword(@RequestBody ResetPasswordParam resetPasswordParam, @RequestHeader("Authorization") String token){
-        return userService.resetPassword(resetPasswordParam, token);
+    public Result<Integer> resetPassword(@RequestBody ResetPasswordParam resetPasswordParam){
+        return userService.resetPassword(resetPasswordParam);
     }
 
 }

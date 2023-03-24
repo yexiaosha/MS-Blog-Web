@@ -25,7 +25,7 @@ public class UserSimpleVo {
     private String username;
 
     @ApiModelProperty("昵称")
-    private String nikeName;
+    private String nickname;
 
     @ApiModelProperty("邮箱")
     private String email;

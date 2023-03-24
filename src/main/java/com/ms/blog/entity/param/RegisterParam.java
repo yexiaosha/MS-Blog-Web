@@ -39,10 +39,10 @@ public class RegisterParam {
 
     @ApiModelProperty("用户名")
     @Length(min = 3, max = 20, message = "用户名必须在3个字符以上，20个字符以内")
-    private String nikeName = this.username;
+    private String nickname = this.username;
 
     @ApiModelProperty("邮箱验证码")
     @NotNull
     @Length(min = 6, max = 6, message = "邮箱验证码必须是规定位数")
-    private String mailCode;
+    private String code;
 }

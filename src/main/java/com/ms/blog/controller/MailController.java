@@ -37,7 +37,7 @@ public class MailController {
     )
     public Result<Integer> sentMailVerifyCode(@RequestParam String email){
         mailService.sentMailVerifyCode(email);
-        return ResultUtils.success();
+        return ResultUtils.success("发送成功");
     }
 
 }

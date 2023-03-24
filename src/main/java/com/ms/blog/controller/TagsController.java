@@ -11,12 +11,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import javax.annotation.Resource;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 标签接口
@@ -26,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Api(tags = "标签接口")
 @RequestMapping("/msblog/tags")
+@CrossOrigin
 public class TagsController {
 
     @Resource
@@ -53,7 +50,7 @@ public class TagsController {
 
     }
 
-    @PostMapping("/popular")
+    @GetMapping("/popular")
     @ApiOperation("获取热门标签")
     @ControllerLog("获取热门标签")
     public Result<List<TagVo>> getPopularTagList(){

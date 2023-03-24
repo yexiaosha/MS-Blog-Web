@@ -23,8 +23,8 @@ public class ResetPasswordParam {
     private String email;
 
     @ApiModelProperty("邮箱验证码")
-    private String emailVerifyCode;
+    private String code;
 
-    @ApiModelProperty("验证码")
-    private String captcha;
+    @ApiModelProperty("token")
+    private String token;
 }

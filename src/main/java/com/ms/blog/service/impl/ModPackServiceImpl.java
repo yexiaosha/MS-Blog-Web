@@ -93,7 +93,7 @@ public class ModPackServiceImpl implements ModPackService {
             User user = userMapper.getUserById(i);
             creatorVo.setUsername(user.getUsername());
             UserAuth userAuth = userMapper.getUserAuthById(i);
-            creatorVo.setNikeName(userAuth.getNikeName());
+            creatorVo.setNikeName(userAuth.getNickname());
             creatorVoList.add(creatorVo);
         }
         modPackVo.setCreatorList(creatorVoList);

@@ -55,8 +55,8 @@ import org.springframework.stereotype.Service;
         }
 
         List<TagVo> tagVoList = new ArrayList<>();
-        TagVo tagVo = new TagVo();
         for (Tag t : tagList) {
+            TagVo tagVo = new TagVo();
             BeanUtils.copyProperties(t, tagVo);
             tagVoList.add(tagVo);
         }

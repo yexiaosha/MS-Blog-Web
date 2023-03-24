@@ -37,10 +37,13 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.Resource;
+
+import io.jsonwebtoken.MalformedJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 /**
@@ -72,12 +75,12 @@ public class UserServiceImpl implements UserService {
     @Override
     @ServiceLog("用户登录")
     public Result<LoginVo> userLogin(LoginParam loginParam) {
-        //loginParam.setPassword(Md5Util.encodePassword(loginParam.getPassword()));
+        loginParam.setPassword(Md5Util.encodePassword(loginParam.getPassword()));
         /*Result result = captchaService.verifyCaptcha(loginParam.getCaptcha());
         if (result.getCode() == ErrorCode.CAPTCHA_ERROR.getCode()){
             return ResultUtils.fail(result.getCode(), result.getMessage());
-        }
-        System.out.println(loginParam);*/
+        }*/
+        System.out.println(loginParam);
         User user = new User();
 
         if (Validator.isEmail(loginParam.getAccount())) {
@@ -94,7 +97,7 @@ public class UserServiceImpl implements UserService {
                     ErrorCode.ACCOUNT_PWD_NOT_EXIST.getMsg());
         }
 
-        if (user.getStatus() == 0) {
+        if (user.getStatus() == 1) {
             log.info("用户不存在");
             return ResultUtils.fail(ErrorCode.ACCOUNT_HAS_DISABLED.getCode(), ErrorCode.ACCOUNT_HAS_DISABLED.getMsg());
         }
@@ -111,32 +114,31 @@ public class UserServiceImpl implements UserService {
                     .username(user.getUsername())
                     .avatar(userAuth.getAvatar())
                     .intro(userAuth.getIntro())
-                    .nikeName(userAuth.getNikeName())
+                    .nickname(userAuth.getNickname())
                     .website(userAuth.getWebsite())
                     .build();
             loginVo.setUserSimpleVo(userSimpleVo);
         }
 
         loginVo.setToken(token);
+        log.info(loginVo.toString());
         //loginVo.setRole(roleService.getRoleNameByRoleId(user.getRoleId()));
         return ResultUtils.success(loginVo);
     }
 
     @Override
     @ServiceLog("用户注册")
-    public Result<Integer> userRegister(RegisterParam registerParam, UserDto userDto) {
-        Result<Integer> result = mailService.verifyMailCode(registerParam.getMailCode());
+    @Transactional(noRollbackForClassName = "MalformedJwtException")
+    public Result<LoginVo> userRegister(RegisterParam registerParam, UserDto userDto) {
+        registerParam.setPassword(Md5Util.encodePassword(registerParam.getPassword()));
+        Result<Integer> result = mailService.verifyMailCode(registerParam.getCode());
         if (result.getStatus() == 0) {
-            return result;
+            return ResultUtils.fail(ErrorCode.EMAIL_VERIFY_FAIL.getCode(), ErrorCode.EMAIL_VERIFY_FAIL.getMsg());
         }
-        result = captchaService.verifyCaptcha(registerParam.getCaptcha());
+        //result = captchaService.verifyCaptcha(registerParam.getCaptcha());
 
-        if (result.getStatus() == 0) {
-            return result;
-        }
-
-        if (userMapper.findUserByUsername(registerParam.getUsername()) == null
-                || userMapper.findUserByEmail(registerParam.getEmail()) == null) {
+        if (userMapper.findUserByUsername(registerParam.getUsername()) != null
+                || userMapper.findUserByEmail(registerParam.getEmail()) != null) {
             return ResultUtils.fail(ErrorCode.ACCOUNT_HAS_EXIST.getCode(), ErrorCode.ACCOUNT_HAS_EXIST.getMsg());
         }
 
@@ -150,21 +152,34 @@ public class UserServiceImpl implements UserService {
                 .loginType(0)
                 .roleId(0)
                 .status(0)
-                .password(Md5Util.encodePassword(registerParam.getPassword()))
+                .password(registerParam.getPassword())
                 .username(registerParam.getUsername())
                 .updateTime(new Date())
                 .build();
         UserAuth userAuth = UserAuth.builder()
                 .email(registerParam.getEmail())
                 .isDisabled(0)
-                .nikeName(registerParam.getNikeName())
+                .nickname(registerParam.getNickname())
                 .intro("这个用户很神秘，不愿意自我介绍")
                 .build();
 
-        Integer authId = userMapper.insertUserAuth(userAuth);
-        user.setUserAuthId(authId);
+        userMapper.insertUserAuth(userAuth);
+        user.setUserAuthId(userAuth.getId());
+        userMapper.insertUserInfo(user);
 
-        return ResultUtils.success(userMapper.insertUserInfo(user));
+        LoginVo loginVo = new LoginVo();
+        loginVo.setToken(JwtUtils.createToken(user.getUsername()));
+        UserSimpleVo userSimpleVo = UserSimpleVo.builder()
+                .avatar(userAuth.getAvatar())
+                .id(user.getId())
+                .email(userAuth.getEmail())
+                .intro(userAuth.getIntro())
+                .nickname(userAuth.getNickname())
+                .username(user.getUsername())
+                .website(userAuth.getWebsite())
+                .build();
+        loginVo.setUserSimpleVo(userSimpleVo);
+        return ResultUtils.success(loginVo);
     }
 
     @Override
@@ -194,15 +209,31 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @ServiceLog("更改用户详细信息")
-    public Result<Integer> updateUserDetailInfo(UserInfoParam userInfoParam) {
+    public Result<UserSimpleVo> updateUserDetailInfo(UserInfoParam userInfoParam) {
+        //获取已存在的详情id
+        UserAuth userAuthById = userMapper.getUserAuthById(userInfoParam.getId());
+        if (Objects.isNull(userAuthById)){
+            return ResultUtils.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMsg());
+        }
         UserAuth userAuth = UserAuth.builder()
                 .intro(userInfoParam.getIntro())
                 .updateTime(new Date())
-                .nikeName(userInfoParam.getNickname())
-                .avatar(userInfoParam.getAvatar())
+                .nickname(userInfoParam.getNickname())
                 .website(userInfoParam.getWebsite())
+                .id(userAuthById.getId())
                 .build();
-        return ResultUtils.success(userMapper.updateUserInfoDetails(userAuth));
+        userMapper.updateUserInfoDetails(userAuth);
+        UserAuth userInfoDetails = userMapper.getUserInfoDetails(userInfoParam.getUsername());
+        UserSimpleVo userSimpleVo = UserSimpleVo.builder()
+                .website(userInfoParam.getWebsite())
+                .username(userInfoParam.getUsername())
+                .id(userInfoDetails.getId())
+                .nickname(userInfoParam.getNickname())
+                .intro(userInfoParam.getIntro())
+                .email(userInfoDetails.getEmail())
+                .avatar(userInfoDetails.getAvatar())
+                .build();
+        return ResultUtils.success(userSimpleVo);
     }
 
     @Override
@@ -226,36 +257,27 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @ServiceLog("重置密码")
-    public Result<Integer> resetPassword(ResetPasswordParam resetPasswordParam, String token) {
-        resetPasswordParam.setPassword(Md5Util.encodePassword(resetPasswordParam.getPassword()));
-        Result<Integer> result = captchaService.verifyCaptcha(resetPasswordParam.getCaptcha());
-
-        if (result.getStatus() == 1) {
-            return result;
-        }
+    public Result<Integer> resetPassword(ResetPasswordParam resetPasswordParam) {
 
         if (userMapper.findUserByEmail(resetPasswordParam.getEmail()) == null
-                || userMapper.findUserByUsername(resetPasswordParam.getUsername()) == null) {
+                && userMapper.findUserByUsername(resetPasswordParam.getUsername()) == null) {
             return ResultUtils.fail(ErrorCode.ACCOUNT_PWD_NOT_EXIST.getCode(),
                     ErrorCode.ACCOUNT_PWD_NOT_EXIST.getMsg());
         }
 
-        result = mailService.verifyMailCode(resetPasswordParam.getEmailVerifyCode());
+        Result<Integer> result = mailService.verifyMailCode(resetPasswordParam.getCode());
 
-        if (result.getStatus() == 1) {
+        if (result.getStatus() != 1) {
             return result;
         }
-        User user = User.builder()
-                .password(resetPasswordParam.getPassword())
-                .updateTime(new Date())
-                .build();
 
-        if (redisTemplate.opsForValue().get(TOKEN_ + token) == null) {
-            return ResultUtils.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMsg());
+        if (redisTemplate.opsForValue().get(TOKEN_ + resetPasswordParam.getToken()) != null) {
+            redisTemplate.delete(TOKEN_ + resetPasswordParam.getToken());
         }
 
-        redisTemplate.delete(TOKEN_ + token);
-        return ResultUtils.success(userMapper.insertUserInfo(user));
+        Integer id = userMapper.getUserIdByEmail(resetPasswordParam.getEmail());
+
+        return ResultUtils.success(userMapper.updateUserPasswordById(id, resetPasswordParam.getPassword(), new Date()));
     }
 
     @Override

@@ -72,7 +72,6 @@ public class CronJobServiceImpl implements CronJobService {
     private TagMapper tagMapper;
 
     @Override
-    @ServiceLog("阅读量定时任务")
     @Scheduled(cron = "0/5 * * * * ?")
     @Transactional(rollbackFor = Exception.class)
     public void updateArticleQuantity() {
@@ -88,7 +87,6 @@ public class CronJobServiceImpl implements CronJobService {
     }
 
     @Override
-    @ServiceLog("热门文章定时任务")
     @Scheduled(cron = "0 0 6 * * ?")
     @Transactional(rollbackFor = Exception.class)
     public void updatePopularArticle() {
@@ -108,14 +106,13 @@ public class CronJobServiceImpl implements CronJobService {
     }
 
     @Override
-    @ServiceLog("热门标签定时任务")
     @Scheduled(cron = "0 0 6 * * ?")
     @Transactional(rollbackFor = Exception.class)
     public void updatePopularTag() {
         List<Tag> tagList = tagMapper.getPopularTagList();
         List<TagVo> tagVoList = new ArrayList<>();
-        TagVo tagVo = new TagVo();
         for (Tag t : tagList) {
+            TagVo tagVo = new TagVo();
             BeanUtils.copyProperties(t, tagVo);
             tagVoList.add(tagVo);
         }
@@ -127,7 +124,6 @@ public class CronJobServiceImpl implements CronJobService {
     }
 
     @Override
-    @ServiceLog("定时更新标签点击量")
     @Scheduled(cron = "0/5 * * * * ?")
     @Transactional(rollbackFor = Exception.class)
     public void updateTagClickVolume() {
@@ -143,7 +139,6 @@ public class CronJobServiceImpl implements CronJobService {
     }
 
     @Override
-    @ServiceLog("定时更新热门分类")
     @Scheduled(cron = "0 0 6 * * ?")
     @Transactional(rollbackFor = Exception.class)
     public void updatePopularCategory() {
@@ -156,7 +151,6 @@ public class CronJobServiceImpl implements CronJobService {
     }
 
     @Override
-    @ServiceLog("定时更新分类点击量")
     @Scheduled(cron = "0/5 * * * * ?")
     @Transactional(rollbackFor = Exception.class)
     public void updateCategoryClickVolume() {
@@ -175,7 +169,7 @@ public class CronJobServiceImpl implements CronJobService {
         ArticleVo articleVo = ArticleVo.builder()
                 .build();
         BeanUtils.copyProperties(article, articleVo);
-        articleVo.setCategoryVo(categoryService.getCategoryById(articleVo.getId()).getData());
+        articleVo.setCategoryVo(categoryService.getCategoryById(article.getCategoryId()).getData());
         articleVo.setTagsVo(tagService.getTagListByArticleId(articleVo.getId()).getData());
         return articleVo;
     }

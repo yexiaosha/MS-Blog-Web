@@ -1,6 +1,8 @@
 package com.ms.blog.entity;
 
 import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,8 +33,7 @@ public class UserAuth {
     /**
      * 用户昵称
      */
-
-    private String nikeName;
+    private String nickname;
 
     /**
      * 头像链接

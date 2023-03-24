@@ -4,21 +4,25 @@ spring:
   name: blog
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    username: admin
-    password: Abcdefg@1234
-    url: jdbc:mysql://192.168.56.101:3306/blog_new?serverTimezone=GMT%2B8&useSSL=false&useUnicode=true&characterEncoding=utf8&allowMultiQueries=true
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/blog_new?serverTimezone=GMT%2B8&useSSL=false&useUnicode=true&characterEncoding=utf8&allowMultiQueries=true
   aop:
     auto: true
     proxy-target-class: true
   redis:
     port: 6379
-    host: localhost
+    host: 127.0.0.1
     timeout: 1000
+    password: root
   servlet:
     multipart:
       enabled: true
       max-request-size: 100MB
       max-file-size: 15MB
+  devtools:
+    restart:
+      enabled: true
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
@@ -48,5 +52,8 @@ blog:
     markdown: 50
   mark-days: 7
 
+qiniu:
+  access-key: vdOG8OqrElRVUq8Atyttwd0RO6-RgLqeSFwznDjz
+  secret-key: C9AzHs3p3nhrHRKdtgsbkEDUcWm8KxQ3wLiEn-PK
 
 

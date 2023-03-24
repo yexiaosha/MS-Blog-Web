@@ -9,6 +9,8 @@ import com.ms.blog.entity.User;
 import com.ms.blog.entity.UserAuth;
 import com.ms.blog.entity.param.UserParam;
 import java.util.Date;
+
+import io.swagger.models.auth.In;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -129,4 +131,19 @@ public interface UserMapper extends BaseMapper<Article> {
      * @return  用户详情
      */
    UserAuth getUserAuthById(@Param("id") Integer id);
+
+    /**
+     * 通过邮箱更该用户密码
+     * @param id 邮箱
+     * @param password 密码
+     * @return 结果
+     */
+   int updateUserPasswordById(@Param("id") Integer id, @Param("password") String password, @Param("updateTime") Date updateTime);
+
+    /**
+     * 通过邮箱获取用户id
+     * @param email 邮箱
+     * @return 结果
+     */
+    Integer getUserIdByEmail(@Param("email") String email);
 }
