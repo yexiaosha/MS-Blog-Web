@@ -1,11 +1,12 @@
 package com.ms.blog.entity;
 
 import io.swagger.annotations.ApiModel;
-import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Date;
 
 /**
  * 文章类
@@ -109,4 +110,9 @@ public class Article {
      * 修改时间
      */
     private Date updateTime;
+
+    /**
+     * 点赞数
+     */
+    private Integer likeCount;
 }

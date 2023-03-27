@@ -1,13 +1,14 @@
 package com.ms.blog;
 
 import com.ms.blog.service.CronJobService;
-import java.util.Date;
-import javax.annotation.Resource;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.BeanUtils;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import javax.annotation.Resource;
+import java.util.Date;
 
 @SpringBootTest
 @Slf4j
@@ -39,7 +40,7 @@ class BlogApplicationTests {
 
     @Test
     void test(){
-      cronJobService.updatePopularTag();
+      cronJobService.updateArticleLikeCount();
     }
 
 }

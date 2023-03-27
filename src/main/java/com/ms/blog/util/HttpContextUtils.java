@@ -1,10 +1,11 @@
 package com.ms.blog.util;
 
-import java.util.Objects;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Objects;
 
 /**
  * Http组件
@@ -14,8 +15,12 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 public class HttpContextUtils {
 
     public static HttpServletRequest getHttpServletRequest() {
-        return ((ServletRequestAttributes) Objects.requireNonNull(
-                RequestContextHolder.getRequestAttributes())).getRequest();
+        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (Objects.isNull(requestAttributes)){
+            return null;
+        }
+        return requestAttributes.getRequest();
+
     }
 
     public static HttpServletResponse getHttpServletResponse() {

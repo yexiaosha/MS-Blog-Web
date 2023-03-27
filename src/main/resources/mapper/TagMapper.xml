@@ -18,7 +18,7 @@
     </delete>
 
     <select id="getTagIdListByArticleId" resultType="java.lang.Integer">
-        select id, article_id, tag_id
+        select tag_id
         from b_article_tag WHERE article_id=#{articleId}
     </select>
 

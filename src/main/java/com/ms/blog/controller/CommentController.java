@@ -13,14 +13,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.*;
+
 import javax.annotation.Resource;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 评论接口
@@ -30,16 +25,24 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Api(tags = "评论接口")
 @RequestMapping("/msblog/comment")
+@CrossOrigin
 public class CommentController {
 
     @Resource
     private CommentService commentService;
 
     @ApiOperation("查找评论")
-    @PostMapping("/list/{articleId}")
+    @GetMapping("/list")
     @ControllerLog("查找评论")
-    @ApiImplicitParam(name = "文章id", value = "articleId")
-    public Result<PageData<CommentVo>> getCommentList(@PathVariable("articleId") Integer articleId, @RequestBody PageParam pageParam){
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "articleId", value = "文章id"),
+            @ApiImplicitParam(name = "pageNo", value = "当前页码"),
+            @ApiImplicitParam(name = "pageSize", value = "每页大小")
+    })
+    public Result<PageData<CommentVo>> getCommentList(@RequestParam Integer articleId, @RequestParam Integer pageNo, @RequestParam Integer pageSize){
+        PageParam pageParam = new PageParam();
+        pageParam.setPageSize(pageSize);
+        pageParam.setCurrentPage(pageNo);
         return commentService.getCommentList(articleId, pageParam);
     }
 

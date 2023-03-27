@@ -2,11 +2,13 @@ package com.ms.blog.entity.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * 文章视图类
@@ -30,6 +32,9 @@ public class ArticleVo {
      */
     @ApiModelProperty("用户id")
     private Integer userId;
+
+    @ApiModelProperty("用户昵称")
+    private String userNickname;
 
     /**
      * 分类
@@ -119,13 +124,37 @@ public class ArticleVo {
      * 关键词
      */
     @ApiModelProperty("关键词")
-    private String keyword;
+    private Date keyword;
 
     /**
      * 修改时间
      */
     @ApiModelProperty("修改时间")
-    private String updateDate;
+    private Date updateDate;
+
+    /**
+     * 点赞数
+     */
+    @ApiModelProperty("点赞数")
+    private Integer likeCount;
+
+    @ApiModelProperty("评论")
+    private List<CommentVo> commentVoList;
+
+    @ApiModelProperty("评论数量")
+    private Integer commentCount;
+
+    @ApiModelProperty("上一篇文章")
+    private ArticleSimpleVo lastArticle;
+
+    @ApiModelProperty("下一篇文章")
+    private ArticleSimpleVo nextArticle;
+
+    @ApiModelProperty("最新文章列表")
+    private List<ArticleSimpleVo> newestArticleList;
+
+    @ApiModelProperty("推荐文章")
+    private List<ArticleSimpleVo> recommendArticleList;
 
     /**
      * 文章标签

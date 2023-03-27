@@ -23,17 +23,20 @@ import com.ms.blog.service.TagService;
 import com.ms.blog.service.UserService;
 import com.ms.blog.util.ResultUtils;
 import io.netty.util.internal.StringUtil;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * 文章业务类实现
@@ -48,7 +51,7 @@ public class ArticleServiceImpl implements ArticleService {
     private ArticleMapper articleMapper;
 
     @Resource
-    private RedisTemplate<String, String> redisTemplate;
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Resource
     private CategoryService categoryService;
@@ -67,26 +70,31 @@ public class ArticleServiceImpl implements ArticleService {
 
     private static final String CATEGORY_ID = "CATEGORY_ID";
 
+    private static final String ARTICLE_LIKE_COUNT = "ARTICLE_LIKE_COUNT_";
+
     @Override
     @ServiceLog("获取热门文章")
     public Result<List<ArticleVo>> getPopularArticleList() {
-        return ResultUtils.success(JSON.parseArray(redisTemplate.opsForValue().get(HOT_ARTICLE_LIST), ArticleVo.class));
+        return ResultUtils.success(JSON.parseArray((String) redisTemplate.opsForValue().get(HOT_ARTICLE_LIST), ArticleVo.class));
     }
 
     @Override
     @ServiceLog("获取文章内容")
     public Result<ArticleVo> getArticleContent(Integer id) {
-        ArticleVo articleVo = JSON.parseObject(redisTemplate.opsForValue().get(id), ArticleVo.class);
+        ArticleVo articleVo = JSON.parseObject((String) redisTemplate.opsForValue().get(ARTICLE_ID_ + id), ArticleVo.class);
         if (articleVo != null){
            articleVo.setQuantity(articleVo.getQuantity() + 1);
            redisTemplate.delete(ARTICLE_ID_ + id);
+           articleVo.setLikeCount(JSON.parseObject((String) redisTemplate.opsForValue().get(ARTICLE_LIKE_COUNT + id), Integer.class));
            redisTemplate.opsForValue().set(ARTICLE_ID_ + id, JSON.toJSONString(articleVo));
            return ResultUtils.success(articleVo);
         }
 
         Article article = articleMapper.getArticleContent(id);
         articleVo = copy(article);
-        redisTemplate.opsForValue().set(ARTICLE_ID_ + id, JSON.toJSONString(articleVo));
+        articleVo.setQuantity(articleVo.getQuantity() + 1);
+        redisTemplate.opsForValue().set(ARTICLE_ID_ + id, JSON.toJSONString(articleVo), 30, TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set(ARTICLE_LIKE_COUNT + id, JSON.toJSONString(articleVo.getLikeCount()));
         return ResultUtils.success(articleVo);
     }
 
@@ -100,20 +108,15 @@ public class ArticleServiceImpl implements ArticleService {
         if (!StringUtil.isNullOrEmpty(articleSearchParam.getArticleWriter())){
             UserVo data = userService.getUserInfo(articleSearchParam.getArticleWriter()).getData();
             List<Article> articles = articleList.stream().filter(aVo -> data.getId().equals(aVo.getId())).collect(Collectors.toList());
-            for (Article article:articles) {
-                ArticleSimpleVo articleSimpleVo = new ArticleSimpleVo();
-                BeanUtils.copyProperties(article, articleSimpleVo);
-                User user = userService.getUserByUserId(article.getUserId());
-                UserAuth userInfoDetailsByUserId = userService.getUserInfoDetailsByUserId(article.getUserId());
-                articleSimpleVo.setUsername(user.getUsername());
-                articleSimpleVo.setNikeName(userInfoDetailsByUserId.getNickname());
-                articleSimpleVoList.add(articleSimpleVo);
-            }
-            PageData<ArticleSimpleVo> articleVoPageData = new PageData<>(articleSimpleVoList, articleIPage.getTotal(), articleIPage.getPages(), articleIPage.getCurrent());
-            return ResultUtils.success(articleVoPageData);
+            return getPageDataResult(articleIPage, articleSimpleVoList, articles);
         }
 
-        for (Article article:articleList) {
+        return getPageDataResult(articleIPage, articleSimpleVoList, articleList);
+    }
+
+    @NotNull
+    private Result<PageData<ArticleSimpleVo>> getPageDataResult(IPage<Article> articleIPage, List<ArticleSimpleVo> articleSimpleVoList, List<Article> articles) {
+        for (Article article:articles) {
             ArticleSimpleVo articleSimpleVo = new ArticleSimpleVo();
             BeanUtils.copyProperties(article, articleSimpleVo);
             User user = userService.getUserByUserId(article.getUserId());
@@ -122,8 +125,8 @@ public class ArticleServiceImpl implements ArticleService {
             articleSimpleVo.setNikeName(userInfoDetailsByUserId.getNickname());
             articleSimpleVoList.add(articleSimpleVo);
         }
-        PageData<ArticleSimpleVo> articleSimpleVoPageData = new PageData<>(articleSimpleVoList, articleIPage.getTotal(), articleIPage.getPages(), articleIPage.getCurrent());
-        return ResultUtils.success(articleSimpleVoPageData);
+        PageData<ArticleSimpleVo> articleVoPageData = new PageData<>(articleSimpleVoList, articleIPage.getTotal(), articleIPage.getPages(), articleIPage.getCurrent());
+        return ResultUtils.success(articleVoPageData);
     }
 
 
@@ -244,7 +247,7 @@ public class ArticleServiceImpl implements ArticleService {
             articleSimpleVoList.add(articleSimpleVo);
         }
 
-        Integer clickVol = JSON.parseObject(redisTemplate.opsForValue().get(TAG_ID + tagId), Integer.class);
+        Integer clickVol = JSON.parseObject((String) redisTemplate.opsForValue().get(TAG_ID + tagId), Integer.class);
         if (clickVol != null){
             redisTemplate.opsForValue().set(TAG_ID + tagId, JSON.toJSONString(clickVol + 1));
         }
@@ -274,7 +277,7 @@ public class ArticleServiceImpl implements ArticleService {
             articleSimpleVoList.add(articleSimpleVo);
         }
 
-        Integer clickVol = JSON.parseObject(redisTemplate.opsForValue().get(CATEGORY_ID + categoryId), Integer.class);
+        Integer clickVol = JSON.parseObject((String) redisTemplate.opsForValue().get(CATEGORY_ID + categoryId), Integer.class);
         if (clickVol != null){
             redisTemplate.opsForValue().set(CATEGORY_ID + categoryId, JSON.toJSONString(clickVol + 1));
         }
@@ -283,6 +286,19 @@ public class ArticleServiceImpl implements ArticleService {
 
         PageData<ArticleSimpleVo> articleSimpleVoPageData = new PageData<>(articleSimpleVoList, articleIPage.getTotal(), articleIPage.getPages(), articleIPage.getCurrent());
         return ResultUtils.success(articleSimpleVoPageData);
+    }
+
+    @Override
+    @ServiceLog("点赞")
+    public Result<Integer> likeArticle(Integer articleId) {
+        Integer count =JSON.parseObject((String) redisTemplate.opsForValue().get(ARTICLE_LIKE_COUNT + articleId), Integer.class) ;
+        if (Objects.isNull(count)){
+            return ResultUtils.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMsg());
+        }
+        count++;
+        redisTemplate.delete(ARTICLE_LIKE_COUNT + articleId);
+        redisTemplate.opsForValue().set(ARTICLE_LIKE_COUNT + articleId, JSON.toJSONString(count));
+        return ResultUtils.success("点赞成功");
     }
 
     private Result<Integer> setArticleTagRelate(ArticleParam articleParam, Date createTime, Article article) {
@@ -318,7 +334,48 @@ public class ArticleServiceImpl implements ArticleService {
         BeanUtils.copyProperties(article, articleVo);
         articleVo.setCategoryVo(categoryService.getCategoryById(article.getCategoryId()).getData());
         articleVo.setTagsVo(tagService.getTagListByArticleId(articleVo.getId()).getData());
+        articleVo.setLastArticle(getLastArticle(article.getId()));
+        articleVo.setNextArticle(getNextArticle(article.getId()));
+        List<ArticleVo> data = this.getPopularArticleList().getData();
+        List<ArticleSimpleVo> recommendArticleList = new ArrayList<>();
+        List<ArticleSimpleVo> newestArticleList = new ArrayList<>();
+        for (ArticleVo a : data) {
+            ArticleSimpleVo articleSimpleVo = new ArticleSimpleVo();
+            BeanUtils.copyProperties(a, articleSimpleVo);
+            recommendArticleList.add(articleSimpleVo);
+        }
+        articleVo.setRecommendArticleList(recommendArticleList);
+
+        List<Article> newestArticleList1 = articleMapper.getNewestArticleList(new Date());
+
+        for (Article a : newestArticleList1) {
+            ArticleSimpleVo articleSimpleVo = new ArticleSimpleVo();
+            BeanUtils.copyProperties(a, articleSimpleVo);
+            newestArticleList.add(articleSimpleVo);
+        }
+        articleVo.setNewestArticleList(newestArticleList);
+        UserAuth userInfoDetailsByUserId = userService.getUserInfoDetailsByUserId(article.getUserId());
+        articleVo.setUserNickname(userInfoDetailsByUserId.getNickname());
         return articleVo;
     }
+
+    private ArticleSimpleVo getLastArticle(Integer articleId){
+        Article article = articleMapper.getArticleById(articleId - 1);
+        ArticleSimpleVo articleSimpleVo = new ArticleSimpleVo();
+        if (!Objects.isNull(article)){
+            BeanUtils.copyProperties(article, articleSimpleVo);
+        }
+        return articleSimpleVo;
+    }
+
+    private ArticleSimpleVo getNextArticle(Integer articleId){
+        Article article = articleMapper.getArticleById(articleId + 1);
+        ArticleSimpleVo articleSimpleVo = new ArticleSimpleVo();
+        if (!Objects.isNull(article)){
+            BeanUtils.copyProperties(article, articleSimpleVo);
+        }
+        return articleSimpleVo;
+    }
+
 
 }

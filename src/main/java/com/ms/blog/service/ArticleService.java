@@ -7,6 +7,7 @@ import com.ms.blog.entity.param.ArticleParam;
 import com.ms.blog.entity.param.ArticleSearchParam;
 import com.ms.blog.entity.vo.ArticleSimpleVo;
 import com.ms.blog.entity.vo.ArticleVo;
+
 import java.util.List;
 
 /**
@@ -82,4 +83,11 @@ public interface ArticleService {
      */
     Result<PageData<ArticleSimpleVo>> getArticleListByCategory(Integer categoryId, PageParam pageParam);
 
+
+    /**
+     * 文章点赞
+     * @param articleId 文章id
+     * @return 结果
+     */
+    Result<Integer> likeArticle(Integer articleId);
 }

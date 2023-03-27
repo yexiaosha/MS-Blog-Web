@@ -14,13 +14,14 @@ import com.ms.blog.entity.vo.CommentVo;
 import com.ms.blog.service.CommentService;
 import com.ms.blog.service.UserService;
 import com.ms.blog.util.ResultUtils;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 评论业务接口实现
@@ -38,7 +39,7 @@ public class CommentServiceImpl implements CommentService {
     private UserService userService;
 
     @Override
-    @ServiceLog("获取文章一级评论列表")
+    @ServiceLog("获取文章评论列表")
     public Result<PageData<CommentVo>> getCommentList(Integer articleId, PageParam pageParam) {
         Page<Comment> commentPage = new Page<>(pageParam.getCurrentPage(), pageParam.getPageSize());
         IPage<Comment> commentIPage = commentMapper.getParentCommentList(articleId, commentPage);
@@ -103,7 +104,7 @@ public class CommentServiceImpl implements CommentService {
     private CommentVo copy(Comment comment){
         CommentVo commentVo = new CommentVo();
         BeanUtils.copyProperties(comment, commentVo);
-        commentVo.setNikeName(userService.getUserInfoDetailsByUserId(comment.getId()).getNickname());
+        commentVo.setNickname(userService.getUserInfoDetailsByUserId(comment.getUserId()).getNickname());
         return commentVo;
     }
 

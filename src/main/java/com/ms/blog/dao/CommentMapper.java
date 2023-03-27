@@ -30,7 +30,7 @@ public interface CommentMapper extends BaseMapper<Article> {
      * @param page 分页参数
      * @return 结果
      */
-    IPage<Comment> getChildCommentList(@Param("articleId") Integer parentId, Page<Comment> page);
+    IPage<Comment> getChildCommentList(@Param("parentId") Integer parentId, Page<Comment> page);
 
     /**
      * 删除评论

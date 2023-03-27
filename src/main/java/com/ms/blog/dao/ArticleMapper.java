@@ -5,10 +5,11 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ms.blog.entity.Article;
 import com.ms.blog.entity.param.ArticleSearchParam;
-import java.util.Date;
-import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * 文章接口
@@ -104,4 +105,18 @@ public interface ArticleMapper extends BaseMapper<Article> {
      * @return 分页结果
      */
     IPage<Article> getArticleByCategory(@Param("categoryId") Integer categoryId, Page<Article> articlePage);
+
+    /**
+     * 更新文章点赞数
+     * @param id 文章id
+     * @return 结果
+     */
+    int updateArticleLikeCount(@Param("id") Integer id, @Param("likeCount") Integer likeCount);
+
+    /**
+     * 获取最新文章
+     * @param date 日期
+     * @return 文章列表
+     */
+    List<Article> getNewestArticleList(Date date);
 }

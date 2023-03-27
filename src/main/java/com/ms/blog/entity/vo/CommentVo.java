@@ -2,12 +2,13 @@ package com.ms.blog.entity.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.Date;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * 评论视图类
@@ -26,11 +27,17 @@ public class CommentVo {
     @ApiModelProperty("主键id")
     private Integer id;
 
+    @ApiModelProperty("用户id")
+    private Integer userId;
+
+    @ApiModelProperty("用户头像")
+    private Integer avatar;
+
     /**
      * 评论者别称
      */
     @ApiModelProperty("评论者别称")
-    private String nikeName;
+    private String nickname;
 
     /**
      * 文章id
@@ -43,12 +50,6 @@ public class CommentVo {
      */
     @ApiModelProperty("评论内容")
     private String content;
-
-    /**
-     *  回复人别称
-     */
-    @ApiModelProperty("回复人别称")
-    private Integer replyUserNikeName;
 
     /**
      * 父评论id

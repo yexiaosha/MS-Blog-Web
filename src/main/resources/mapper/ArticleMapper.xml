@@ -165,10 +165,13 @@
         </set>
         WHERE id=#{id}
     </update>
+    <update id="updateArticleLikeCount">
+        update b_article set like_count=#{likeCount} where id=#{id}
+    </update>
 
     <select id="getArticleList" resultType="com.ms.blog.entity.Article">
         select id, user_id, category_id, title, avatar, summary, content, content_md, is_secret, is_stick, is_publish,
-        is_original, original_url, quantity, remark, create_time, keywords, update_time from b_article
+        is_original, original_url, quantity, remark, create_time, keywords, update_time, like_count from b_article
        <where>
            <if test="articleSearchParam.isSecret=1 and articleSearchParam.isSecret=0">
                AND is_secret=#{isSecret}
@@ -206,7 +209,8 @@
                remark,
                create_time,
                keywords,
-               update_time
+               update_time,
+               like_count
         from b_article
         WHERE create_time>=#{date} ORDER BY update_time desc
     </select>
@@ -228,7 +232,8 @@
                remark,
                create_time,
                keywords,
-               update_time
+               update_time,
+               like_count
         from b_article WHERE id=#{id}
     </select>
     <select id="getArticleByUserId" resultType="com.ms.blog.entity.Article">
@@ -249,7 +254,8 @@
                remark,
                create_time,
                keywords,
-               update_time
+               update_time,
+               like_count
         from b_article WHERE user_id=#{userId}
     </select>
     <select id="getArticleById" resultType="com.ms.blog.entity.Article">
@@ -270,7 +276,8 @@
                remark,
                create_time,
                keywords,
-               update_time
+               update_time,
+               like_count
         from b_article WHERE id=#{id}
     </select>
     <select id="getArticleByTag" resultType="com.ms.blog.entity.Article">
@@ -291,7 +298,8 @@
                remark,
                create_time,
                keywords,
-               update_time
+               update_time,
+               like_count
         from b_article WHERE id
         <foreach collection="articleIdList" item="articleId">
             #{articleId}
@@ -320,7 +328,30 @@
                remark,
                create_time,
                keywords,
-               update_time
+               update_time,
+               like_count
         from b_article WHERE category_id=#{categoryId}
+    </select>
+    <select id="getNewestArticleList" resultType="com.ms.blog.entity.Article">
+        select id,
+               user_id,
+               category_id,
+               title,
+               avatar,
+               summary,
+               content,
+               content_md,
+               is_secret,
+               is_stick,
+               is_publish,
+               is_original,
+               original_url,
+               quantity,
+               remark,
+               create_time,
+               keywords,
+               update_time,
+               like_count
+        from b_article where create_time&lt;=#{date}
     </select>
 </mapper>

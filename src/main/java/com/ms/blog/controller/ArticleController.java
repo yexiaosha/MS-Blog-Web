@@ -15,11 +15,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import java.util.List;
-import javax.annotation.Resource;
-import javax.validation.constraints.NotBlank;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 /**
  * 文章接口
@@ -110,6 +111,14 @@ public class ArticleController {
     )
     public Result<PageData<ArticleSimpleVo>> getArticleListByCategory(@PathVariable("categoryId") Integer categoryId, @RequestBody PageParam pageParam){
         return articleService.getArticleListByCategory(categoryId, pageParam);
+    }
+
+    @GetMapping("/like")
+    @ApiOperation("文章点赞")
+    @ControllerLog("点赞")
+    @ApiImplicitParam(name = "articleId", value = "文章id")
+    public Result<Integer> likeArticle(@RequestParam Integer articleId){
+        return articleService.likeArticle(articleId);
     }
 
 }

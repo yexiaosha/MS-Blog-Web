@@ -1,7 +1,7 @@
 package com.ms.blog.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
-import com.ms.blog.common.annotation.ServiceLog;
 import com.ms.blog.dao.ArticleMapper;
 import com.ms.blog.dao.CategoryMapper;
 import com.ms.blog.dao.TagMapper;
@@ -13,14 +13,6 @@ import com.ms.blog.entity.vo.TagVo;
 import com.ms.blog.service.CategoryService;
 import com.ms.blog.service.CronJobService;
 import com.ms.blog.service.TagService;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,6 +20,11 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 定时任务事务接口实现
@@ -62,6 +59,8 @@ public class CronJobServiceImpl implements CronJobService {
 
     private static final String CATEGORY_ID = "CATEGORY_ID";
 
+    private static final String ARTICLE_LIKE_COUNT = "ARTICLE_LIKE_COUNT_";
+
     @Value("${blog.mark-days}")
     private Integer markDays;
 
@@ -89,6 +88,7 @@ public class CronJobServiceImpl implements CronJobService {
     @Override
     @Scheduled(cron = "0 0 6 * * ?")
     @Transactional(rollbackFor = Exception.class)
+    @PostConstruct
     public void updatePopularArticle() {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, -markDays);
@@ -108,6 +108,7 @@ public class CronJobServiceImpl implements CronJobService {
     @Override
     @Scheduled(cron = "0 0 6 * * ?")
     @Transactional(rollbackFor = Exception.class)
+    @PostConstruct
     public void updatePopularTag() {
         List<Tag> tagList = tagMapper.getPopularTagList();
         List<TagVo> tagVoList = new ArrayList<>();
@@ -141,6 +142,7 @@ public class CronJobServiceImpl implements CronJobService {
     @Override
     @Scheduled(cron = "0 0 6 * * ?")
     @Transactional(rollbackFor = Exception.class)
+    @PostConstruct
     public void updatePopularCategory() {
         List<CategoryVo> categoryList = categoryService.getCategoryList().getData();
         List<CategoryVo>categoryVoListStream = categoryList.stream()
@@ -160,6 +162,21 @@ public class CronJobServiceImpl implements CronJobService {
                 Integer volume = JSON.parseObject(redisTemplate.opsForValue().get(CATEGORY_ID + key), Integer.class);
                 if (volume != null){
                     categoryMapper.updateCategoryClickVolume(Integer.valueOf(key), volume);
+                }
+            }
+        }
+    }
+
+    @Override
+    @Scheduled(cron = "0/2 * * * * ?")
+    @Transactional(rollbackFor = Exception.class)
+    public void updateArticleLikeCount() {
+        Set<String> keys = redisTemplate.keys(ARTICLE_LIKE_COUNT.concat("*"));
+        if (keys != null){
+            for (String k : keys) {
+                Integer likeCount = JSON.parseObject(redisTemplate.opsForValue().get(k), Integer.class);
+                if (likeCount != null){
+                    articleMapper.updateArticleLikeCount(Integer.valueOf(StrUtil.removePrefix(k, ARTICLE_LIKE_COUNT)), likeCount);
                 }
             }
         }

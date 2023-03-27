@@ -36,4 +36,9 @@ public interface CronJobService {
      * 定时更新分类点击量
      */
     void updateCategoryClickVolume();
+
+    /**
+     * 更新文章点赞数
+     */
+    void updateArticleLikeCount();
 }
