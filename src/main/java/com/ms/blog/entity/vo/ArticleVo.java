@@ -118,13 +118,13 @@ public class ArticleVo {
      * 创建时间
      */
     @ApiModelProperty("创建时间")
-    private String createTime;
+    private Date createTime;
 
     /**
      * 关键词
      */
     @ApiModelProperty("关键词")
-    private Date keyword;
+    private String keyword;
 
     /**
      * 修改时间

@@ -53,7 +53,9 @@ blog:
   mark-days: 7
 
 qiniu:
-  access-key: vdOG8OqrElRVUq8Atyttwd0RO6-RgLqeSFwznDjz
-  secret-key: C9AzHs3p3nhrHRKdtgsbkEDUcWm8KxQ3wLiEn-PK
+  access-key: T6J7UczitgnjygySG4GTHddcHnUh0bXv0aatyRa4
+  secret-key: yhPHahkvEpxLEeAef4tWVxtbS9NYpZ2A9KS6IsEB
+  url: http://rs67y55jy.hn-bkt.clouddn.com
+  bucketName: blogms
 
 
