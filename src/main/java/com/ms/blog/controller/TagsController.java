@@ -9,10 +9,10 @@ import com.ms.blog.entity.vo.TagVo;
 import com.ms.blog.service.TagService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import java.util.List;
-import javax.annotation.Resource;
-
 import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 标签接口
@@ -29,8 +29,8 @@ public class TagsController {
     private TagService tagService;
 
     @PostMapping("/list")
-    @ApiOperation("查找所有标签")
-    @ControllerLog("查找所有标签")
+    @ApiOperation("分页查找所有标签")
+    @ControllerLog("分页查找所有标签")
     public Result<PageData<TagVo>> getTagList(@RequestBody PageParam pageParam){
         return tagService.getTagList(pageParam);
     }

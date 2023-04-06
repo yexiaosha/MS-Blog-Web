@@ -18,24 +18,21 @@ import com.ms.blog.service.LinksService;
 import com.ms.blog.util.ExcelUtil;
 import com.ms.blog.util.ResultUtils;
 import com.ms.blog.validator.FriendLinkValidator;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import net.lingala.zip4j.ZipFile;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * 友情链接业务实现
@@ -56,8 +53,8 @@ public class LinksServiceImpl implements LinksService {
         IPage<FriendLink> friendLinkIPage = linksMapper.getFriendLinks(friendLinkPage, friendLinkSearchParam);
         List<FriendLink> friendLinkList = friendLinkIPage.getRecords();
         List<FriendLinkVo> friendLinkVoList = new ArrayList<>();
-        FriendLinkVo friendLinkVo = new FriendLinkVo();
         for (FriendLink f : friendLinkList) {
+            FriendLinkVo friendLinkVo = new FriendLinkVo();
             BeanUtils.copyProperties(f, friendLinkVo);
             friendLinkVoList.add(friendLinkVo);
         }
@@ -74,7 +71,7 @@ public class LinksServiceImpl implements LinksService {
                 .name(friendLinkParam.getName())
                 .info(friendLinkParam.getInfo())
                 .updateTime(new Date())
-                .status(1)
+                .status(0)
                 .url(friendLinkParam.getUrl())
                 .avatar(friendLinkParam.getAvatar())
                 .build();

@@ -8,10 +8,7 @@ import com.ms.blog.service.UploadService;
 import com.ms.blog.util.ResultUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -25,6 +22,7 @@ import javax.annotation.Resource;
 @RestController
 @Api(tags = "图片资源上传")
 @RequestMapping("/msblog/file")
+@CrossOrigin
 public class UploadController {
 
     @Resource
@@ -33,11 +31,11 @@ public class UploadController {
     @PostMapping("/upload")
     @ApiOperation("上传文件")
     @ControllerLog("上传文件")
-    public Result uploadFile(@RequestPart MultipartFile file){
+    public Result uploadFile(@RequestPart MultipartFile multipartFile){
         String result = "失败";
         QiniuVo qiniuVo = new QiniuVo();
-        if(!file.isEmpty()){
-            String path = uploadService.uploadQNImg(file);
+        if(!multipartFile.isEmpty()){
+            String path = uploadService.uploadQNImg(multipartFile);
             if(path.equals(result)){
                 return ResultUtils.fail(ErrorCode.PARAMS_ERROR.getCode(), "上传失败");
             }else{

@@ -2,11 +2,12 @@ package com.ms.blog.entity.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Date;
 
 /**
  * 简单文章信息视图类
@@ -36,6 +37,9 @@ public class ArticleSimpleVo {
 
     @ApiModelProperty("作者昵称")
     private String nikeName;
+
+    @ApiModelProperty("文章头像")
+    private String avatar;
 
     @ApiModelProperty("作者用户名")
     private String username;

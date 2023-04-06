@@ -243,6 +243,7 @@ public class ArticleServiceImpl implements ArticleService {
                     .updateTime(a.getUpdateTime())
                     .summary(a.getSummary())
                     .username(userService.getUserByUserId(a.getUserId()).getUsername())
+                    .avatar(a.getAvatar())
                     .build();
             articleSimpleVoList.add(articleSimpleVo);
         }
@@ -272,6 +273,7 @@ public class ArticleServiceImpl implements ArticleService {
                     .nikeName(userService.getUserInfoDetailsByUserId(a.getUserId()).getNickname())
                     .updateTime(a.getUpdateTime())
                     .summary(a.getSummary())
+                    .avatar(a.getAvatar())
                     .username(userService.getUserByUserId(a.getUserId()).getUsername())
                     .build();
             articleSimpleVoList.add(articleSimpleVo);

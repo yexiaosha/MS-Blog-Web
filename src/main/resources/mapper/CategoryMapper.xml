@@ -37,4 +37,7 @@
     <select id="getCategoryList" resultType="com.ms.blog.entity.Category">
         SELECT * FROM b_category
     </select>
+    <select id="getArticleNumByCategoryId" resultType="java.lang.Integer">
+        Select COUNT(*) from b_article where category_id=#{categoryId}
+    </select>
 </mapper>

@@ -19,7 +19,12 @@
 
     <select id="getParentCommentList" resultType="com.ms.blog.entity.Comment">
         select id, user_id, article_id, content, reply_user_id, parent_id, create_time
-        from b_comment WHERE article_id=#{articleId}
+        from b_comment
+        <where>
+            <if test="articleId!=null and articleId!=''">
+                article_id=#{articleId}
+            </if>
+        </where>
     </select>
     <select id="getChildCommentList" resultType="com.ms.blog.entity.Comment">
         select id, user_id, article_id, content, reply_user_id, parent_id, create_time

@@ -13,12 +13,7 @@ import com.ms.blog.entity.Cancellation;
 import com.ms.blog.entity.User;
 import com.ms.blog.entity.UserAuth;
 import com.ms.blog.entity.dto.UserDto;
-import com.ms.blog.entity.param.CancellationParam;
-import com.ms.blog.entity.param.LoginParam;
-import com.ms.blog.entity.param.RegisterParam;
-import com.ms.blog.entity.param.ResetPasswordParam;
-import com.ms.blog.entity.param.UserInfoParam;
-import com.ms.blog.entity.param.UserParam;
+import com.ms.blog.entity.param.*;
 import com.ms.blog.entity.vo.LoginVo;
 import com.ms.blog.entity.vo.UserAuthVo;
 import com.ms.blog.entity.vo.UserSimpleVo;
@@ -30,21 +25,16 @@ import com.ms.blog.service.UserService;
 import com.ms.blog.util.JwtUtils;
 import com.ms.blog.util.Md5Util;
 import com.ms.blog.util.ResultUtils;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
-import javax.annotation.Resource;
-
-import io.jsonwebtoken.MalformedJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+
+import javax.annotation.Resource;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 用户业务
@@ -220,6 +210,7 @@ public class UserServiceImpl implements UserService {
                 .updateTime(new Date())
                 .nickname(userInfoParam.getNickname())
                 .website(userInfoParam.getWebsite())
+                .avatar(userInfoParam.getAvatar())
                 .id(userAuthById.getId())
                 .build();
         userMapper.updateUserInfoDetails(userAuth);

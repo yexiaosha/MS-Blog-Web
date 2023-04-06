@@ -8,22 +8,20 @@ import com.ms.blog.service.CaptchaService;
 import com.ms.blog.util.UUIDUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
+import org.apache.poi.util.IOUtils;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
 import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotNull;
-import org.apache.poi.util.IOUtils;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 验证码接口
@@ -33,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Api(tags = "验证码接口")
 @RequestMapping("/msblog/captcha")
+@CrossOrigin
 public class CaptchaController {
 
     @Resource

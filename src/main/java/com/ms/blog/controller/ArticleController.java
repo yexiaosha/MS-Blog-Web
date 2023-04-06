@@ -96,20 +96,26 @@ public class ArticleController {
 
     }
 
-    @PostMapping("/tag/{tagId}")
+    @GetMapping("/tag")
     @ApiOperation("获取该标签的文章列表")
     @ControllerLog("获取该标签的文章列表")
-    public Result<PageData<ArticleSimpleVo>> getArticleListByTag(@PathVariable("tagId") Integer tagId, @RequestBody PageParam pageParam){
+    public Result<PageData<ArticleSimpleVo>> getArticleListByTag(@RequestParam Integer tagId, @RequestParam Integer currentPage, @RequestParam Integer pageSize){
+        PageParam pageParam = new PageParam();
+        pageParam.setCurrentPage(currentPage);
+        pageParam.setPageSize(pageSize);
         return articleService.getArticleListByTag(tagId, pageParam);
     }
 
-    @PostMapping("/category/{categoryId}")
+    @GetMapping("/category")
     @ApiOperation("获取该分类的文章列表")
     @ControllerLog("获取该分类的文章列表")
     @ApiImplicitParams(
             @ApiImplicitParam(name = "categoryId", value = "分类id")
     )
-    public Result<PageData<ArticleSimpleVo>> getArticleListByCategory(@PathVariable("categoryId") Integer categoryId, @RequestBody PageParam pageParam){
+    public Result<PageData<ArticleSimpleVo>> getArticleListByCategory(@RequestParam Integer categoryId, @RequestParam Integer currentPage, @RequestParam Integer pageSize){
+        PageParam pageParam = new PageParam();
+        pageParam.setCurrentPage(currentPage);
+        pageParam.setPageSize(pageSize);
         return articleService.getArticleListByCategory(categoryId, pageParam);
     }
 

@@ -9,15 +9,16 @@ import com.ms.blog.entity.param.CategoryParam;
 import com.ms.blog.entity.vo.CategoryVo;
 import com.ms.blog.service.CategoryService;
 import com.ms.blog.util.ResultUtils;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * 分类管理业务接口实现
@@ -65,6 +66,8 @@ public class CategoryServiceImpl implements CategoryService {
         for (Category c : categoryList) {
             CategoryVo categoryVo = new CategoryVo();
             BeanUtils.copyProperties(c, categoryVo);
+            int articleNum = categoryMapper.getArticleNumByCategoryId(c.getId());
+            categoryVo.setArticleNum(articleNum);
             categoryVoList.add(categoryVo);
         }
         return ResultUtils.success(categoryVoList);

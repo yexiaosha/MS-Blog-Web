@@ -3,9 +3,10 @@ package com.ms.blog.dao;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ms.blog.entity.Article;
 import com.ms.blog.entity.Category;
-import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 分类接口
@@ -63,4 +64,11 @@ public interface CategoryMapper extends BaseMapper<Article> {
      * @return 结果
      */
     int updateCategoryClickVolume(@Param("id") Integer id, @Param("clickVolume") Integer clickVolume);
+
+    /**
+     * 获取属于该分类的文章数量
+     * @param categoryId 分类id
+     * @return 数量
+     */
+    int getArticleNumByCategoryId(@Param("categoryId") Integer categoryId);
 }

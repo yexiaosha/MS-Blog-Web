@@ -173,19 +173,19 @@
         select id, user_id, category_id, title, avatar, summary, content, content_md, is_secret, is_stick, is_publish,
         is_original, original_url, quantity, remark, create_time, keywords, update_time, like_count from b_article
        <where>
-           <if test="articleSearchParam.isSecret=1 and articleSearchParam.isSecret=0">
+           <if test="isSecret=1 and isSecret=0">
                AND is_secret=#{isSecret}
            </if>
-           <if test="articleSearchParam.isStick=1 and articleSearchParam.isStick=0">
+           <if test="isStick=1 and isStick=0">
                AND is_stick=#{isStick}
            </if>
-           <if test="articleSearchParam.title!=null">
-               AND title=#{title}
+           <if test="articleSearchParam.title!=null and articleSearchParam.title!=''">
+               AND title=#{articleSearchParam.title}
            </if>
-           <if test="articleSearchParam.isPublish=1 and articleSearchParam.isPublish=0">
+           <if test="isPublish=1 and isPublish=0">
                AND is_publish=#{isPublish}
            </if>
-           <if test="articleSearchParam.isOriginal=1 and articleSearchParam.isOriginal=0">
+           <if test="isOriginal=1 and isOriginal=0">
                AND is_original=#{isOriginal}
            </if>
        </where>

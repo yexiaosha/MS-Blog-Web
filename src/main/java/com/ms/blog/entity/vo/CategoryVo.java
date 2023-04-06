@@ -2,11 +2,12 @@ package com.ms.blog.entity.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Date;
 
 /**
  * 分类视图类
@@ -30,6 +31,12 @@ public class CategoryVo {
      */
     @ApiModelProperty("分类名称")
     private String name;
+
+    /**
+     * 文章数量
+     */
+    @ApiModelProperty("文章数量")
+    private Integer articleNum;
 
     /**
      * 点击量

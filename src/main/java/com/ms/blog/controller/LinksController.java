@@ -9,16 +9,12 @@ import com.ms.blog.entity.vo.FriendLinkVo;
 import com.ms.blog.service.LinksService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import java.io.IOException;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
 
 /**
  * 友情链接接口
@@ -28,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @Api(tags = "友情链接接口")
 @RequestMapping("/msblog/links")
+@CrossOrigin
 public class LinksController {
 
     @Resource

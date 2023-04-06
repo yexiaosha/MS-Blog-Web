@@ -111,12 +111,13 @@
                update_time
         from b_friend_link
         <where>
-            <if test="friendLinkSearchParam.id!=null">
+            <if test="friendLinkSearchParam.id!=null and friendLinkSearchParam.id!=''">
                 and id=#{friendLinkSearchParam.id}
             </if>
-            <if test="friendLinkSearchParam.name!=null">
+            <if test="friendLinkSearchParam.name!=null and friendLinkSearchParam.name!=''">
                 and b_friend_link.name=#{friendLinkSearchParam.name}
             </if>
+                and `status`= 1
         </where>
     </select>
     <select id="getFriendLinkByName" resultType="com.ms.blog.entity.FriendLink">
