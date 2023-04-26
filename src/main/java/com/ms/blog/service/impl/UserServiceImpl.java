@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService {
                     ErrorCode.ACCOUNT_PWD_NOT_EXIST.getMsg());
         }
 
-        if (user.getStatus() == 1) {
+        if (user.getStatus() == 0) {
             log.info("用户不存在");
             return ResultUtils.fail(ErrorCode.ACCOUNT_HAS_DISABLED.getCode(), ErrorCode.ACCOUNT_HAS_DISABLED.getMsg());
         }
@@ -141,7 +141,7 @@ public class UserServiceImpl implements UserService {
                 .os(userDto.getOs())
                 .loginType(0)
                 .roleId(0)
-                .status(0)
+                .status(1)
                 .password(registerParam.getPassword())
                 .username(registerParam.getUsername())
                 .updateTime(new Date())
@@ -236,8 +236,8 @@ public class UserServiceImpl implements UserService {
         IPage<User> userIPage = userMapper.getUserList(userParam, page);
 
         List<UserVo> userVoList = new ArrayList<>();
-        UserVo userVo = UserVo.builder().build();
         for (User user : userIPage.getRecords()) {
+            UserVo userVo = UserVo.builder().build();
             BeanUtils.copyProperties(user, userVo);
             userVoList.add(userVo);
         }

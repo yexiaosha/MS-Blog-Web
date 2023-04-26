@@ -5,6 +5,7 @@ import com.ms.blog.common.PageParam;
 import com.ms.blog.common.Result;
 import com.ms.blog.entity.param.ChildCommentParam;
 import com.ms.blog.entity.param.CommentParam;
+import com.ms.blog.entity.param.CommentSearchParam;
 import com.ms.blog.entity.vo.CommentVo;
 
 /**
@@ -44,4 +45,10 @@ public interface CommentService {
      */
     Result<PageData<CommentVo>> getChildCommentList(ChildCommentParam childCommentParam);
 
+    /**
+     * 获取评论表单
+     * @param commentSearchParam 搜索参数
+     * @return 结果
+     */
+    Result<PageData<CommentVo>> searchCommentList(CommentSearchParam commentSearchParam);
 }

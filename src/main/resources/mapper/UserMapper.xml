@@ -96,7 +96,7 @@
         <if test="userParam.username != null">
             AND username = #{username}
         </if>
-        <if test="userParam.ipSourse != null">
+        <if test="userParam.ipSource != null">
             AND ip_source = #{ipSource}
         </if>
         <if test="userParam.roleId != null">

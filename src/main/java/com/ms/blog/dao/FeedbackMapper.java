@@ -6,9 +6,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ms.blog.entity.Article;
 import com.ms.blog.entity.FeedBack;
 import com.ms.blog.entity.param.FeedbackSearchParam;
-import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 反馈接口
@@ -31,7 +32,7 @@ public interface FeedbackMapper extends BaseMapper<Article> {
      * @param page 分页参数
      * @return 结果
      */
-    IPage<FeedBack> getFeedbackByParam(FeedbackSearchParam feedbackSearchParam, Page<FeedBack> page);
+    IPage<FeedBack> getFeedbackByParam(@Param("feedbackSearchParam") FeedbackSearchParam feedbackSearchParam, Page<FeedBack> page);
 
     /**
      * 删除反馈

@@ -8,7 +8,7 @@
         VALUES (#{name}, #{createTime}, #{updateTime}, 0)
     </insert>
     <update id="updateCategory">
-        UPDATE b_category 
+        UPDATE b_category
         <set>
             <if test="name!=null">
                 name=#{name},

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ms.blog.entity.Article;
 import com.ms.blog.entity.Comment;
+import com.ms.blog.entity.param.CommentSearchParam;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -52,4 +53,12 @@ public interface CommentMapper extends BaseMapper<Article> {
      * @return 结果
      */
     int insertParentComment(Comment comment);
+
+    /**
+     * 获取评论表单
+     * @param commentSearchParam 搜索参数类
+     * @param commentPage 分页参数
+     * @return 结果
+     */
+    IPage<Comment> searchCommentList(@Param("commentSearchParam") CommentSearchParam commentSearchParam, Page<Comment> commentPage);
 }

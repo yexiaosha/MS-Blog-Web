@@ -35,7 +35,7 @@ public class TagsController {
         return tagService.getTagList(pageParam);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @GetMapping("/delete/{id}")
     @ApiOperation("删除标签")
     @ControllerLog("删除标签")
     public Result<Integer> deleteTags(@PathVariable("id") Integer id){

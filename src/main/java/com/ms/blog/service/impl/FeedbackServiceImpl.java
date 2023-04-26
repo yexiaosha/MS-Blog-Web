@@ -13,16 +13,17 @@ import com.ms.blog.entity.param.FeedbackSearchParam;
 import com.ms.blog.entity.vo.FeedbackVo;
 import com.ms.blog.service.FeedbackService;
 import com.ms.blog.util.ResultUtils;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Service;
 
 /**
  * 反馈业务接口实现
@@ -55,9 +56,8 @@ public class FeedbackServiceImpl implements FeedbackService {
         Page<FeedBack> feedbackParamPage = new Page<>(feedbackSearchParam.getCurrentPage(), feedbackSearchParam.getPageSize());
         IPage<FeedBack> feedBackIPage = feedbackMapper.getFeedbackByParam(feedbackSearchParam, feedbackParamPage);
         List<FeedbackVo> feedbackVoList = new ArrayList<>();
-        FeedbackVo feedbackVo = new FeedbackVo();
-        for (FeedBack f :
-                feedBackIPage.getRecords()) {
+        for (FeedBack f : feedBackIPage.getRecords()) {
+            FeedbackVo feedbackVo = new FeedbackVo();
             BeanUtils.copyProperties(f, feedbackVo);
             feedbackVoList.add(feedbackVo);
         }

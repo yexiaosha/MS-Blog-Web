@@ -7,6 +7,7 @@ import com.ms.blog.common.UserThreadLocal;
 import com.ms.blog.common.annotation.ControllerLog;
 import com.ms.blog.entity.param.ChildCommentParam;
 import com.ms.blog.entity.param.CommentParam;
+import com.ms.blog.entity.param.CommentSearchParam;
 import com.ms.blog.entity.vo.CommentVo;
 import com.ms.blog.service.CommentService;
 import io.swagger.annotations.Api;
@@ -44,6 +45,13 @@ public class CommentController {
         pageParam.setPageSize(pageSize);
         pageParam.setCurrentPage(pageNo);
         return commentService.getCommentList(articleId, pageParam);
+    }
+
+    @PostMapping("/search")
+    @ApiOperation("搜索获取评论表单")
+    @ControllerLog("搜索获取评论表单")
+    public Result<PageData<CommentVo>> searchCommentList(@RequestBody CommentSearchParam commentSearchParam){
+        return commentService.searchCommentList(commentSearchParam);
     }
 
     @ApiOperation("删除评论")

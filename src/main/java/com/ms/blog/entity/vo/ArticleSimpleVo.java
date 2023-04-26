@@ -1,5 +1,6 @@
 package com.ms.blog.entity.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -30,9 +31,11 @@ public class ArticleSimpleVo {
     private String summary;
 
     @ApiModelProperty("更新时间")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date updateTime;
 
     @ApiModelProperty("创造时间")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date createTime;
 
     @ApiModelProperty("作者昵称")

@@ -33,7 +33,7 @@ public class CategoryController {
         return categoryService.getCategoryList();
     }
 
-    @DeleteMapping("/delete/{id}")
+    @GetMapping("/delete/{id}")
     @ApiOperation("删除分类")
     @ControllerLog("删除分类")
     public Result<Integer> deleteCategory(@PathVariable("id") Integer id){
@@ -47,7 +47,7 @@ public class CategoryController {
         return categoryService.insertCategory(categoryParam);
     }
 
-    @PutMapping("/update")
+    @PostMapping("/update")
     @ApiOperation("修改分类")
     @ControllerLog("修改分类")
     public Result<Integer> updateCategory(@RequestBody CategoryParam categoryParam){

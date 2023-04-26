@@ -141,7 +141,7 @@
             <if test="article.summary!=null">
                 summary=#{summary},
             </if>
-            <if test="article.updateDate!=null">
+            <if test="article.updateTime!=null">
                 update_time=#{updateDate},
             </if>
             <if test="article.title!=null">
@@ -154,7 +154,7 @@
                 is_stick=#{isStick},
             </if>
             <if test="article.isPublish!=null">
-                is_publish=#{isPublish},
+                is_publish=#{article.isPublish},
             </if>
             <if test="article.isSecret!=null">
                 is_secret=#{isSecret},
@@ -163,7 +163,7 @@
                 category_id=#{categoryId}
             </if>
         </set>
-        WHERE id=#{id}
+        WHERE id=#{article.id}
     </update>
     <update id="updateArticleLikeCount">
         update b_article set like_count=#{likeCount} where id=#{id}

@@ -223,6 +223,7 @@ public class ArticleServiceImpl implements ArticleService {
             return ResultUtils.fail(ErrorCode.ARTICLE_NOT_EXIST.getCode(), ErrorCode.ARTICLE_NOT_EXIST.getMsg());
         }
         article.setIsPublish(0);
+        article.setId(id);
         return ResultUtils.success(articleMapper.updateArticleInfo(article));
     }
 

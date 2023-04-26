@@ -10,6 +10,7 @@ import com.ms.blog.dao.CommentMapper;
 import com.ms.blog.entity.Comment;
 import com.ms.blog.entity.param.ChildCommentParam;
 import com.ms.blog.entity.param.CommentParam;
+import com.ms.blog.entity.param.CommentSearchParam;
 import com.ms.blog.entity.vo.CommentVo;
 import com.ms.blog.service.CommentService;
 import com.ms.blog.service.UserService;
@@ -98,6 +99,20 @@ public class CommentServiceImpl implements CommentService {
         }
 
         PageData<CommentVo> commentVoPageData = new PageData<>(commentVoList, childCommentList.getTotal(), childCommentList.getPages(), childCommentList.getCurrent());
+        return ResultUtils.success(commentVoPageData);
+    }
+
+    @Override
+    @ServiceLog("获取评论表单")
+    public Result<PageData<CommentVo>> searchCommentList(CommentSearchParam commentSearchParam) {
+        Page<Comment> commentPage = new Page<>(commentSearchParam.getCurrentPage(), commentSearchParam.getPageSize());
+        IPage<Comment> commentListIPage = commentMapper.searchCommentList(commentSearchParam, commentPage);
+        List<CommentVo> commentVoList = new ArrayList<>();
+        for (Comment c : commentListIPage.getRecords()) {
+            CommentVo commentVo = copy(c);
+            commentVoList.add(commentVo);
+        }
+        PageData<CommentVo> commentVoPageData = new PageData<>(commentVoList, commentListIPage.getTotal(), commentListIPage.getPages(), commentListIPage.getCurrent());
         return ResultUtils.success(commentVoPageData);
     }
 

@@ -74,7 +74,7 @@ public interface ArticleMapper extends BaseMapper<Article> {
      * @param article 文章类
      * @return 结果
      */
-    int updateArticleInfo(Article article);
+    int updateArticleInfo(@Param("article") Article article);
 
     /**
      * 通过文章id获取文章

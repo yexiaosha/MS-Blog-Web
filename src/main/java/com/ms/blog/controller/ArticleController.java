@@ -19,7 +19,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 /**
@@ -62,13 +61,13 @@ public class ArticleController {
         return articleService.getArticleContent(id);
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete/{id}")
     @ApiOperation("删除文章")
     @ControllerLog("删除文章")
     @ApiImplicitParams(
             @ApiImplicitParam(value = "文章id", name = "articleId")
     )
-    public Result<Integer> deleteArticles(@RequestParam @NotBlank Integer articleId){
+    public Result<Integer> deleteArticles(@PathVariable("id") Integer articleId){
         return articleService.deleteArticle(articleId);
     }
 

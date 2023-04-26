@@ -5,7 +5,7 @@
 <mapper namespace="com.ms.blog.dao.TagMapper">
     <insert id="insertTag">
         INSERT INTO b_tags(name, click_volume,create_time, update_time) VALUES
-        (name=#{name}, click_volume=#{clickVolume}, create_time=#{createTime}, update_time=#{updateTime})
+        (#{name}, #{clickVolume}, #{createTime}, #{updateTime})
     </insert>
     <update id="updateTagClickVolume">
         UPDATE b_tags SET click_volume=#{clickVolume} where id=#{tagId}

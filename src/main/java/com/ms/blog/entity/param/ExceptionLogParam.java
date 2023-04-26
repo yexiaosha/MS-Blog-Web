@@ -3,9 +3,10 @@ package com.ms.blog.entity.param;
 import com.ms.blog.common.PageParam;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.Date;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.Date;
 
 /**
  * 错误日志参数类
@@ -13,8 +14,8 @@ import lombok.EqualsAndHashCode;
  * @date 2023/03/09 15:36
  */
 @Data
-@ApiModel("错误日志参数类")
 @EqualsAndHashCode(callSuper = true)
+@ApiModel("错误日志参数类")
 public class ExceptionLogParam extends PageParam {
 
     /**

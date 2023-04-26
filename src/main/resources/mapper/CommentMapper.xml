@@ -31,4 +31,13 @@
         from b_comment
         WHERE parent_id=#{parentId}
     </select>
+    <select id="searchCommentList" resultType="com.ms.blog.entity.Comment">
+        select id, user_id, article_id, content, reply_user_id, parent_id, create_time
+        from b_comment
+        <where>
+            <if test="commentSearchParam.createTime!=null and commentSearchParam.createTime!=''">
+                create_time=#{createTime}
+            </if>
+        </where>
+    </select>
 </mapper>

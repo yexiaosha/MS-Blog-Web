@@ -1,10 +1,12 @@
 package com.ms.blog.entity.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.Date;
 import lombok.Builder;
 import lombok.Data;
+
+import java.util.Date;
 
 /**
  * 用户详细信息视图类
@@ -61,11 +63,13 @@ public class UserAuthVo {
      * 创建时间
      */
     @ApiModelProperty("创建时间")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date createTime;
 
     /**
      * 更新时间
      */
     @ApiModelProperty("更新时间")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date updateTime;
 }

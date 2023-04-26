@@ -13,12 +13,13 @@ import com.ms.blog.entity.vo.ExceptionLogVo;
 import com.ms.blog.entity.vo.UserLogVo;
 import com.ms.blog.service.LogService;
 import com.ms.blog.util.ResultUtils;
-import java.util.ArrayList;
-import java.util.List;
-import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 日志业务实现类
@@ -63,6 +64,7 @@ public class LogServiceImpl implements LogService {
 
     @Override
     public Result<PageData<ExceptionLogVo>> getExceptionLogs(ExceptionLogParam exceptionLogParam) {
+        log.info("{}",exceptionLogParam);
         Page<ExceptionLog> exceptionLogPage = new Page<>(exceptionLogParam.getCurrentPage(),exceptionLogParam.getPageSize());
         IPage<ExceptionLog> exceptionLogIPage = logMapper.getExceptionLogs(exceptionLogParam, exceptionLogPage);
         List<ExceptionLogVo> exceptionLogVoList = new ArrayList<>();
