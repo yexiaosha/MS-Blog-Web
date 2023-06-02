@@ -209,6 +209,9 @@ public class ArticleServiceImpl implements ArticleService {
                 log.info("标签不存在");
                 continue;
             }
+            if (articleMapper.getArticleIdByTagId(tagId).contains(articleParam.getId())){
+                continue;
+            }
             articleMapper.insertArticleTagRelate(articleParam.getId() ,tagId);
         }
         return ResultUtils.success();
@@ -245,6 +248,7 @@ public class ArticleServiceImpl implements ArticleService {
                     .summary(a.getSummary())
                     .username(userService.getUserByUserId(a.getUserId()).getUsername())
                     .avatar(a.getAvatar())
+                    .archiveName(tagService.getTagById(tagId).getName())
                     .build();
             articleSimpleVoList.add(articleSimpleVo);
         }
@@ -276,6 +280,7 @@ public class ArticleServiceImpl implements ArticleService {
                     .summary(a.getSummary())
                     .avatar(a.getAvatar())
                     .username(userService.getUserByUserId(a.getUserId()).getUsername())
+                    .archiveName(categoryService.getCategoryById(categoryId).getData().getName())
                     .build();
             articleSimpleVoList.add(articleSimpleVo);
         }
@@ -306,14 +311,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     private Result<Integer> setArticleTagRelate(ArticleParam articleParam, Date createTime, Article article) {
         articleMapper.insertArticle(article);
-        List<Article> articleList = articleMapper.getArticleByUserId(articleParam.getUserId());
-        Integer articleId = null;
-        for (Article a : articleList) {
-            if (Objects.equals(a.getTitle(), articleParam.getTitle()) && a.getCreateTime() == createTime){
-                articleId = a.getId();
-                break;
-            }
-        }
+        Integer articleId = article.getId();
 
         if (articleId == null){
             ResultUtils.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMsg());

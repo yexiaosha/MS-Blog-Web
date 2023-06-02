@@ -3,9 +3,7 @@ package com.ms.blog.controller;
 import com.ms.blog.common.PageData;
 import com.ms.blog.common.PageParam;
 import com.ms.blog.common.Result;
-import com.ms.blog.common.UserThreadLocal;
 import com.ms.blog.common.annotation.ControllerLog;
-import com.ms.blog.entity.User;
 import com.ms.blog.entity.param.ArticleParam;
 import com.ms.blog.entity.param.ArticleSearchParam;
 import com.ms.blog.entity.vo.ArticleSimpleVo;
@@ -75,16 +73,16 @@ public class ArticleController {
     @ApiOperation("新增文章")
     @ControllerLog("新增文章")
     public Result<Integer> insertArticle(@RequestBody ArticleParam articleParam){
-        User user = UserThreadLocal.get();
-        return articleService.insertArticle(articleParam, user.getId());
+        //User user = UserThreadLocal.get();
+        return articleService.insertArticle(articleParam, articleParam.getUserId());
     }
 
     @PostMapping("/temporary")
     @ApiOperation("暂存文章")
     @ControllerLog("暂存文章")
     public Result<Integer> temporaryArticle(@RequestBody ArticleParam articleParam){
-        User user = UserThreadLocal.get();
-        return articleService.temporaryArticle(articleParam, user.getId());
+        //User user = UserThreadLocal.get();
+        return articleService.temporaryArticle(articleParam, articleParam.getUserId());
     }
 
     @PostMapping("/update")

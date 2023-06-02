@@ -39,7 +39,7 @@ spring:
           required: true
 mybatis-plus:
   configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
     cache-enabled: true
   mapper-locations: classpath:mapper/*.xml
 # 应用服务 WEB 访问端口
@@ -55,7 +55,7 @@ blog:
 qiniu:
   access-key: T6J7UczitgnjygySG4GTHddcHnUh0bXv0aatyRa4
   secret-key: yhPHahkvEpxLEeAef4tWVxtbS9NYpZ2A9KS6IsEB
-  url: http://rs67y55jy.hn-bkt.clouddn.com
-  bucketName: blogms
+  url: http://rtpdm3e3a.hn-bkt.clouddn.com
+  bucketName: minespacetest
 
 

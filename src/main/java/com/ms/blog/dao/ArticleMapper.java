@@ -52,7 +52,7 @@ public interface ArticleMapper extends BaseMapper<Article> {
      * @param article 文章类
      * @return 结果
      */
-    int insertArticle(Article article);
+    int insertArticle(@Param("article") Article article);
 
     /**
      * 新增文章标签关联表

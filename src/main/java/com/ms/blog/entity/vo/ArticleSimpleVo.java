@@ -46,4 +46,7 @@ public class ArticleSimpleVo {
 
     @ApiModelProperty("作者用户名")
     private String username;
+
+    @ApiModelProperty("归档名称(分类或标签名)")
+    private String archiveName;
 }

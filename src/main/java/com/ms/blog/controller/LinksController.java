@@ -57,7 +57,7 @@ public class LinksController {
         linksService.uploadFriendLinkByExcel(response, multipartFile);
     }
 
-    @PostMapping("/download")
+    @GetMapping("/download")
     @ApiOperation("下载上传表格模板")
     @ControllerLog("下载上传表格模板")
     public void downloadTemplate(HttpServletResponse response){
