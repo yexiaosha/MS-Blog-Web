@@ -1,8 +1,7 @@
 package com.ms.blog.entity.param;
 
 import com.ms.blog.common.PageParam;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -13,8 +12,8 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel("子评论")
+@Schema(name = "子评论")
 public class ChildCommentParam extends PageParam {
-    @ApiModelProperty("父评论id")
+    @Schema(name = "父评论id")
     private Integer parentId;
 }

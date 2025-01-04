@@ -1,6 +1,6 @@
 package com.ms.blog.controller;
 
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Deprecated
 @RestController
-@Api(tags = "字典接口")
+@Tag(name = "字典接口")
 @RequestMapping("/msblog/dict")
 public class DictController {
 

@@ -10,13 +10,13 @@ import com.ms.blog.entity.param.CommentParam;
 import com.ms.blog.entity.param.CommentSearchParam;
 import com.ms.blog.entity.vo.CommentVo;
 import com.ms.blog.service.CommentService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 
 /**
  * 评论接口
@@ -24,7 +24,7 @@ import javax.annotation.Resource;
  * @date 2023/01/06 13:58
  */
 @RestController
-@Api(tags = "评论接口")
+@Tag(name = "评论接口")
 @RequestMapping("/msblog/comment")
 @CrossOrigin
 public class CommentController {
@@ -32,13 +32,13 @@ public class CommentController {
     @Resource
     private CommentService commentService;
 
-    @ApiOperation("查找评论")
+    @Operation(description = "查找评论")
     @GetMapping("/list")
     @ControllerLog("查找评论")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "articleId", value = "文章id"),
-            @ApiImplicitParam(name = "pageNo", value = "当前页码"),
-            @ApiImplicitParam(name = "pageSize", value = "每页大小")
+    @Parameters({
+            @Parameter(name = "articleId", description = "文章id"),
+            @Parameter(name = "pageNo", description = "当前页码"),
+            @Parameter(name = "pageSize", description = "每页大小")
     })
     public Result<PageData<CommentVo>> getCommentList(@RequestParam Integer articleId, @RequestParam Integer pageNo, @RequestParam Integer pageSize){
         PageParam pageParam = new PageParam();
@@ -48,23 +48,23 @@ public class CommentController {
     }
 
     @PostMapping("/search")
-    @ApiOperation("搜索获取评论表单")
+    @Operation(description = "搜索获取评论表单")
     @ControllerLog("搜索获取评论表单")
     public Result<PageData<CommentVo>> searchCommentList(@RequestBody CommentSearchParam commentSearchParam){
         return commentService.searchCommentList(commentSearchParam);
     }
 
-    @ApiOperation("删除评论")
+    @Operation(description = "删除评论")
     @DeleteMapping("/delete/{id}")
     @ControllerLog("删除评论")
-    @ApiImplicitParams(
-            @ApiImplicitParam(name = "评论id", value = "id")
+    @Parameters(
+            @Parameter( name = "评论id", description = "id")
     )
     public Result<Integer> deleteComment(@PathVariable("id") Integer id){
         return commentService.deleteComment(id);
     }
 
-    @ApiOperation("插入评论")
+    @Operation(description = "插入评论")
     @PostMapping("/insert")
     @ControllerLog("插入评论")
     public Result<Integer> insertComment(@RequestBody CommentParam commentParam){
@@ -74,7 +74,7 @@ public class CommentController {
     }
 
     @GetMapping("/child")
-    @ApiOperation("获取子评论")
+    @Operation(description = "获取子评论")
     @ControllerLog("获取子评论")
     public Result<PageData<CommentVo>> getChildCommentList(@RequestBody ChildCommentParam commentParam){
         return commentService.getChildCommentList(commentParam);

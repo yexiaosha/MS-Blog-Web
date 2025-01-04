@@ -5,7 +5,7 @@ import com.ms.blog.common.Result;
 import com.ms.blog.common.annotation.ServiceLog;
 import com.ms.blog.service.CaptchaService;
 import com.ms.blog.util.ResultUtils;
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,6 @@
 package com.ms.blog.entity.param;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
@@ -10,21 +9,21 @@ import lombok.Data;
  * @date 2023/01/13 11:02
  */
 @Data
-@ApiModel("更改密码/找回密码表单")
+@Schema(name = "更改密码/找回密码表单")
 public class ResetPasswordParam {
 
-    @ApiModelProperty("用户名")
+    @Schema(name = "用户名")
     private String username;
 
-    @ApiModelProperty("密码")
+    @Schema(name = "密码")
     private String password;
 
-    @ApiModelProperty("邮箱")
+    @Schema(name = "邮箱")
     private String email;
 
-    @ApiModelProperty("邮箱验证码")
+    @Schema(name = "邮箱验证码")
     private String code;
 
-    @ApiModelProperty("token")
+    @Schema(name = "token")
     private String token;
 }

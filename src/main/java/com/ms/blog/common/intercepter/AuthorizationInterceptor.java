@@ -7,9 +7,10 @@ import com.ms.blog.common.UserThreadLocal;
 import com.ms.blog.entity.User;
 import com.ms.blog.service.UserService;
 import com.ms.blog.util.ResultUtils;
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 

@@ -7,11 +7,12 @@ import com.ms.blog.entity.param.UserLogParam;
 import com.ms.blog.entity.vo.ExceptionLogVo;
 import com.ms.blog.entity.vo.UserLogVo;
 import com.ms.blog.service.LogService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
+
 
 /**
  * 日志接口
@@ -19,7 +20,7 @@ import javax.annotation.Resource;
  * @date 2023/01/09 17:57
  */
 @RestController
-@Api(tags = "日志接口")
+@Tag(name = "日志接口")
 @RequestMapping("/msblog/log")
 @CrossOrigin
 public class LogController {
@@ -27,20 +28,20 @@ public class LogController {
     @Resource
     private LogService logService;
 
-    @ApiOperation("获取用用户日志列表")
+    @Operation(description = "获取用用户日志列表")
     @PostMapping("/user/list")
     public Result<PageData<UserLogVo>> getUserLogs(@RequestBody UserLogParam userLogParam){
         return logService.getUserLogs(userLogParam);
     }
 
 
-    @ApiOperation("删除用户日志记录")
+    @Operation(description = "删除用户日志记录")
     @DeleteMapping("/delete/{id}")
     public Result<Integer> deleteLog(@PathVariable("id") Integer id){
         return logService.deleteUserLogById(id);
     }
 
-    @ApiOperation("获取错误日志列表")
+    @Operation(description = "获取错误日志列表")
     @PostMapping("/exception/list")
     public Result<PageData<ExceptionLogVo>> getExceptionLogs(@RequestBody ExceptionLogParam exceptionLogParam){
         System.out.println(exceptionLogParam.toString());
@@ -48,7 +49,7 @@ public class LogController {
     }
 
     @DeleteMapping("/exception/delete/{id}")
-    @ApiOperation("删除错误日志")
+    @Operation(description = "删除错误日志")
     public Result<Integer> deleteExceptionLog(@PathVariable("id") Integer id){
         return logService.deleteExceptionLogById(id);
 

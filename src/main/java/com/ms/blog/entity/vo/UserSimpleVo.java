@@ -1,7 +1,6 @@
 package com.ms.blog.entity.vo;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,26 +15,26 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel("用户基本信息视图类")
+@Schema(name = "用户基本信息视图类")
 public class UserSimpleVo {
-    @ApiModelProperty("用户详情id")
+    @Schema(name = "用户详情id")
     private Integer id;
 
-    @ApiModelProperty("用户名")
+    @Schema(name = "用户名")
     private String username;
 
-    @ApiModelProperty("昵称")
+    @Schema(name = "昵称")
     private String nickname;
 
-    @ApiModelProperty("邮箱")
+    @Schema(name = "邮箱")
     private String email;
 
-    @ApiModelProperty("头像链接")
+    @Schema(name = "头像链接")
     private String avatar;
 
-    @ApiModelProperty("介绍")
+    @Schema(name = "介绍")
     private String intro;
 
-    @ApiModelProperty("网站")
+    @Schema(name = "网站")
     private String website;
 }

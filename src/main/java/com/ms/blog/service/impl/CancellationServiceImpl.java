@@ -17,12 +17,13 @@ import com.ms.blog.entity.vo.HandledCancellationVo;
 import com.ms.blog.service.CancellationService;
 import com.ms.blog.service.UserService;
 import com.ms.blog.util.ResultUtils;
+import jakarta.annotation.Resource;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.annotation.Resource;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 注销请求业务接口实现

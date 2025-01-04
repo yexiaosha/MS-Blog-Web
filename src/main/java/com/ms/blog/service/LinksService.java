@@ -8,7 +8,8 @@ import com.ms.blog.entity.param.FriendLinkParam;
 import com.ms.blog.entity.param.FriendLinkSearchParam;
 import com.ms.blog.entity.vo.FriendLinkVo;
 import java.io.IOException;
-import javax.servlet.http.HttpServletResponse;
+
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.multipart.MultipartFile;
 
 /**

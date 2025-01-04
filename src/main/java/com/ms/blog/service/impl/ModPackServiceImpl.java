@@ -14,13 +14,14 @@ import com.ms.blog.entity.vo.ModPackRelatedLinkVo;
 import com.ms.blog.entity.vo.ModPackVo;
 import com.ms.blog.service.ModPackService;
 import com.ms.blog.util.ResultUtils;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 整合包业务接口实现类

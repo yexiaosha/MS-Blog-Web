@@ -1,7 +1,7 @@
 # 应用名称
 spring:
   application:
-  name: blog
+    name: blog
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
@@ -14,7 +14,9 @@ spring:
     port: 6379
     host: 127.0.0.1
     timeout: 1000
+    database: 0
     password: root
+    url: redis://password@ip:6379
   servlet:
     multipart:
       enabled: true

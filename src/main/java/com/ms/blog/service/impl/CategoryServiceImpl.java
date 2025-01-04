@@ -9,12 +9,12 @@ import com.ms.blog.entity.param.CategoryParam;
 import com.ms.blog.entity.vo.CategoryVo;
 import com.ms.blog.service.CategoryService;
 import com.ms.blog.util.ResultUtils;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

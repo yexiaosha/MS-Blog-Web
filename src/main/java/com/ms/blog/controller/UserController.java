@@ -4,12 +4,7 @@ import com.ms.blog.common.PageData;
 import com.ms.blog.common.Result;
 import com.ms.blog.common.annotation.ControllerLog;
 import com.ms.blog.entity.dto.UserDto;
-import com.ms.blog.entity.param.CancellationParam;
-import com.ms.blog.entity.param.LoginParam;
-import com.ms.blog.entity.param.RegisterParam;
-import com.ms.blog.entity.param.ResetPasswordParam;
-import com.ms.blog.entity.param.UserInfoParam;
-import com.ms.blog.entity.param.UserParam;
+import com.ms.blog.entity.param.*;
 import com.ms.blog.entity.vo.LoginVo;
 import com.ms.blog.entity.vo.UserAuthVo;
 import com.ms.blog.entity.vo.UserSimpleVo;
@@ -17,20 +12,12 @@ import com.ms.blog.entity.vo.UserVo;
 import com.ms.blog.service.UserService;
 import com.ms.blog.util.IpUtils;
 import com.ms.blog.util.SystemUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 用户接口
@@ -38,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2023/01/06 14:03
  */
 @RestController
-@Api(tags = "用户接口")
+@Tag(name = "用户接口")
 @RequestMapping("/msblog/user")
 @Slf4j
 @CrossOrigin
@@ -48,14 +35,14 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/login")
-    @ApiOperation("用户登录")
+    @Operation(description = "用户登录")
     @ControllerLog("用户登录")
     public Result<LoginVo> userLogin(@RequestBody LoginParam loginParam){
         return userService.userLogin(loginParam);
     }
 
     @GetMapping("/info/{username}")
-    @ApiOperation("获取用户基础信息")
+    @Operation(description = "获取用户基础信息")
     @ControllerLog("获取用户基础信息")
     @Deprecated
     public Result<UserVo> getUserInfo(@PathVariable("username") String username){
@@ -63,7 +50,7 @@ public class UserController {
     }
 
     @GetMapping("/info/detail/{username}")
-    @ApiOperation("获取用户详情")
+    @Operation(description = "获取用户详情")
     @ControllerLog("获取用户详情")
     @Deprecated
     public Result<UserAuthVo> getUserInfoDetails(@PathVariable("username") String username){
@@ -71,7 +58,7 @@ public class UserController {
     }
 
     @PostMapping("/info/detail/update")
-    @ApiOperation("更改用户信息")
+    @Operation(description = "更改用户信息")
     @ControllerLog("更改用户信息")
     public Result<UserSimpleVo> updateUserDetailInfo(@RequestBody UserInfoParam userInfoParam){
         log.info(userInfoParam.toString());
@@ -80,28 +67,28 @@ public class UserController {
     }
 
     @PostMapping("/list")
-    @ApiOperation("获取用户列表")
+    @Operation(description = "获取用户列表")
     @ControllerLog("获取用户列表")
     public Result<PageData<UserVo>> getUserList(@RequestBody UserParam userParam){
         return userService.getUserList(userParam);
     }
 
     @DeleteMapping("/cancellation")
-    @ApiOperation("用户注销")
+    @Operation(description = "用户注销")
     @ControllerLog("用户注销")
     public Result<Integer> cancellationUser(@RequestBody CancellationParam cancellationParam, @RequestHeader("Authorization") String token){
         return userService.cancelUserAccount(cancellationParam, token);
     }
 
     @GetMapping("/logout")
-    @ApiOperation("用户登出")
+    @Operation(description = "用户登出")
     @ControllerLog("用户登出")
     public Result<Boolean> logoutUser(@RequestHeader("Authorization") String token){
         return userService.logoutUser(token);
     }
 
     @PostMapping("/register")
-    @ApiOperation("游客注册")
+    @Operation(description = "游客注册")
     @ControllerLog("游客注册")
     public Result<LoginVo> registerUser(@RequestBody RegisterParam registerParam, HttpServletRequest request){
         UserDto userDto = new UserDto();
@@ -114,7 +101,7 @@ public class UserController {
     }
 
     @PostMapping("/reset")
-    @ApiOperation("忘记密码/重置密码")
+    @Operation(description = "忘记密码/重置密码")
     @ControllerLog("忘记密码/重置密码")
     public Result<Integer> resetPassword(@RequestBody ResetPasswordParam resetPasswordParam){
         return userService.resetPassword(resetPasswordParam);

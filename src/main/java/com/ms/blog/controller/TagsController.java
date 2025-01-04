@@ -7,11 +7,11 @@ import com.ms.blog.common.annotation.ControllerLog;
 import com.ms.blog.entity.param.TagParam;
 import com.ms.blog.entity.vo.TagVo;
 import com.ms.blog.service.TagService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -20,7 +20,7 @@ import java.util.List;
  * @date 2023/01/06 13:56
  */
 @RestController
-@Api(tags = "标签接口")
+@Tag(name = "标签接口")
 @RequestMapping("/msblog/tags")
 @CrossOrigin
 public class TagsController {
@@ -29,21 +29,21 @@ public class TagsController {
     private TagService tagService;
 
     @PostMapping("/list")
-    @ApiOperation("分页查找所有标签")
+    @Operation(description = "分页查找所有标签")
     @ControllerLog("分页查找所有标签")
     public Result<PageData<TagVo>> getTagList(@RequestBody PageParam pageParam){
         return tagService.getTagList(pageParam);
     }
 
     @GetMapping("/delete/{id}")
-    @ApiOperation("删除标签")
+    @Operation(description = "删除标签")
     @ControllerLog("删除标签")
     public Result<Integer> deleteTags(@PathVariable("id") Integer id){
         return tagService.deleteTag(id);
     }
 
     @PostMapping("/insert")
-    @ApiOperation("插入标签")
+    @Operation(description = "插入标签")
     @ControllerLog("插入标签")
     public Result<Integer> insertTag(@RequestBody TagParam tagParam){
         return tagService.insertTag(tagParam);
@@ -51,7 +51,7 @@ public class TagsController {
     }
 
     @GetMapping("/popular")
-    @ApiOperation("获取热门标签")
+    @Operation(description = "获取热门标签")
     @ControllerLog("获取热门标签")
     public Result<List<TagVo>> getPopularTagList(){
         return tagService.getPopularTagList();

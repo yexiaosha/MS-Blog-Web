@@ -10,7 +10,6 @@ import com.ms.blog.entity.UserAuth;
 import com.ms.blog.entity.param.UserParam;
 import java.util.Date;
 
-import io.swagger.models.auth.In;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

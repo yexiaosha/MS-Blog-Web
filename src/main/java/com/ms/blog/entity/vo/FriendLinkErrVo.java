@@ -1,8 +1,7 @@
 package com.ms.blog.entity.vo;
 
 import com.ms.blog.entity.FriendLink;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,8 +16,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@ApiModel("友情链接检验错误视图类")
+@Schema(name = "友情链接检验错误视图类")
 public class FriendLinkErrVo extends FriendLink {
-    @ApiModelProperty("错误信息")
+    @Schema(name ="错误信息")
     private String errMessage;
 }

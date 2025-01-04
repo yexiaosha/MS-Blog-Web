@@ -1,7 +1,6 @@
 package com.ms.blog.entity.param;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
@@ -11,8 +10,8 @@ import lombok.Data;
  */
 
 @Data
-@ApiModel("标签参数类")
+@Schema(name ="标签参数类")
 public class TagParam {
-    @ApiModelProperty("分类名")
+    @Schema(name ="分类名")
     private String name;
 }

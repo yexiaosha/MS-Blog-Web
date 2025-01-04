@@ -1,6 +1,6 @@
 package com.ms.blog.entity;
 
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,7 +18,7 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel
+@Schema(name = "文章实体")
 public class Article {
 
     /**

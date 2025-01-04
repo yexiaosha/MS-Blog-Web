@@ -1,6 +1,6 @@
 package com.ms.blog.entity.vo;
 
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
@@ -10,7 +10,7 @@ import lombok.Data;
  * @date 2023/3/28 16:29
  */
 @Data
-@ApiModel("上传结果")
+@Schema(name = "上传结果")
 public class QiniuVo {
     private String path;
 }

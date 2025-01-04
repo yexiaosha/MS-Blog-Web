@@ -10,9 +10,9 @@ import com.ms.blog.entity.param.HandledCancellationParam;
 import com.ms.blog.entity.vo.CancellationVo;
 import com.ms.blog.entity.vo.HandledCancellationVo;
 import com.ms.blog.service.CancellationService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import javax.annotation.Resource;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,21 +25,21 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("msblog/cancel")
-@Api(tags = "注销接口")
+@Tag(name = "注销接口")
 public class CancellationController {
 
     @Resource
     private CancellationService cancellationService;
 
     @PostMapping("/list/request")
-    @ApiOperation("获取注销请求列表")
+    @Operation(description = "获取注销请求列表")
     @ControllerLog("获取注销请求列表")
     public Result<PageData<CancellationVo>> getCancellationList(@RequestBody CancellationParam cancellationParam){
         return cancellationService.getCancellationList(cancellationParam);
     }
 
     @PostMapping("/handle")
-    @ApiOperation("处理注销请求")
+    @Operation(description = "处理注销请求")
     @ControllerLog("处理注销请求")
     public Result<Integer> handleCancellation(@RequestBody HandleCancellationParam handleCancellationParam){
         String handlerName = UserThreadLocal.get().getUsername();
@@ -47,7 +47,7 @@ public class CancellationController {
     }
 
     @PostMapping("/list/handled")
-    @ApiOperation("获取已处理注销请求列表")
+    @Operation(description = "获取已处理注销请求列表")
     public Result<PageData<HandledCancellationVo>> getHandledCancellationList(@RequestBody HandledCancellationParam handledCancellationParam){
         return cancellationService.getHandledCancellationList(handledCancellationParam);
 

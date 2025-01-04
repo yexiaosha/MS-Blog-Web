@@ -13,12 +13,12 @@ import com.ms.blog.entity.param.FeedbackSearchParam;
 import com.ms.blog.entity.vo.FeedbackVo;
 import com.ms.blog.service.FeedbackService;
 import com.ms.blog.util.ResultUtils;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.ArrayList;

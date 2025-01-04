@@ -5,11 +5,11 @@ import com.ms.blog.common.annotation.ControllerLog;
 import com.ms.blog.entity.param.ModPackParam;
 import com.ms.blog.entity.vo.ModPackVo;
 import com.ms.blog.service.ModPackService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -19,35 +19,35 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/msblog/modpack")
-@Api(tags = "整合包接口")
+@Tag(name = "整合包接口")
 public class ModPackController {
 
     @Resource
     private ModPackService modPackService;
 
     @PostMapping("/insert")
-    @ApiOperation("新增整合包")
+    @Operation(description = "新增整合包")
     @Deprecated
     public Result<?> insertModPack(@RequestBody ModPackParam modPackParam){
         return null;
     }
 
     @PostMapping("/update")
-    @ApiOperation("更改整合包信息")
+    @Operation(description = "更改整合包信息")
     @ControllerLog("更新整合包信息")
     public Result<Integer> updateModPackInfo(@RequestBody ModPackParam modPackParam){
         return modPackService.updateModPackInfo(modPackParam);
     }
 
     @GetMapping("/list")
-    @ApiOperation("查看整合包列表")
+    @Operation(description = "查看整合包列表")
     @ControllerLog("查看整合包列表")
     public Result<List<ModPackVo>> listModPacks(){
         return modPackService.getModPackList();
     }
 
     @PostMapping("/delete")
-    @ApiOperation("更改整合包状态 0正式上线 1测试中 2停更")
+    @Operation(description = "更改整合包状态 0正式上线 1测试中 2停更")
     @ControllerLog("更改整合包状态")
     @Deprecated
     public Result<?> updateModPacksStatus(){
@@ -55,7 +55,7 @@ public class ModPackController {
     }
 
     @GetMapping("/{id}")
-    @ApiOperation("通过整合包id获取整合包详情")
+    @Operation(description = "通过整合包id获取整合包详情")
     @ControllerLog("通过整合包id获取整合包详情")
     public Result<ModPackVo> getModPackById(@PathVariable("id") Integer id){
         return modPackService.getModPackById(id);

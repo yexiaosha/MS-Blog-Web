@@ -1,8 +1,8 @@
 package com.ms.blog.entity.param;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
@@ -12,27 +12,27 @@ import lombok.Data;
  * @date 2023/02/05 15:49
  */
 @Data
-@ApiModel("整合包基础信息表单")
+@Schema(name ="整合包基础信息表单")
 public class ModPackParam {
 
-    @ApiModelProperty("主键id")
+    @Schema(name ="主键id")
     private Integer id;
 
-    @ApiModelProperty("整合包名称")
+    @Schema(name ="整合包名称")
     private String name;
 
-    @ApiModelProperty("整合包状态")
+    @Schema(name ="整合包状态")
     private Integer status;
 
-    @ApiModelProperty("开发进度")
+    @Schema(name ="开发进度")
     private Integer overallProgress;
 
-    @ApiModelProperty("介绍")
+    @Schema(name ="介绍")
     private String introduce;
 
-    @ApiModelProperty("版本")
+    @Schema(name ="版本")
     private String version;
 
-    @ApiModelProperty("更新时间")
+    @Schema(name ="更新时间")
     private Date updateDate;
 }

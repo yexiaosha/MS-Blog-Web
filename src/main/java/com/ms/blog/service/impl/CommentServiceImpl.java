@@ -15,11 +15,11 @@ import com.ms.blog.entity.vo.CommentVo;
 import com.ms.blog.service.CommentService;
 import com.ms.blog.service.UserService;
 import com.ms.blog.util.ResultUtils;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

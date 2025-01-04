@@ -2,10 +2,11 @@ package com.ms.blog.util;
 
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.write.style.column.SimpleColumnWidthStyleStrategy;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
+
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import javax.servlet.http.HttpServletResponse;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * 表格工具类
@@ -15,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ExcelUtil {
     public static <T> void downloadTemplate(String templateName, String sheetName, int columnWidth,
-            HttpServletResponse response,Class<T> model) {
+                                            HttpServletResponse response, Class<T> model) {
         try {
             log.info("下载{}模板", templateName);
             response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");

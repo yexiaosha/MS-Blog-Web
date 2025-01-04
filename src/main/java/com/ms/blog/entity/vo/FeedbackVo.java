@@ -1,8 +1,7 @@
 package com.ms.blog.entity.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,25 +18,25 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel("反馈视图类")
+@Schema(name = "反馈视图类")
 public class FeedbackVo {
 
-    @ApiModelProperty("主键id")
+    @Schema(name ="主键id")
     private Integer id;
 
-    @ApiModelProperty("邮箱")
+    @Schema(name ="邮箱")
     private String email;
 
-    @ApiModelProperty("题目")
+    @Schema(name ="题目")
     private String title;
 
-    @ApiModelProperty("反馈内容")
+    @Schema(name ="反馈内容")
     private String content;
 
-    @ApiModelProperty("反馈类型")
+    @Schema(name ="反馈类型")
     private Integer type;
 
-    @ApiModelProperty("创建时间")
+    @Schema(name ="创建时间")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date createTime;
 }

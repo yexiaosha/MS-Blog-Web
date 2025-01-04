@@ -1,13 +1,13 @@
 package com.ms.blog;
 
 import com.ms.blog.service.CronJobService;
+import jakarta.annotation.Resource;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.BeanUtils;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import javax.annotation.Resource;
 import java.util.Date;
 
 @SpringBootTest

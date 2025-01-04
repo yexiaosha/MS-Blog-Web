@@ -1,8 +1,7 @@
 package com.ms.blog.entity.param;
 
 import com.ms.blog.common.PageParam;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -15,36 +14,36 @@ import java.util.Date;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel("错误日志参数类")
+@Schema(name ="错误日志参数类")
 public class ExceptionLogParam extends PageParam {
 
     /**
      *  操作用户
      */
-    @ApiModelProperty("操作用户名")
+    @Schema(name ="操作用户名")
     private String username;
 
     /**
      * ip
      */
-    @ApiModelProperty("ip")
+    @Schema(name ="ip")
     private String ip;
 
     /**
      * ip来源
      */
-    @ApiModelProperty("ip来源")
+    @Schema(name ="ip来源")
     private String source;
 
     /**
      * 请求方法
      */
-    @ApiModelProperty("请求方法")
+    @Schema(name ="请求方法")
     private String method;
 
     /**
      * 发生时间
      */
-    @ApiModelProperty("发生时间")
+    @Schema(name ="发生时间")
     private Date createTime;
 }

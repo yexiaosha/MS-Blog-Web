@@ -6,10 +6,7 @@ import com.ms.blog.common.Result;
 import com.ms.blog.common.annotation.ServiceLog;
 import com.ms.blog.service.MailService;
 import com.ms.blog.util.ResultUtils;
-import java.util.Date;
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -17,6 +14,10 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 邮箱收发服务实现

@@ -1,6 +1,8 @@
 package com.ms.blog.util;
 
-import javax.servlet.http.HttpServletRequest;
+
+import jakarta.servlet.http.HttpServletRequest;
+
 /**
  * ip组件
  * @author wyh

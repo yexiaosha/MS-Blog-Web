@@ -5,7 +5,8 @@ import com.ms.blog.common.Result;
 import com.ms.blog.entity.param.FeedbackParam;
 import com.ms.blog.entity.param.FeedbackSearchParam;
 import com.ms.blog.entity.vo.FeedbackVo;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
+
 
 /**
  * 用户反馈业务接口

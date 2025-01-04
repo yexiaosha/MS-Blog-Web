@@ -2,15 +2,12 @@ package com.ms.blog.entity;
 
 import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;
-import java.util.Date;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
+
+import java.util.Date;
 
 /**
  * 友情链接

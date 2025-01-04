@@ -1,8 +1,7 @@
 package com.ms.blog.entity.param;
 
 import com.ms.blog.common.PageParam;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -16,9 +15,9 @@ import java.util.Date;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel("评论搜索参数类")
+@Schema(name = "评论搜索参数类")
 public class CommentSearchParam extends PageParam {
 
-    @ApiModelProperty("创建时间")
+    @Schema(name = "创建时间")
     private Date createTime;
 }

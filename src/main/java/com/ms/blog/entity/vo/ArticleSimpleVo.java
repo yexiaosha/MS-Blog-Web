@@ -1,8 +1,7 @@
 package com.ms.blog.entity.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,34 +18,34 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ApiModel("简单文章信息视图类")
+@Schema(name = "简单文章信息视图类")
 public class ArticleSimpleVo {
-    @ApiModelProperty("文章id")
+    @Schema(name = "文章id")
     private Integer id;
 
-    @ApiModelProperty("文章标题")
+    @Schema(name = "文章标题")
     private String title;
 
-    @ApiModelProperty("文章简介")
+    @Schema(name = "文章简介")
     private String summary;
 
-    @ApiModelProperty("更新时间")
+    @Schema(name = "更新时间")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date updateTime;
 
-    @ApiModelProperty("创造时间")
+    @Schema(name = "创造时间")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date createTime;
 
-    @ApiModelProperty("作者昵称")
+    @Schema(name = "作者昵称")
     private String nikeName;
 
-    @ApiModelProperty("文章头像")
+    @Schema(name = "文章头像")
     private String avatar;
 
-    @ApiModelProperty("作者用户名")
+    @Schema(name = "作者用户名")
     private String username;
 
-    @ApiModelProperty("归档名称(分类或标签名)")
+    @Schema(name = "归档名称(分类或标签名)")
     private String archiveName;
 }

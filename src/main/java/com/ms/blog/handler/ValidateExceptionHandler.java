@@ -3,7 +3,8 @@ package com.ms.blog.handler;
 import com.ms.blog.common.ErrorCode;
 import com.ms.blog.common.Result;
 import com.ms.blog.util.ResultUtils;
-import javax.validation.ConstraintViolationException;
+
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;

@@ -1,7 +1,7 @@
 package com.ms.blog.util;
 
 import eu.bitwalker.useragentutils.UserAgent;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * 系统类

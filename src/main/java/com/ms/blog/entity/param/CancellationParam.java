@@ -1,10 +1,9 @@
 package com.ms.blog.entity.param;
 
 import com.ms.blog.common.PageParam;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
@@ -16,20 +15,20 @@ import org.hibernate.validator.constraints.Length;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-@ApiModel("用户注销表单参数")
+@Schema(name = "用户注销表单参数")
 public class CancellationParam extends PageParam {
 
-    @ApiModelProperty("用户名")
+    @Schema(name = "用户名")
     @Length(min = 3, max = 20)
     @NotNull
     private String username;
 
-    @ApiModelProperty("邮箱")
+    @Schema(name = "邮箱")
     @Email
     @NotNull
     private String email;
 
-    @ApiModelProperty("注销请求理由")
+    @Schema(name = "注销请求理由")
     @Length(min = 200, max = 250, message = "注销申请必须在200个字符以上，250个字符以内")
     private String reasonText;
 

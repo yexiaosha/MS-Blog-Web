@@ -1,10 +1,10 @@
 package com.ms.blog.common;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import java.util.List;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * 分页封装类
@@ -12,28 +12,28 @@ import lombok.Data;
  * @date 2022/12/01 11:08
  */
 @Data
-@ApiModel("分页对象")
+@Schema(name ="分页对象")
 public class PageData<T> {
 
     /**
      * 总条数
      */
-    @ApiModelProperty("总条数")
+    @Schema(name ="总条数")
     private Long total;
     /**
      * 总页数
      */
-    @ApiModelProperty("总页数")
+    @Schema(name ="总页数")
     private Long totalPages;
     /**
      * 是否为最后一页
      */
-    @ApiModelProperty("是否为最后一页")
+    @Schema(name ="是否为最后一页")
     private Boolean isLastPage;
     /**
      * 数据
      */
-    @ApiModelProperty("当前页面数据")
+    @Schema(name ="当前页面数据")
     private List<T> pageData;
 
     public PageData(IPage<T> pageData, Long page) {

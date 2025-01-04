@@ -1,8 +1,7 @@
 package com.ms.blog.entity.param;
 
 import com.ms.blog.common.PageParam;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,12 +14,12 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Builder
-@ApiModel("获取友情链接表单参数")
+@Schema(name ="获取友情链接表单参数")
 public class FriendLinkSearchParam extends PageParam {
 
-    @ApiModelProperty("主键id")
+    @Schema(name ="主键id")
     private Integer id;
 
-    @ApiModelProperty("网站名称")
+    @Schema(name ="网站名称")
     private String name;
 }

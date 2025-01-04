@@ -1,7 +1,6 @@
 package com.ms.blog.entity.param;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
@@ -11,12 +10,12 @@ import lombok.Data;
  * @date 2023/4/7 15:50
  */
 @Data
-@ApiModel("文章下架参数类")
+@Schema(name ="文章下架参数类")
 public class ArticleTakeDownParam {
 
-    @ApiModelProperty("文章id")
+    @Schema(name = "文章id")
     private Integer articleId;
 
-    @ApiModelProperty("下架理由")
+    @Schema(name = "下架理由")
     private String reason;
 }
