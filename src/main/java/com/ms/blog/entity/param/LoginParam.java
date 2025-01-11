@@ -15,21 +15,25 @@ public class LoginParam {
 
     @NotBlank
     @Size(max = 25, min = 3, message = "用户名必须大于{min}, 小于{max}个字符")
-    @Schema(name ="登录名 邮箱或者用户名")
+    @Schema(description ="登录名 邮箱或者用户名")
     private String account;
 
     @NotBlank
     @Size(min = 8, message = "密码必须大于{min}个字符")
-    @Schema(name ="密码")
+    @Schema(description ="密码")
     private String password;
 
     @NotNull
     @Min(0)
     @Max(1)
-    @Schema(name ="登陆方式 0用户名 1邮箱")
+    @Schema(description = "登陆方式 0用户名 1邮箱")
     private Integer type;
 
     @NotBlank
-    @Schema(name ="验证码")
+    @Schema(description = "验证码UUID")
+    private String uuid;
+
+    @NotBlank
+    @Schema(description ="验证码")
     private String captcha;
 }

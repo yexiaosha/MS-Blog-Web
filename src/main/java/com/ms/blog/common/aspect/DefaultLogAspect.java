@@ -61,7 +61,10 @@ public class DefaultLogAspect {
     @Before("controllerAspect()")
     public void doBefore(JoinPoint joinPoint) {
         HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
-        String token = request.getHeader("Authorization");
+        String token = null;
+        if (request != null) {
+            token = request.getHeader("Authorization");
+        }
         String method = request.getMethod();
         String ip = IpUtils.getIpAddress(request);
         String username = getUsername(token);
@@ -122,7 +125,10 @@ public class DefaultLogAspect {
     @AfterThrowing(pointcut = "serviceAspect()", throwing = "e")
     public void doAfterThrowing(JoinPoint joinPoint, Throwable e) {
         HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
-        String token = request.getHeader("Authorization");
+        String token = null;
+        if (request != null) {
+            token = request.getHeader("Authorization");
+        }
         String name = getUsername(token);
         ServiceLog serviceLog = ((MethodSignature) (joinPoint.getSignature())).getMethod()
                 .getAnnotation(ServiceLog.class);
@@ -167,7 +173,7 @@ public class DefaultLogAspect {
     }
 
     public String getUsername(String token){
-        if (StringUtil.isNullOrEmpty(token)){
+        if (StringUtil.isNullOrEmpty(token) || token.equals("null")){
             return null;
         }
         Map<String, Object> map = JwtUtils.verifyToken(token);

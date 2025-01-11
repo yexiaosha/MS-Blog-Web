@@ -12,7 +12,8 @@ public interface CaptchaService {
     /**
      * 验证验证码
      * @param captcha 验证码
-     * @return  结果
+     * @param uuid uuid
+     * @return 结果
      */
-    Result<Integer> verifyCaptcha(String captcha);
+    Result<Integer> verifyCaptcha(String captcha, String uuid);
 }

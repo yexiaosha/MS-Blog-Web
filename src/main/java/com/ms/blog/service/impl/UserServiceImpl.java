@@ -66,10 +66,10 @@ public class UserServiceImpl implements UserService {
     @ServiceLog("用户登录")
     public Result<LoginVo> userLogin(LoginParam loginParam) {
         loginParam.setPassword(Md5Util.encodePassword(loginParam.getPassword()));
-        /*Result result = captchaService.verifyCaptcha(loginParam.getCaptcha());
-        if (result.getCode() == ErrorCode.CAPTCHA_ERROR.getCode()){
+        Result<Integer> result = captchaService.verifyCaptcha(loginParam.getCaptcha(), loginParam.getUuid());
+        if (Objects.equals(result.getCode(), ErrorCode.CAPTCHA_ERROR.getCode())){
             return ResultUtils.fail(result.getCode(), result.getMessage());
-        }*/
+        }
         System.out.println(loginParam);
         User user = new User();
 

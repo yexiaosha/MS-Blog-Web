@@ -6,8 +6,11 @@ import com.ms.blog.common.annotation.ServiceLog;
 import com.ms.blog.service.CaptchaService;
 import com.ms.blog.util.ResultUtils;
 import jakarta.annotation.Resource;
+import lombok.val;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 /**
  * 验证码业务接口实现
@@ -25,12 +28,17 @@ public class CaptchaServiceImpl implements CaptchaService {
 
     @Override
     @ServiceLog("验证码验证")
-    public Result<Integer> verifyCaptcha(String captcha) {
-        if (redisTemplate.opsForValue().get(CAPTCHA_ + captcha) == null){
+    public Result<Integer> verifyCaptcha(String captcha, String uuid) {
+        Object code = redisTemplate.opsForValue().get(CAPTCHA_ + uuid);
+        if (code == null){
             return ResultUtils.fail(ErrorCode.CAPTCHA_ERROR.getCode(), ErrorCode.CAPTCHA_ERROR.getMsg());
         }
 
-        redisTemplate.delete(CAPTCHA_ + captcha);
+        if (!Objects.equals(captcha, code.toString())){
+            return ResultUtils.fail(ErrorCode.CAPTCHA_ERROR.getCode(), ErrorCode.CAPTCHA_ERROR.getMsg());
+        }
+
+        redisTemplate.delete(CAPTCHA_ + uuid);
 
         return ResultUtils.success("验证成功");
     }

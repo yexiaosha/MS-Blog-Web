@@ -1,6 +1,7 @@
 package com.ms.blog;
 
 import com.ms.blog.service.CronJobService;
+import com.ms.blog.util.Md5Util;
 import jakarta.annotation.Resource;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +41,8 @@ class BlogApplicationTests {
 
     @Test
     void test(){
-      cronJobService.updateArticleLikeCount();
+        String s = Md5Util.encodePassword("123456");
+        log.info(s);
     }
 
 }
